@@ -26,11 +26,13 @@
 <meta property="og:site_name" content="清风不识字">
 <meta property="og:description" content="原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露 puts64位*题目*   基础检查，只有NX保护 丢入ida   第二个read 明显存在栈溢出 寻找system   发现找不到system 和binsh 也没有flag的字符，初步认为要泄露libc 接下来开始payload的构造 注意64位要用寄存器来传参 用ROR-gadge">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/123.jpg">
 <meta property="article:published_time" content="2024-10-01T10:20:38.000Z">
-<meta property="article:modified_time" content="2024-10-01T10:53:22.855Z">
+<meta property="article:modified_time" content="2024-10-01T11:03:34.010Z">
 <meta property="article:author" content="清风">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/123.jpg">
   
   
   
@@ -316,7 +318,6 @@
 <p>泄露出地址之后开始寻找版本</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#LibcSearcher的使用示例</span><br>libc=LibcSearcher(<span class="hljs-string">&#x27;read&#x27;</span>,read)<br>libc_base=read-libc.dump(<span class="hljs-string">&#x27;read&#x27;</span>)<br>system_addr = libc_base + libc.dump(<span class="hljs-string">&#x27;system&#x27;</span>)<br>bin_sh_addr = libc_base + libc.dump(<span class="hljs-string">&#x27;str_bin_sh&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动"></p>
 
 
 <p>选择正确的版本</p>
