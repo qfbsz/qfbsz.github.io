@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-10-01T13:31:52.230Z</updated>
+  <updated>2024-10-01T14:26:30.362Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>与ZoomEye类似的搜索引擎</title>
+    <link href="http://example.com/2024/10/01/%E4%B8%8EZoomEye%E7%B1%BB%E4%BC%BC%E7%9A%84%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/"/>
+    <id>http://example.com/2024/10/01/%E4%B8%8EZoomEye%E7%B1%BB%E4%BC%BC%E7%9A%84%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/</id>
+    <published>2024-10-01T14:07:19.000Z</published>
+    <updated>2024-10-01T14:26:30.362Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="与ZoomEye类似的搜索引擎"><a href="#与ZoomEye类似的搜索引擎" class="headerlink" title="与ZoomEye类似的搜索引擎"></a>与ZoomEye类似的搜索引擎</h1><h3 id="ZoomEye"><a href="#ZoomEye" class="headerlink" title="ZoomEye"></a>ZoomEye</h3><p>ZoomEye是一个强大子域名搜索引擎，类似的搜索引擎还有</p><p>ZoomEye（中文名：钟馗之眼）是一款专注于网络设备和物联网设备搜索的搜索引擎。它提供了一种通过互联网上的设备进行搜索的方式，使用户能够发现和分析各种连接到互联网的设备，包括服务器、路由器、摄像头、数据库等。ZoomEye 主要用于网络侦查、漏洞发现和网络安全研究。</p><p>以下是 ZoomEye 的一些主要特点和功能：</p><p>设备搜索： ZoomEye 允许用户通过关键字、IP 地址、域名等进行设备搜索。用户可以使用不同的搜索条件来定位特定类型的设备。</p><p>图形化界面： ZoomEye 提供了图形化的用户界面，以便用户更直观地浏览和分析搜索结果。图谱和图形化视图有助于用户理解设备之间的关系。</p><p>漏洞检测： ZoomEye 可以帮助用户发现互联网上的设备中存在的潜在漏洞。它可以通过检查设备的服务、开放端口等信息来提供漏洞的线索。</p><p>定期扫描： ZoomEye 支持定期扫描，使用户能够跟踪设备和漏洞的变化。这有助于持续监视和评估网络的安全性。</p><p>API 支持： ZoomEye 提供 API，允许开发人员集成 ZoomEye 的功能到他们的应用程序中。这使得用户能够自动化搜索和信息收集的过程。</p><p>历史数据： ZoomEye 记录设备和漏洞的历史数据，用户可以查看过去的扫描结果，了解网络的发展和变化。</p><p>例如对域名的搜索</p><p>访问下列官网即可查询</p><p><a href="https://www.zoomeye.org/">首页 - 网络空间测绘,网络安全,漏洞分析,动态测绘,钟馗之眼,时空测绘,赛博测绘 - ZoomEye(“钟馗之眼”)网络空间搜索引擎</a></p><p>与ZoomEye还有很多</p><h3 id="Shodan"><a href="#Shodan" class="headerlink" title="Shodan"></a><strong>Shodan</strong></h3><p>被誉为“<a href="https://so.csdn.net/so/search?q=%E7%89%A9%E8%81%94%E7%BD%91&spm=1001.2101.3001.7020">物联网</a>的搜索引擎”，专注于扫描和索引连接到互联网的各种设备，如智能家居设备、工业控制系统（ICS）、摄像头、数据库等</p><h3 id="Censys"><a href="#Censys" class="headerlink" title="Censys"></a>Censys</h3><p>提供全球互联网设备的可视化视图，帮助用户了解网络的整体安全状况 。</p><h3 id="BinaryEdge"><a href="#BinaryEdge" class="headerlink" title="BinaryEdge"></a>BinaryEdge</h3><p>提供全球互联网空间的监控和数据分析服务，通过持续扫描互联网，生成实时的安全情报和数据报表 。</p><h3 id="FOFA"><a href="#FOFA" class="headerlink" title="FOFA"></a>FOFA</h3><p>由白帽汇开发，功能全面，支持多种协议和服务的扫描与检索 。</p><h3 id="Onyphe"><a href="#Onyphe" class="headerlink" title="Onyphe"></a>Onyphe</h3><p>面向网络安全专业人士的数据搜索引擎，汇集了多个来源的数据，包括开放端口、漏洞、情报和暗网活动等 。</p><h3 id="Fofa"><a href="#Fofa" class="headerlink" title="Fofa"></a>Fofa</h3><p>网络空间搜索引擎，功能与ZoomEye类似，可以用于网络资产管理、漏洞扫描和威胁情报收集 。</p><p>360 网络空间资产测绘：提供网络资产的监控和分析 </p><h3 id="子域名收集"><a href="#子域名收集" class="headerlink" title="子域名收集"></a>子域名收集</h3><p>进行子域名收集的方法有：</p><p>搜索引擎：使用搜索引擎的高级搜索功能，如Google的site语法 site:example.com 。<br>证书透明度查询：通过查询证书透明度网站如crt.sh、Censys等来收集子域名 。<br>DNS记录查询：使用工具如nslookup查询域名的SRV、NS、MX、TXT等记录来收集子域名 。<br>自动化工具：如Subfinder、OneForAll、Layer子域名挖掘机等，这些工具通过多个API和字典枚举的方式自动化收集子域名 。<br>爬虫技术：通过编写爬虫程序爬取目标网站的所有页面、robots.txt文件、crossdomain.xml文件、sitemap文件等，从中筛选出子域名 </p><h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>我们来用ZoomEye查询学校的子域名</p><p><img src="/img/zoomeye.png"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;与ZoomEye类似的搜索引擎&quot;&gt;&lt;a href=&quot;#与ZoomEye类似的搜索引擎&quot; class=&quot;headerlink&quot; title=&quot;与ZoomEye类似的搜索引擎&quot;&gt;&lt;/a&gt;与ZoomEye类似的搜索引擎&lt;/h1&gt;&lt;h3 id=&quot;ZoomEye&quot;&gt;&lt;a h</summary>
+      
+    
+    
+    
+    <category term="python" scheme="http://example.com/categories/python/"/>
+    
+    
+    <category term="原创" scheme="http://example.com/tags/%E5%8E%9F%E5%88%9B/"/>
+    
+  </entry>
   
   <entry>
     <title>堆利用_UAF</title>

