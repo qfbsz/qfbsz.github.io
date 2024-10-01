@@ -244,7 +244,7 @@
       
       <a class="index-excerpt " href="/2024/10/01/libc%E6%B3%84%E9%9C%B2/" target="_self">
         <div>
-          原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露 puts64位*题目*   基础检查，只有NX保护 丢入ida   第二个read 明显存在栈溢出 寻找system   发现找不到system 和binsh 也没有flag的字符，初步认为要泄露libc 接下来开始payload的构造 注意64位要用寄存器来传参 用ROR-gadge
+          原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露 puts64位*题目*  基础检查，只有NX保护 丢入ida  第二个read 明显存在栈溢出 寻找system  发现找不到system 和binsh 也没有flag的字符，初步认为要泄露libc 接下来开始payload的构造 注意64位要用寄存器来传参 用ROR-gadget寻找
         </div>
       </a>
 
@@ -296,7 +296,7 @@
     
       <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/" target="_self">
-          <img src="/source/_posts/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/120.jpg" srcset="/img/loading.gif" lazyload alt="canary的绕过方法">
+          <img src="/img/120.jpg" srcset="/img/loading.gif" lazyload alt="canary的绕过方法">
         </a>
       </div>
     
