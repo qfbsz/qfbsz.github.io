@@ -228,6 +228,542 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/10/01/%E5%A0%86%E5%88%A9%E7%94%A8-UAF/" target="_self">
+          <img src="/img/130.jpg" srcset="/img/loading.gif" lazyload alt="堆利用_UAF">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/10/01/%E5%A0%86%E5%88%A9%E7%94%A8-UAF/" target="_self">
+          堆利用_UAF
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2024/10/01/%E5%A0%86%E5%88%A9%E7%94%A8-UAF/" target="_self">
+        <div>
+          堆利用_UAF原理我们可以直接从字面上翻译它的意思：使用被释放的内存块。其实当一个内存块被释放之后重新使用有如下几种情况： 内存块被释放后，其对应的指针被设置为NULL，再次使用时程序会崩溃 内存块被释放后，其对应的指针没有被设置为NULL，在它下一次被使用之前，没有代码对这块内存块进行修改，那么程序有可能可以正常运转 内存块被释放后，其对应的指针没有被设置为NULL，但是在下一次使用之前，有代码
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-01 21:18" pubdate>
+              2024-10-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/python/" class="category-chain-item">python</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/10/01/%E5%A0%86%E6%BA%A2%E5%87%BA-unlink/" target="_self">
+          <img src="/img/129.jpg" srcset="/img/loading.gif" lazyload alt="堆溢出_unlink">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/10/01/%E5%A0%86%E6%BA%A2%E5%87%BA-unlink/" target="_self">
+          堆溢出_unlink
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2024/10/01/%E5%A0%86%E6%BA%A2%E5%87%BA-unlink/" target="_self">
+        <div>
+          堆溢出_unlinkUnlink详解Ulink是什么unlink实际上是libc上定义的一个宏，源码如下 12345678910111213141516171819202122232425262728293031#define unlink(AV, P, BK, FD) &#123;                                                FD = P-&gt
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-01 21:07" pubdate>
+              2024-10-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/python/" class="category-chain-item">python</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/10/01/%E5%A0%86%E6%BA%A2%E5%87%BA-off-by-one/" target="_self">
+          <img src="/img/128.jpg" srcset="/img/loading.gif" lazyload alt="堆溢出_off_by_one">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/10/01/%E5%A0%86%E6%BA%A2%E5%87%BA-off-by-one/" target="_self">
+          堆溢出_off_by_one
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2024/10/01/%E5%A0%86%E6%BA%A2%E5%87%BA-off-by-one/" target="_self">
+        <div>
+          堆溢出_off_by_one原理顾名思义就是只溢出一个字节，溢出字节为可控制任意字节：通过修改大小造成块结构之间出现重叠，从而泄露其他块数据，或是覆盖其他块数据，或者用NULL字节进行覆盖，从而造成数据泄露，或者块结构数据的控制 接下来用一道经典的off-by-one的题目来详细解释 [Asis CTF 2016] b00ks 这个程序有5个模块 而在change模块中存在\x00的溢出  而ch
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-01 20:59" pubdate>
+              2024-10-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/python/" class="category-chain-item">python</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/10/01/%E9%9D%9E%E6%A0%88%E4%B8%8A%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" target="_self">
+          <img src="/img/127.jpg" srcset="/img/loading.gif" lazyload alt="非栈上的格式化字符串漏洞_bss段">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/10/01/%E9%9D%9E%E6%A0%88%E4%B8%8A%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" target="_self">
+          非栈上的格式化字符串漏洞_bss段
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2024/10/01/%E9%9D%9E%E6%A0%88%E4%B8%8A%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" target="_self">
+        <div>
+          非栈上的格式化字符串漏洞-bss段方法一：修改printf为system，输入&#x2F;bin&#x2F;sh这种方法会有点复杂 以buu上的hitcontraining_playfmt为例   没有开FULL RELRO，也就是说got表可改，那么我们的思路就是把printf的got表改成system,输入&#x2F;bin&#x2F;sh即可拿到shell 最终exp 12345678910
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-01 20:52" pubdate>
+              2024-10-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/python/" class="category-chain-item">python</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/10/01/ROP%E4%B9%8Bret2alsolve/" target="_self">
+          <img src="/img/126.jpg" srcset="/img/loading.gif" lazyload alt="ROP之ret2alsolve">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/10/01/ROP%E4%B9%8Bret2alsolve/" target="_self">
+          ROP之ret2alsolve
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2024/10/01/ROP%E4%B9%8Bret2alsolve/" target="_self">
+        <div>
+          ROP之ret2alsolveRELRO保护原理简介 由于 GOT和PLT以及延迟绑定的原因，在启用延迟绑定时，符号解析只发生在第一次使用的时候，该过程是通过PLT表进行的，解析完成后，相应的GOT条目会被修改为正确的函数地址。因此，在延迟绑定的情况下。.got.plt必须可写，这就给了攻击者篡改地址劫持程序的执行的可能。 RELRO（ReLocation Read-Only）机制的提出就是为了解
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-01 20:23" pubdate>
+              2024-10-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/python/" class="category-chain-item">python</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/10/01/srop%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" target="_self">
+          <img src="/img/125.jpg" srcset="/img/loading.gif" lazyload alt="syscall与csu结合以及srop的简单使用">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/10/01/srop%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" target="_self">
+          syscall与csu结合以及srop的简单使用
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2024/10/01/srop%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" target="_self">
+        <div>
+          syscall与csu结合以及srop的简单使用基础检查  放入ida  存在栈溢出，并且buf只有0x10，而write有0x30,因此可以泄露栈上的内容  3B&#x3D;59是execv的调用号，这个指令可以调用内核execv 如果能够知道&#x2F;bin&#x2F;sh的地址，就可以获得shell 因为栈上没有&#x2F;bin&#x2F;sh,可以考虑read读入，结合前面有漏洞可以泄
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-01 20:08" pubdate>
+              2024-10-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/python/" class="category-chain-item">python</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/10/01/canary-ssp%E6%B3%84%E9%9C%B2/" target="_self">
+          <img src="/img/124.jpg" srcset="/img/loading.gif" lazyload alt="canary_ssp泄露">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/10/01/canary-ssp%E6%B3%84%E9%9C%B2/" target="_self">
+          canary_ssp泄露
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2024/10/01/canary-ssp%E6%B3%84%E9%9C%B2/" target="_self">
+        <div>
+          canary_ssp泄露原理：当程序运行时检测到canary 被破坏，会执行__stack_chk_fail函数 并且打印 1*** stack smashing detected ***:./pwn（程序名） terminated   可以看到 程序名存在__libc_argv[0]，如果我们能够通过溢出覆盖掉__libc_argv[0]就可以实现任意地址泄露（高版本的libc取消了这个打印）
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-01 19:55" pubdate>
+              2024-10-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/python/" class="category-chain-item">python</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/10/01/xyctf-hello-world%E4%B9%8B-s%E6%B3%84%E9%9C%B2libc/" target="_self">
+          <img src="/img/121.jpg" srcset="/img/loading.gif" lazyload alt="xyctf_hello_world之%s泄露libc">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/10/01/xyctf-hello-world%E4%B9%8B-s%E6%B3%84%E9%9C%B2libc/" target="_self">
+          xyctf_hello_world之%s泄露libc
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2024/10/01/xyctf-hello-world%E4%B9%8B-s%E6%B3%84%E9%9C%B2libc/" target="_self">
+        <div>
+          xyctf_hello_world之%s泄露libc前置知识 PIE机制介绍PIE PIE技术是一个针对代码段（.text）、数据段（.data）、未初始化全局变量段（.bss）等固定地址的一个防护技术，如果程序开启了PIE保护的话，在每次加载程序时都变换加载基地址，从而不能通过ROPgadget等一些工具来帮助解题 vmmap 的使用gdb 调试中，vmmap 可以直接看出本地的静态基地址，在栈
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-10-01 19:42" pubdate>
+              2024-10-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/python/" class="category-chain-item">python</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2024/10/01/csu%E5%88%A9%E7%94%A8/" target="_self">
           <img src="/img/122.jpg" srcset="/img/loading.gif" lazyload alt="csu利用">
         </a>
@@ -311,7 +847,7 @@
       
       <a class="index-excerpt " href="/2024/10/01/libc%E6%B3%84%E9%9C%B2/" target="_self">
         <div>
-          原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露 puts64位*题目*  基础检查，只有NX保护 丢入ida  第二个read 明显存在栈溢出 寻找system  发现找不到system 和binsh 也没有flag的字符，初步认为要泄露libc 接下来开始payload的构造 注意64位要用寄存器来传参 用ROR-gadget寻找
+          关于ret2libc的泄露 原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露 puts64位*题目*  基础检查，只有NX保护 丢入ida  第二个read 明显存在栈溢出 寻找system  发现找不到system 和binsh 也没有flag的字符，初步认为要泄露libc 接下来开始payload的构造 注意64位要用寄存器来传参
         </div>
       </a>
 
@@ -358,74 +894,13 @@
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/" target="_self">
-          <img src="/img/120.jpg" srcset="/img/loading.gif" lazyload alt="canary的绕过方法">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/" target="_self">
-          canary的绕过方法
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt " href="/2024/09/30/canary%E7%9A%84%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/" target="_self">
-        <div>
-          Canary 的绕过方法 一、字符串截断获取canary 原理：  Canary设计其低字节为\x00，本意是阻止被read、write等函数直接将Canary读出来。通过栈溢出将低位的\x00覆写，就可以读出Canary的值。  二话不说，上题   基础检查发现canary 丢入ida中   发现在循环printf,并且存在字符串漏洞（这个稍后再谈） 同时有getshell函数   可以直接拿s
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-09-30 16:35" pubdate>
-              2024-09-30
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/python/" class="category-chain-item">python</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
 
 
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
 
 
 

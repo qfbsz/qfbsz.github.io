@@ -19,16 +19,16 @@
   <meta name="author" content="清风">
   <meta name="keywords" content="">
   
-    <meta name="description" content="原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露 puts64位*题目*  基础检查，只有NX保护 丢入ida  第二个read 明显存在栈溢出 寻找system  发现找不到system 和binsh 也没有flag的字符，初步认为要泄露libc 接下来开始payload的构造 注意64位要用寄存器来传参 用ROR-gadget寻找">
+    <meta name="description" content="关于ret2libc的泄露 原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露 puts64位*题目*  基础检查，只有NX保护 丢入ida  第二个read 明显存在栈溢出 寻找system  发现找不到system 和binsh 也没有flag的字符，初步认为要泄露libc 接下来开始payload的构造 注意64位要用寄存器来传参">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于ret2libc的泄露">
 <meta property="og:url" content="http://example.com/2024/10/01/libc%E6%B3%84%E9%9C%B2/index.html">
 <meta property="og:site_name" content="清风不识字">
-<meta property="og:description" content="原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露 puts64位*题目*  基础检查，只有NX保护 丢入ida  第二个read 明显存在栈溢出 寻找system  发现找不到system 和binsh 也没有flag的字符，初步认为要泄露libc 接下来开始payload的构造 注意64位要用寄存器来传参 用ROR-gadget寻找">
+<meta property="og:description" content="关于ret2libc的泄露 原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露 puts64位*题目*  基础检查，只有NX保护 丢入ida  第二个read 明显存在栈溢出 寻找system  发现找不到system 和binsh 也没有flag的字符，初步认为要泄露libc 接下来开始payload的构造 注意64位要用寄存器来传参">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/123.jpg">
 <meta property="article:published_time" content="2024-10-01T10:20:38.000Z">
-<meta property="article:modified_time" content="2024-10-01T11:12:56.445Z">
+<meta property="article:modified_time" content="2024-10-01T12:37:26.209Z">
 <meta property="article:author" content="清风">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary_large_image">
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          883 字
+          889 字
         
       </span>
     
@@ -279,7 +279,7 @@
             
               <div class="markdown-body">
                 
-                <p> <strong>原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露</strong></p>
+                <h1 id="关于ret2libc的泄露"><a href="#关于ret2libc的泄露" class="headerlink" title="关于ret2libc的泄露"></a>关于ret2libc的泄露</h1><p> <strong>原理：在程序运行中，当函数运行过一次之后，会将函数的地址存在got表中，我们可以利用输出函数对函数地址进行泄露</strong></p>
 <h6 id="puts64位"><a href="#puts64位" class="headerlink" title="puts64位"></a><strong>puts64位</strong></h6><p><em><strong>*<a target="_blank" rel="noopener" href="https://download.csdn.net/download/zhuo1358/89068003">题目</a>*</strong></em></p>
 <p><img src="/img/libc/a.png" srcset="/img/loading.gif" lazyload></p>
 <p>基础检查，只有NX保护</p>
