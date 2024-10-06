@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-10-06T11:12:03.574Z</updated>
+  <updated>2024-10-06T12:20:14.942Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>fastbin_House Of Spirit</title>
+    <title>fastbin_attack_double_free</title>
     <link href="http://example.com/2024/10/06/fastbin-double-free/"/>
     <id>http://example.com/2024/10/06/fastbin-double-free/</id>
     <published>2024-10-06T11:09:13.000Z</published>
-    <updated>2024-10-06T11:12:03.574Z</updated>
+    <updated>2024-10-06T12:20:14.942Z</updated>
     
     <content type="html"><![CDATA[<h1 id="fastbin-attack-double-free"><a href="#fastbin-attack-double-free" class="headerlink" title="fastbin_attack_double_free"></a><code>fastbin_attack_double_free</code></h1><h3 id="Fastbin-Attack"><a href="#Fastbin-Attack" class="headerlink" title="Fastbin Attack"></a><code>Fastbin Attack</code></h3><p>简单的介绍一下，我们可以根据名字看出，这一类漏洞利用的方法主要基于fastbin机制的缺陷，其实fastbin attack并不是指某一种利用方法，而是一些。这类利用的前提是：</p><p>存在堆溢出、use-after-free等能控制chunk内容的漏洞<br>漏洞发生于<code>fastbin</code>类型的chunk中<br>如果细分的话，可以做如下的分类：</p><p><code>Fastbin Double Free</code><br><code>House of Spirit</code><br><code>Alloc to Stack</code><br><code>Arbitrary Alloc</code><br>前两种主要漏洞侧重于利用free函数释放的真的 chunk或伪造的chunk，然后再次申请chunk进行攻击，后两种侧重于故意修改<code>fd</code>指针，直接利用<code>malloc</code>申请指定位置chunk进行攻击。这篇文章主要讲解的是<code>Fastbin Double Free</code>，后几种会在之后文章中继续讲解</p><h2 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h2><p>1.<code>fastbin</code> 管理chunk是单链表管理</p><p>2.由<code>fastbin</code>管理的chunk即使被释放，其next_chunk的<code>prev_inuse位也不会被清空</code></p><h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><p>先创建3个chunk并free掉，可以看到三个chunk按单链表的形式进入<code>fastbin</code>,</p><p><img src="/img/doublefree/a"></p><p><code>chunk3</code>的<code>fd</code>指针是指向<code>chunk2</code>的，<code>chunk2</code>的<code>fd</code>指针是指向<code>chunk1</code>,那么是谁来指向<code>chunk3</code>呢？</p><p>其实是<strong>main_arena</strong>指向了<code>chunk3</code>的<code>prev_size</code></p><p>并且free的验证只验证<strong>main_arena</strong>指向的chunk,</p><p>也就是说<code>fastbin</code>中的<code>chunk1</code>是可以再次free的</p><p><img src="/img/doublefree/b"></p><p>此时<code>chunk1</code>的<code>fd</code>指针是指向<code>chunk2</code>的，如果我们可以控制<code>chunk1</code>的<code>fd</code>指针，我们假设将指针指向一个在<code>bss</code>段的未free的chunk,在把三个chunk重新申请</p><p><img src="/img/doublefree/c"></p><p>可以看到，虽然<code>bss_chunk</code>没有free,但是<code>fastbin</code>还是把他当成free来用</p>]]></content>
     
