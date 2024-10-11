@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>qq流量分析</title>
+    <link href="/2024/10/11/qq%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/"/>
+    <url>/2024/10/11/qq%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/</url>
+    
+    <content type="html"><![CDATA[<h1 id="qq流量分析"><a href="#qq流量分析" class="headerlink" title="qq流量分析"></a>qq流量分析</h1><h3 id="1-确保电脑和手机连在同一个局域网内"><a href="#1-确保电脑和手机连在同一个局域网内" class="headerlink" title="1.确保电脑和手机连在同一个局域网内"></a>1.确保电脑和手机连在同一个局域网内</h3><p>接着我们打开wireshark开始抓包</p><p><img src="/img/qq%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/a"></p><p>我们可以通过搜索qq号来确定哪些包是qq的流量包</p><p><img src="/img/qq%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/b"></p><p>接着随便打开一个qq流量包进行分析</p><p><img src="/img/qq%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/c"></p><p>可以看到wireshark已经将数据包的每一层都分了出来，可以清楚的看到这个包用的协议是tcp,以及源ip和目标ip</p><p>接下来我们从手机往电脑发一张jpg图片，因为jpg的文件头是 ffd8,我们搜索即可</p><p><img src="/img/qq%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/d"></p><p>发现了数据包，接着我们追踪tcp流来保存图片</p><p><img src="/img/qq%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/e"></p><p>因为保存下来的数据包括了数据包的报文头，我们要把他删掉才能恢复数据</p><p><img src="/img/qq%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/f"></p><p><img src="/img/qq%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/g"></p><p>可以看到图片被我拿到了</p><p><img src="/img/qq%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/h"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>网络渗透测试</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>原创</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>unsortedbin_attack</title>
     <link href="/2024/10/08/unsortedbin-attack/"/>
     <url>/2024/10/08/unsortedbin-attack/</url>
@@ -121,7 +146,7 @@
     
     <categories>
       
-      <category>概念</category>
+      <category>网络渗透测试</category>
       
     </categories>
     
@@ -200,7 +225,7 @@
     
     <categories>
       
-      <category>概念</category>
+      <category>网络渗透测试</category>
       
     </categories>
     
