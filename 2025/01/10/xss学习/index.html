@@ -19,24 +19,24 @@
   <meta name="author" content="清风">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Http学习HTTP和HTTPS的区别HTTP（超文本传输协议，Hypertext Transfer Protocol）是一种用于从网络传输超文本到本地浏览器的传输协议。它定义了客户端与服务器之间请求和响应的格式。HTTP 工作在 TCP&#x2F;IP 模型之上，通常使用端口 80。 HTTPS（超文本传输安全协议，Hypertext Transfer Protocol Secure）是 HTT">
+    <meta name="description" content="xss学习类型一：未对敏感大小符号，引号等进行过滤1payload&#x3D;&#x27;&lt;script&gt;alert(&#x27;xss&#x27;)&lt;&#x2F;script&gt;  类型二：被html实体转义可以用onfocus事件或onclick事件等on事件绕过 onfocus事件 onfocus事件在元素获得焦点时触发，最常与 、 和  标签一起使用，以上面图片的html标签为例，标签是">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Http学习">
-<meta property="og:url" content="http://example.com/2024/11/23/Http%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:title" content="xss学习">
+<meta property="og:url" content="http://example.com/2025/01/10/xss%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="清风不识字">
-<meta property="og:description" content="Http学习HTTP和HTTPS的区别HTTP（超文本传输协议，Hypertext Transfer Protocol）是一种用于从网络传输超文本到本地浏览器的传输协议。它定义了客户端与服务器之间请求和响应的格式。HTTP 工作在 TCP&#x2F;IP 模型之上，通常使用端口 80。 HTTPS（超文本传输安全协议，Hypertext Transfer Protocol Secure）是 HTT">
+<meta property="og:description" content="xss学习类型一：未对敏感大小符号，引号等进行过滤1payload&#x3D;&#x27;&lt;script&gt;alert(&#x27;xss&#x27;)&lt;&#x2F;script&gt;  类型二：被html实体转义可以用onfocus事件或onclick事件等on事件绕过 onfocus事件 onfocus事件在元素获得焦点时触发，最常与 、 和  标签一起使用，以上面图片的html标签为例，标签是">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/151.jpg">
-<meta property="article:published_time" content="2024-11-23T07:09:34.000Z">
-<meta property="article:modified_time" content="2025-01-18T14:18:15.343Z">
+<meta property="og:image" content="http://example.com/img/154.jpg">
+<meta property="article:published_time" content="2025-01-10T14:27:21.000Z">
+<meta property="article:modified_time" content="2025-03-10T13:32:14.386Z">
 <meta property="article:author" content="清风">
-<meta property="article:tag" content="web安全">
+<meta property="article:tag" content="xss">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/151.jpg">
+<meta name="twitter:image" content="http://example.com/img/154.jpg">
   
   
   
-  <title>Http学习 - 清风不识字</title>
+  <title>xss学习 - 清风不识字</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -226,7 +226,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Http学习"></span>
+            <span id="subtitle" data-typed-text="xss学习"></span>
           
         </div>
 
@@ -237,8 +237,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-11-23 15:09" pubdate>
-          2024年11月23日 下午
+        <time datetime="2025-01-10 22:27" pubdate>
+          2025年1月10日 晚上
         </time>
       </span>
     
@@ -249,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.3k 字
+          510 字
         
       </span>
     
@@ -260,7 +260,7 @@
         
         
         
-          20 分钟
+          5 分钟
         
       </span>
     
@@ -306,12 +306,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Http学习</h1>
+            <h1 id="seo-header">xss学习</h1>
             
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2025年1月18日 晚上
+                    本文最后更新于 2025年3月10日 晚上
                   
                 
               </p>
@@ -319,312 +319,34 @@
             
               <div class="markdown-body">
                 
-                <h1 id="Http学习"><a href="#Http学习" class="headerlink" title="Http学习"></a>Http学习</h1><h3 id="HTTP和HTTPS的区别"><a href="#HTTP和HTTPS的区别" class="headerlink" title="HTTP和HTTPS的区别"></a>HTTP和HTTPS的区别</h3><p><strong>HTTP（超文本传输协议，Hypertext Transfer Protocol）</strong>是一种用于从网络传输超文本到本地浏览器的传输协议。它定义了客户端与服务器之间请求和响应的格式。HTTP 工作在 TCP&#x2F;IP 模型之上，通常使用端口 <strong>80</strong>。</p>
-<p><strong>HTTPS（超文本传输安全协议，Hypertext Transfer Protocol Secure）</strong>是 HTTP 的安全版本，它在 HTTP 下增加了 SSL&#x2F;TLS 协议，提供了数据加密、完整性校验和身份验证。HTTPS 通常使用端口 <strong>443</strong>。</p>
-<p>主要区别如下：</p>
-<ul>
-<li><strong>加密</strong>：<ul>
-<li><strong>HTTP</strong>：数据传输过程中不加密，容易被截获和篡改。</li>
-<li><strong>HTTPS</strong>：使用SSL&#x2F;TLS协议对传输的数据进行加密，保护数据传输过程中的安全性。</li>
-</ul>
-</li>
-<li><strong>端口</strong>：<ul>
-<li><strong>HTTP</strong>：默认使用端口80。</li>
-<li><strong>HTTPS</strong>：默认使用端口443。</li>
-</ul>
-</li>
-<li><strong>安全性</strong>：<ul>
-<li><strong>HTTP</strong>：不提供数据加密，安全性较低。</li>
-<li><strong>HTTPS</strong>：提供数据加密和完整性校验，安全性较高。</li>
-</ul>
-</li>
-<li><strong>证书</strong>：<ul>
-<li><strong>HTTP</strong>：不需要证书。</li>
-<li><strong>HTTPS</strong>：需要SSL证书来启用加密，并验证服务器的身份。</li>
-</ul>
-</li>
-<li><strong>性能</strong>：<ul>
-<li><strong>HTTP</strong>：由于不加密数据，性能略高于HTTPS。</li>
-<li><strong>HTTPS</strong>：由于需要进行加密和解密，可能会有一定的性能开销。</li>
-</ul>
-</li>
-<li>**搜索引擎优化(SEO)**：<ul>
-<li><strong>HTTP</strong>：搜索引擎可能会对没有使用HTTPS的网站进行降权。</li>
-<li><strong>HTTPS</strong>：搜索引擎倾向于优先索引和展示使用HTTPS的网站。</li>
-</ul>
-</li>
-<li><strong>浏览器显示</strong>：<ul>
-<li><strong>HTTP</strong>：在大多数现代浏览器中，HTTP网站通常显示为”不安全”。</li>
-<li><strong>HTTPS</strong>：浏览器会显示一个锁形图标，表示网站是安全的。</li>
-</ul>
-</li>
-<li><strong>成本</strong>：<ul>
-<li><strong>HTTP</strong>：通常免费。</li>
-<li><strong>HTTPS</strong>：需要购买SSL证书，可能会有一定的成本。</li>
-</ul>
-</li>
-<li><strong>应用场景</strong>：<ul>
-<li><strong>HTTP</strong>：适用于不需要传输敏感信息的网站，如新闻网站、博客等。</li>
-<li><strong>HTTPS</strong>：适用于需要传输敏感信息的网站，如网上银行、在线购物、电子邮件等。</li>
-</ul>
-</li>
-</ul>
-<h3 id="HTTP报文"><a href="#HTTP报文" class="headerlink" title="HTTP报文"></a>HTTP报文</h3><h4 id="客户端请求消息"><a href="#客户端请求消息" class="headerlink" title="客户端请求消息"></a>客户端请求消息</h4><ul>
-<li><p><strong>请求行</strong>（Request Line）：</p>
-<ul>
-<li><strong>方法</strong>：如 GET、POST、PUT、DELETE等，指定要执行的操作。</li>
-<li><strong>请求 URI</strong>（统一资源标识符）：请求的资源路径，通常包括主机名、端口号（如果非默认）、路径和查询字符串。</li>
-<li><strong>HTTP 版本</strong>：如 HTTP&#x2F;1.1 或 HTTP&#x2F;2。</li>
-</ul>
-<p>请求行的格式示例：<code>GET /index.html HTTP/1.1</code></p>
-</li>
-<li><p><strong>请求头</strong>（Request Headers）：</p>
-<ul>
-<li>包含了客户端环境信息、请求体的大小（如果有）、客户端支持的压缩类型等。</li>
-<li>常见的请求头包括<code>Host</code>、<code>User-Agent</code>、<code>Accept</code>、<code>Accept-Encoding</code>、<code>Content-Length</code>等。</li>
-<li>Host：资源所在的主机的ip和端口</li>
-<li>User-Agent：告知服务器发起请求的客户端软件类型，包括浏览器的信息和操作系统。例如，它可以包含浏览器的名称、版本、操作系统等信息，帮助服务器优化响应内容</li>
-<li>Accept：指示客户端能处理的内容类型。例如，可以是<code>text/html</code>、<code>application/json</code>等</li>
-<li>Accept-Encoding：告知Accept-Encoding的编码形式</li>
-<li>Upgrade-Insecure-Requests：告知服务器把希望把不安全的请求提升为安全的请求</li>
-</ul>
-</li>
-<li><p><strong>空行</strong>：</p>
-<ul>
-<li>请求头和请求体之间的分隔符，表示请求头的结束。</li>
-</ul>
-</li>
-<li><p><strong>请求体</strong>（可选）：</p>
-<ul>
-<li>在某些类型的HTTP请求（如 POST 和 PUT）中，请求体包含要发送给服务器的数据。</li>
-</ul>
-</li>
-</ul>
-<h4 id="服务端响应消息"><a href="#服务端响应消息" class="headerlink" title="服务端响应消息"></a>服务端响应消息</h4><p>HTTP 响应也由四个部分组成，分别是：状态行、消息报头、空行和响应正文。</p>
-<p><img src="/img/Http%E5%AD%A6%E4%B9%A0/a" srcset="/img/loading.gif" lazyload></p>
-<ul>
-<li><p><strong>状态行</strong>（Status Line）：</p>
-<ul>
-<li><strong>HTTP 版本</strong>：与请求消息中的版本相匹配。</li>
-<li><strong>状态码</strong>：三位数，表示请求的处理结果，如 200 表示成功，404 表示未找到资源。</li>
-<li><strong>状态信息</strong>：状态码的简短描述。</li>
-</ul>
-<p>状态行的格式示例：<code>HTTP/1.1 200 OK</code></p>
-</li>
-<li><p><strong>响应头</strong>（Response Headers）：</p>
-<ul>
-<li>包含了服务器环境信息、响应体的大小、服务器支持的压缩类型等。</li>
-<li>常见的响应头包括<code>Content-Type</code>、<code>Content-Length</code>、<code>Server</code>、<code>Set-Cookie</code>等。</li>
-</ul>
-</li>
-<li><p><strong>空行</strong>：</p>
-<ul>
-<li>响应头和响应体之间的分隔符，表示响应头的结束。</li>
-</ul>
-</li>
-<li><p><strong>响应体</strong>（可选）：</p>
-<ul>
-<li>包含服务器返回的数据，如请求的网页内容、图片、JSON数据等。</li>
-</ul>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>HTTP 响应头信息</th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>响应头信息（英文）HTTP 响应头信息是服务器在响应客户端的HTTP请求时发送的一系列头字段，它们提供了关于响应的附加信息和服务器的指令。</td>
-<td>响应头信息（中文）</td>
-<td>描述</td>
-</tr>
-<tr>
-<td>Date以下是一些常见的 HTTP 响应头信息：</td>
-<td>日期</td>
-<td>响应生成的日期和时间。例如：Wed, 18 Apr 2024 12:00:00 GMT</td>
-</tr>
-<tr>
-<td>Server</td>
-<td>服务器</td>
-<td>服务器软件的名称和版本。例如：Apache&#x2F;2.4.1 (Unix)</td>
-</tr>
-<tr>
-<td>Content-Type</td>
-<td>内容类型</td>
-<td>响应体的媒体类型（MIME类型），如<code>text/html; charset=UTF-8</code>, <code>application/json</code>等。</td>
-</tr>
-<tr>
-<td>Content-Length</td>
-<td>内容长度</td>
-<td>响应体的大小，单位是字节。例如：3145</td>
-</tr>
-<tr>
-<td>Content-Encoding</td>
-<td>内容编码</td>
-<td>响应体的压缩编码，如 <code>gzip</code>, <code>deflate</code>等。</td>
-</tr>
-<tr>
-<td>Content-Language</td>
-<td>内容语言</td>
-<td>响应体的语言。例如：zh-CN</td>
-</tr>
-<tr>
-<td>Content-Location</td>
-<td>内容位置</td>
-<td>响应体的 URI。例如：&#x2F;index.html</td>
-</tr>
-<tr>
-<td>Content-Range</td>
-<td>内容范围</td>
-<td>响应体的字节范围，用于分块传输。例如：bytes 0-999&#x2F;8000</td>
-</tr>
-<tr>
-<td>Cache-Control</td>
-<td>缓存控制</td>
-<td>控制响应的缓存行为, 如 no-cache 表示必须重新请求。</td>
-</tr>
-<tr>
-<td>Connection</td>
-<td>连接</td>
-<td>管理连接的选项，如<code>keep-alive</code>或<code>close</code>，keep-alive 表示连接不会在传输后关闭。。</td>
-</tr>
-<tr>
-<td>Set-Cookie</td>
-<td>设置 Cookie</td>
-<td>设置客户端的 cookie。例如：sessionId&#x3D;abc123; Path&#x3D;&#x2F;; Secure</td>
-</tr>
-<tr>
-<td>Expires</td>
-<td>过期时间</td>
-<td>响应体的过期日期和时间。例如：Thu, 18 Apr 2024 12:00:00 GMT</td>
-</tr>
-<tr>
-<td>Last-Modified</td>
-<td>最后修改时间</td>
-<td>资源最后被修改的日期和时间。例如：Wed, 18 Apr 2024 11:00:00 GMT</td>
-</tr>
-<tr>
-<td>ETag</td>
-<td>实体标签</td>
-<td>资源的特定版本的标识符。例如：”33a64df551425fcc55e6”</td>
-</tr>
-<tr>
-<td>Location</td>
-<td>位置</td>
-<td>用于重定向的 URI。例如：&#x2F;newresource</td>
-</tr>
-<tr>
-<td>Pragma</td>
-<td>实现特定的指令</td>
-<td>包含实现特定的指令，如 <code>no-cache</code>。</td>
-</tr>
-<tr>
-<td>WWW-Authenticate</td>
-<td>认证信息</td>
-<td>认证信息，通常用于HTTP认证。例如：Basic realm&#x3D;”Access to the site”</td>
-</tr>
-<tr>
-<td>Accept-Ranges</td>
-<td>接受范围</td>
-<td>指定可接受的请求范围类型。例如：bytes</td>
-</tr>
-<tr>
-<td>Age</td>
-<td>经过时间</td>
-<td>响应生成后经过的秒数，从原始服务器生成到代理服务器。例如：24</td>
-</tr>
-<tr>
-<td>Allow</td>
-<td>允许方法</td>
-<td>列出资源允许的 HTTP 方法 。例如：GET, POST，HEAD等</td>
-</tr>
-<tr>
-<td>Vary</td>
-<td>变化</td>
-<td>告诉下游代理如何使用响应头信息来确定响应是否可以从缓存中获取。例如：Accept</td>
-</tr>
-<tr>
-<td>Strict-Transport-Security</td>
-<td>严格传输安全</td>
-<td>指示浏览器仅通过 HTTPS 与服务器通信。例如：max-age&#x3D;31536000; includeSubDomains</td>
-</tr>
-<tr>
-<td>X-Frame-Options</td>
-<td>框架选项</td>
-<td>控制页面是否允许在框架中显示，防止点击劫持攻击。例如：SAMEORIGIN</td>
-</tr>
-<tr>
-<td>X-Content-Type-Options</td>
-<td>内容类型选项</td>
-<td>指示浏览器不要尝试猜测资源的 MIME 类型。例如：nosniff</td>
-</tr>
-<tr>
-<td>X-XSS-Protection</td>
-<td>XSS保护</td>
-<td>控制浏览器的 XSS 过滤和阻断。例如：1; mode&#x3D;block</td>
-</tr>
-<tr>
-<td>Public-Key-Pins</td>
-<td>公钥固定</td>
-<td>HTTP 头信息，用于HTTP公共密钥固定（HPKP），一种安全机制，用于防止中间人攻击。例如：pin-sha256&#x3D;”base64+primarykey”; pin-sha256&#x3D;”base64+backupkey”; max-age&#x3D;expireTime</td>
-</tr>
-</tbody></table>
-<h4 id="HTTP-content-type"><a href="#HTTP-content-type" class="headerlink" title="HTTP content-type"></a>HTTP content-type</h4><p>Content-Type（内容类型），一般是指网页中存在的 Content-Type，用于定义网络文件的类型和网页的编码，决定浏览器将以什么形式、什么编码读取这个文件，这就是经常看到一些 PHP 网页点击的结果却是下载一个文件或一张图片的原因。</p>
-<p>Content-Type 标头告诉客户端实际返回的内容的内容类型。</p>
-<p>语法格式：</p>
-<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs fortran">Content-<span class="hljs-keyword">Type</span>: text/html; charset=utf-<span class="hljs-number">8</span><br>Content-<span class="hljs-keyword">Type</span>: multipart/<span class="hljs-keyword">form</span>-<span class="hljs-keyword">data</span>; boundary=something<br></code></pre></td></tr></table></figure>
+                <h1 id="xss学习"><a href="#xss学习" class="headerlink" title="xss学习"></a>xss学习</h1><h4 id="类型一：未对敏感大小符号，引号等进行过滤"><a href="#类型一：未对敏感大小符号，引号等进行过滤" class="headerlink" title="类型一：未对敏感大小符号，引号等进行过滤"></a>类型一：未对敏感大小符号，引号等进行过滤</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">payload=&#x27;<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-string">&#x27;xss&#x27;</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
-<p>实例：</p>
-<p><img src="/img/Http%E5%AD%A6%E4%B9%A0/b" srcset="/img/loading.gif" lazyload></p>
-<h5 id="常见的媒体格式类型如下："><a href="#常见的媒体格式类型如下：" class="headerlink" title="常见的媒体格式类型如下："></a>常见的媒体格式类型如下：</h5><ul>
-<li>text&#x2F;html ： HTML格式</li>
-<li>text&#x2F;plain ：纯文本格式</li>
-<li>text&#x2F;xml ： XML格式</li>
-<li>image&#x2F;gif ：gif图片格式</li>
-<li>image&#x2F;jpeg ：jpg图片格式</li>
-<li>image&#x2F;png：png图片格式</li>
-</ul>
-<h5 id="以application开头的媒体格式类型："><a href="#以application开头的媒体格式类型：" class="headerlink" title="以application开头的媒体格式类型："></a>以application开头的媒体格式类型：</h5><ul>
-<li>application&#x2F;xhtml+xml ：XHTML格式</li>
-<li>application&#x2F;xml： XML数据格式</li>
-<li>application&#x2F;atom+xml ：Atom XML聚合格式</li>
-<li>application&#x2F;json： JSON数据格式</li>
-<li>application&#x2F;pdf：pdf格式</li>
-<li>application&#x2F;msword ： Word文档格式</li>
-<li>application&#x2F;octet-stream ： 二进制流数据（如常见的文件下载）</li>
-<li>application&#x2F;x-www-form-urlencoded ： <form encType=””>中默认的encType，form表单数据被编码为key&#x2F;value格式发送到服务器（表单默认的提交数据的格式）</li>
-</ul>
-<p>另外一种常见的媒体格式是上传文件之时使用的：</p>
-<ul>
-<li>multipart&#x2F;form-data ： 需要在表单中进行文件上传时，就需要使用该格式</li>
-</ul>
-<h4 id="MIME-类型"><a href="#MIME-类型" class="headerlink" title="MIME 类型"></a>MIME 类型</h4><p>MIME (Multipurpose Internet Mail Extensions) 是描述消息内容类型的标准，用来表示文档、文件或字节流的性质和格式。</p>
-<p>MIME 消息能包含文本、图像、音频、视频以及其他应用程序专用的数据。</p>
-<p>浏览器通常使用 MIME 类型（而不是文件扩展名）来确定如何处理URL，因此 We b服务器在响应头中添加正确的 MIME 类型非常重要。如果配置不正确，浏览器可能会无法解析文件内容，网站将无法正常工作，并且下载的文件也会被错误处理。</p>
-<h5 id="常见的-MIME-类型"><a href="#常见的-MIME-类型" class="headerlink" title="常见的 MIME 类型"></a>常见的 MIME 类型</h5><ul>
-<li>超文本标记语言文本 <strong>.html、.html</strong>：<strong>text&#x2F;html</strong></li>
-<li>普通文本 <strong>.txt</strong>： <strong>text&#x2F;plain</strong></li>
-<li>RTF 文本 <strong>.rtf</strong>： <strong>application&#x2F;rtf</strong></li>
-<li>GIF 图形 <strong>.gif</strong>： <strong>image&#x2F;gif</strong></li>
-<li>JPEG 图形 <strong>.jpeg、.jpg</strong>： <strong>image&#x2F;jpeg</strong></li>
-<li>au 声音文件 <strong>.au</strong>： <strong>audio&#x2F;basic</strong></li>
-<li>MIDI 音乐文件 <strong>mid、.midi</strong>： <strong>audio&#x2F;midi、audio&#x2F;x-midi</strong></li>
-<li>RealAudio 音乐文件 <strong>.ra、.ram</strong>： <strong>audio&#x2F;x-pn-realaudio</strong></li>
-<li>MPEG 文件 <strong>.mpg、.mpeg</strong>： <strong>video&#x2F;mpeg</strong></li>
-<li>AVI 文件 <strong>.avi</strong>： <strong>video&#x2F;x-msvideo</strong></li>
-<li>GZIP 文件 <strong>.gz</strong>： <strong>application&#x2F;x-gzip</strong></li>
-<li>TAR 文件 <strong>.tar</strong>： <strong>application&#x2F;x-tar</strong></li>
-</ul>
-<p>补充</p>
-<p><img src="/img/Http%E5%AD%A6%E4%B9%A0/c" srcset="/img/loading.gif" lazyload></p>
-<p>request</p>
-<p><img src="/img/Http%E5%AD%A6%E4%B9%A0/d" srcset="/img/loading.gif" lazyload></p>
-<p>response</p>
-<p><img src="/img/Http%E5%AD%A6%E4%B9%A0/e" srcset="/img/loading.gif" lazyload></p>
-<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><h2 id="菜鸟"><a href="#菜鸟" class="headerlink" title="菜鸟"></a><a target="_blank" rel="noopener" href="https://www.runoob.com/http/http-tutorial.html">菜鸟</a></h2>
+<h4 id="类型二：被html实体转义"><a href="#类型二：被html实体转义" class="headerlink" title="类型二：被html实体转义"></a>类型二：被html实体转义</h4><p>可以用onfocus事件或onclick事件等on事件绕过</p>
+<h5 id="onfocus事件"><a href="#onfocus事件" class="headerlink" title="onfocus事件"></a>onfocus事件</h5><p><img src="https://i-blog.csdnimg.cn/blog_migrate/012bdfc49a3aa8cc5ab09556c096a09d.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>onfocus事件在元素获得焦点时触发，最常与 <input>、<select> 和 <a> 标签一起使用，以上面图片的html标签<input>为例，<input>标签是有输入框的，简单来说，onfocus事件就是当输入框被点击的时候，就会触发myFunction()函数，然后我们再配合javascript伪协议来执行javascript代码</p>
+<h5 id="onclick-事件"><a href="#onclick-事件" class="headerlink" title="onclick 事件"></a>onclick 事件</h5><p><img src="C:/Users/zhuoh/AppData/Roaming/Typora/typora-user-images/image-20250110225122314.png" srcset="/img/loading.gif" lazyload alt="image-20250110225122314"></p>
+<h5 id="onmouseover事件"><a href="#onmouseover事件" class="headerlink" title="onmouseover事件"></a>onmouseover事件</h5><p><img src="C:/Users/zhuoh/AppData/Roaming/Typora/typora-user-images/image-20250114002455486.png" srcset="/img/loading.gif" lazyload alt="image-20250114002455486"></p>
+<h5 id="示例1（xss-lab-level4"><a href="#示例1（xss-lab-level4" class="headerlink" title="示例1（xss_lab_level4)"></a>示例1（xss_lab_level4)</h5><p><img src="C:/Users/zhuoh/AppData/Roaming/Typora/typora-user-images/image-20250110225817043.png" srcset="/img/loading.gif" lazyload alt="image-20250110225817043"></p>
+<p><img src="C:/Users/zhuoh/AppData/Roaming/Typora/typora-user-images/image-20250110225933209.png" srcset="/img/loading.gif" lazyload alt="image-20250110225933209"></p>
+<h4 id="类型三：某些敏感字母被替代"><a href="#类型三：某些敏感字母被替代" class="headerlink" title="类型三：某些敏感字母被替代"></a>类型三：某些敏感字母被替代</h4><p>例如onclick被替代为o_nclick</p>
+<p>这个时候如果大小没有过滤，就尝试用大小写绕过，否则就需要闭合标签，构造新的标签</p>
+<h5 id="a标签的href属性"><a href="#a标签的href属性" class="headerlink" title="a标签的href属性"></a>a标签的href属性</h5><p><img src="https://i-blog.csdnimg.cn/blog_migrate/3d76230687597cd12652b56bb2abc570.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>这个属性的意思是可以当a标签被点击可以时可以跳转到某个网站，也可以执行js代码</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">payloa</span><span class="hljs-operator">=</span><span class="hljs-string">&quot;&gt;&lt;a href=javascript:alert(&#x27;xss&#x27;)&gt;xss&lt;/a&gt;&lt;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h5><p><img src="C:/Users/zhuoh/AppData/Roaming/Typora/typora-user-images/image-20250110234301670.png" srcset="/img/loading.gif" lazyload alt="image-20250110234301670"></p>
+<h4 id="类型三：某些敏感字符串被删除"><a href="#类型三：某些敏感字符串被删除" class="headerlink" title="类型三：某些敏感字符串被删除"></a>类型三：某些敏感字符串被删除</h4><p>一些疑似代码的字符串被删除，例如script,on，href等等</p>
+<p>这个时候可用双写字符绕过</p>
+<p>例如输入oonn,那么把中间的on删掉，之后就是on,hrhrefef删掉中间的href就是href，从而绕过</p>
+<h4 id="类型4绝大部分字符被过滤替换删除-添加http-白名单"><a href="#类型4绝大部分字符被过滤替换删除-添加http-白名单" class="headerlink" title="类型4绝大部分字符被过滤替换删除&amp;添加http:&#x2F;&#x2F;白名单"></a>类型4绝大部分字符被过滤替换删除&amp;添加http:&#x2F;&#x2F;白名单</h4><p>解决方法一：href属性自带解码功能，可以用unicode编码绕过计算机预定系统</p>
+<p><img src="C:/Users/zhuoh/AppData/Roaming/Typora/typora-user-images/image-20250114192807067.png" srcset="/img/loading.gif" lazyload alt="image-20250114192807067"></p>
+<p>遇到检查输入的字符串是否存在http:&#x2F;&#x2F;,在payload中构造http:&#x2F;&#x2F;,只需要注释掉即可</p>
+<p>解决方法二</p>
+<p>有些题目可能会把http的referer参数&#x2F;ua头放在前端，这时候可以抓包伪造referer&#x2F;ua的内容为payload进行攻击</p>
+<p>解决方法三</p>
+<p>因为有一些<a>标签的href只允许有http内容的东西通过，这时候可以在payload+注释进行绕过，例如：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">javascript:alert(<span class="hljs-number">1</span>)<span class="hljs-regexp">//</span>http:<span class="hljs-regexp">//</span><br></code></pre></td></tr></table></figure>
+
                 
               </div>
             
@@ -657,7 +379,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/web%E5%AE%89%E5%85%A8/" class="print-no-link">#web安全</a>
+        <a href="/tags/xss/" class="print-no-link">#xss</a>
       
     </div>
   
@@ -669,8 +391,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Http学习</div>
-      <div>http://example.com/2024/11/23/Http学习/</div>
+      <div>xss学习</div>
+      <div>http://example.com/2025/01/10/xss学习/</div>
     </div>
     <div class="license-meta">
       
@@ -682,7 +404,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年11月23日</div>
+          <div>2025年1月10日</div>
         </div>
       
       
@@ -714,9 +436,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/11/29/sql%E6%B3%A8%E5%85%A5%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B/" title="sql注入基础类型">
+                      <a href="/2025/01/18/%E4%BF%A1%E6%81%AF%E6%89%93%E7%82%B9/" title="信息打点">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">sql注入基础类型</span>
+                        <span class="hidden-mobile">信息打点</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -724,8 +446,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/11/18/house-force/" title="House_force(HITCON training lab 11)">
-                        <span class="hidden-mobile">House_force(HITCON training lab 11)</span>
+                      <a href="/2024/12/30/pwn-vm%E5%85%A5%E9%97%A8/" title="Pwn_vm入门">
+                        <span class="hidden-mobile">Pwn_vm入门</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
