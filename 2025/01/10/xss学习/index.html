@@ -19,16 +19,16 @@
   <meta name="author" content="清风">
   <meta name="keywords" content="">
   
-    <meta name="description" content="xss学习类型一：未对敏感大小符号，引号等进行过滤1payload&#x3D;&#x27;&lt;script&gt;alert(&#x27;xss&#x27;)&lt;&#x2F;script&gt;  类型二：被html实体转义可以用onfocus事件或onclick事件等on事件绕过 onfocus事件 onfocus事件在元素获得焦点时触发，最常与 、 和  标签一起使用，以上面图片的html标签为例，标签是">
+    <meta name="description" content="xss学习类型一：未对敏感大小符号，引号等进行过滤1payload&#x3D;&#x27;&lt;script&gt;alert(&#x27;xss&#x27;)&lt;&#x2F;script&gt;  类型二：被html实体转义可以用onfocus事件或onclick事件等on事件绕过 onfocus事件 onfocus事件在元素获得焦点时触发，最常与 &lt;input&gt;、&lt;select&gt; 和">
 <meta property="og:type" content="article">
 <meta property="og:title" content="xss学习">
 <meta property="og:url" content="http://example.com/2025/01/10/xss%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="清风不识字">
-<meta property="og:description" content="xss学习类型一：未对敏感大小符号，引号等进行过滤1payload&#x3D;&#x27;&lt;script&gt;alert(&#x27;xss&#x27;)&lt;&#x2F;script&gt;  类型二：被html实体转义可以用onfocus事件或onclick事件等on事件绕过 onfocus事件 onfocus事件在元素获得焦点时触发，最常与 、 和  标签一起使用，以上面图片的html标签为例，标签是">
+<meta property="og:description" content="xss学习类型一：未对敏感大小符号，引号等进行过滤1payload&#x3D;&#x27;&lt;script&gt;alert(&#x27;xss&#x27;)&lt;&#x2F;script&gt;  类型二：被html实体转义可以用onfocus事件或onclick事件等on事件绕过 onfocus事件 onfocus事件在元素获得焦点时触发，最常与 &lt;input&gt;、&lt;select&gt; 和">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/154.jpg">
 <meta property="article:published_time" content="2025-01-10T14:27:21.000Z">
-<meta property="article:modified_time" content="2025-03-10T13:32:14.386Z">
+<meta property="article:modified_time" content="2025-05-08T12:27:09.817Z">
 <meta property="article:author" content="清风">
 <meta property="article:tag" content="xss">
 <meta name="twitter:card" content="summary_large_image">
@@ -249,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          510 字
+          525 字
         
       </span>
     
@@ -311,7 +311,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2025年3月10日 晚上
+                    本文最后更新于 2025年5月8日 晚上
                   
                 
               </p>
@@ -322,30 +322,33 @@
                 <h1 id="xss学习"><a href="#xss学习" class="headerlink" title="xss学习"></a>xss学习</h1><h4 id="类型一：未对敏感大小符号，引号等进行过滤"><a href="#类型一：未对敏感大小符号，引号等进行过滤" class="headerlink" title="类型一：未对敏感大小符号，引号等进行过滤"></a>类型一：未对敏感大小符号，引号等进行过滤</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">payload=&#x27;<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-string">&#x27;xss&#x27;</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <h4 id="类型二：被html实体转义"><a href="#类型二：被html实体转义" class="headerlink" title="类型二：被html实体转义"></a>类型二：被html实体转义</h4><p>可以用onfocus事件或onclick事件等on事件绕过</p>
-<h5 id="onfocus事件"><a href="#onfocus事件" class="headerlink" title="onfocus事件"></a>onfocus事件</h5><p><img src="https://i-blog.csdnimg.cn/blog_migrate/012bdfc49a3aa8cc5ab09556c096a09d.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>onfocus事件在元素获得焦点时触发，最常与 <input>、<select> 和 <a> 标签一起使用，以上面图片的html标签<input>为例，<input>标签是有输入框的，简单来说，onfocus事件就是当输入框被点击的时候，就会触发myFunction()函数，然后我们再配合javascript伪协议来执行javascript代码</p>
-<h5 id="onclick-事件"><a href="#onclick-事件" class="headerlink" title="onclick 事件"></a>onclick 事件</h5><p><img src="C:/Users/zhuoh/AppData/Roaming/Typora/typora-user-images/image-20250110225122314.png" srcset="/img/loading.gif" lazyload alt="image-20250110225122314"></p>
-<h5 id="onmouseover事件"><a href="#onmouseover事件" class="headerlink" title="onmouseover事件"></a>onmouseover事件</h5><p><img src="C:/Users/zhuoh/AppData/Roaming/Typora/typora-user-images/image-20250114002455486.png" srcset="/img/loading.gif" lazyload alt="image-20250114002455486"></p>
-<h5 id="示例1（xss-lab-level4"><a href="#示例1（xss-lab-level4" class="headerlink" title="示例1（xss_lab_level4)"></a>示例1（xss_lab_level4)</h5><p><img src="C:/Users/zhuoh/AppData/Roaming/Typora/typora-user-images/image-20250110225817043.png" srcset="/img/loading.gif" lazyload alt="image-20250110225817043"></p>
-<p><img src="C:/Users/zhuoh/AppData/Roaming/Typora/typora-user-images/image-20250110225933209.png" srcset="/img/loading.gif" lazyload alt="image-20250110225933209"></p>
+<h5 id="onfocus事件"><a href="#onfocus事件" class="headerlink" title="onfocus事件"></a>onfocus事件</h5><p><img src="/img/xss%E5%AD%A6%E4%B9%A0/1" srcset="/img/loading.gif" lazyload></p>
+<p>onfocus事件在元素获得焦点时触发，最常与 &lt;input&gt;、&lt;select&gt; 和 &lt;a&gt; 标签一起使用，以上面图片的html标签&lt;input&gt;为例，&lt;input&gt;标签是有输入框的，简单来说，onfocus事件就是当输入框被点击的时候，就会触发myFunction()函数，然后我们再配合javascript伪协议来执行javascript代码</p>
+<h5 id="onclick-事件"><a href="#onclick-事件" class="headerlink" title="onclick 事件"></a>onclick 事件</h5><p><img src="/img/xss%E5%AD%A6%E4%B9%A0/2" srcset="/img/loading.gif" lazyload></p>
+<h5 id="onmouseover事件"><a href="#onmouseover事件" class="headerlink" title="onmouseover事件"></a>onmouseover事件</h5><p><img src="/img/xss%E5%AD%A6%E4%B9%A0/3" srcset="/img/loading.gif" lazyload alt="image-20250114002455486"></p>
+<h5 id="示例1（xss-lab-level4"><a href="#示例1（xss-lab-level4" class="headerlink" title="示例1（xss_lab_level4)"></a>示例1（xss_lab_level4)</h5><p><img src="/img/xss%E5%AD%A6%E4%B9%A0/4" srcset="/img/loading.gif" lazyload alt="image-20250110225817043"></p>
+<p><img src="/img/xss%E5%AD%A6%E4%B9%A0/5" srcset="/img/loading.gif" lazyload alt="image-20250110225933209"></p>
 <h4 id="类型三：某些敏感字母被替代"><a href="#类型三：某些敏感字母被替代" class="headerlink" title="类型三：某些敏感字母被替代"></a>类型三：某些敏感字母被替代</h4><p>例如onclick被替代为o_nclick</p>
 <p>这个时候如果大小没有过滤，就尝试用大小写绕过，否则就需要闭合标签，构造新的标签</p>
-<h5 id="a标签的href属性"><a href="#a标签的href属性" class="headerlink" title="a标签的href属性"></a>a标签的href属性</h5><p><img src="https://i-blog.csdnimg.cn/blog_migrate/3d76230687597cd12652b56bb2abc570.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h5 id="a标签的href属性"><a href="#a标签的href属性" class="headerlink" title="a标签的href属性"></a>a标签的href属性</h5><p><img src="/img/xss%E5%AD%A6%E4%B9%A0/6" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>这个属性的意思是可以当a标签被点击可以时可以跳转到某个网站，也可以执行js代码</p>
 <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">payloa</span><span class="hljs-operator">=</span><span class="hljs-string">&quot;&gt;&lt;a href=javascript:alert(&#x27;xss&#x27;)&gt;xss&lt;/a&gt;&lt;&quot;</span><br></code></pre></td></tr></table></figure>
 
-<h5 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h5><p><img src="C:/Users/zhuoh/AppData/Roaming/Typora/typora-user-images/image-20250110234301670.png" srcset="/img/loading.gif" lazyload alt="image-20250110234301670"></p>
+<h5 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h5><p><img src="/img/xss%E5%AD%A6%E4%B9%A0/7" srcset="/img/loading.gif" lazyload alt="image-20250110234301670"></p>
 <h4 id="类型三：某些敏感字符串被删除"><a href="#类型三：某些敏感字符串被删除" class="headerlink" title="类型三：某些敏感字符串被删除"></a>类型三：某些敏感字符串被删除</h4><p>一些疑似代码的字符串被删除，例如script,on，href等等</p>
 <p>这个时候可用双写字符绕过</p>
 <p>例如输入oonn,那么把中间的on删掉，之后就是on,hrhrefef删掉中间的href就是href，从而绕过</p>
 <h4 id="类型4绝大部分字符被过滤替换删除-添加http-白名单"><a href="#类型4绝大部分字符被过滤替换删除-添加http-白名单" class="headerlink" title="类型4绝大部分字符被过滤替换删除&amp;添加http:&#x2F;&#x2F;白名单"></a>类型4绝大部分字符被过滤替换删除&amp;添加http:&#x2F;&#x2F;白名单</h4><p>解决方法一：href属性自带解码功能，可以用unicode编码绕过计算机预定系统</p>
-<p><img src="C:/Users/zhuoh/AppData/Roaming/Typora/typora-user-images/image-20250114192807067.png" srcset="/img/loading.gif" lazyload alt="image-20250114192807067"></p>
+<p><img src="/img/xss%E5%AD%A6%E4%B9%A0/8" srcset="/img/loading.gif" lazyload alt="image-20250114192807067"></p>
 <p>遇到检查输入的字符串是否存在http:&#x2F;&#x2F;,在payload中构造http:&#x2F;&#x2F;,只需要注释掉即可</p>
 <p>解决方法二</p>
 <p>有些题目可能会把http的referer参数&#x2F;ua头放在前端，这时候可以抓包伪造referer&#x2F;ua的内容为payload进行攻击</p>
 <p>解决方法三</p>
 <p>因为有一些<a>标签的href只允许有http内容的东西通过，这时候可以在payload+注释进行绕过，例如：</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">javascript:alert(<span class="hljs-number">1</span>)<span class="hljs-regexp">//</span>http:<span class="hljs-regexp">//</span><br></code></pre></td></tr></table></figure>
+
+
+
 
                 
               </div>
