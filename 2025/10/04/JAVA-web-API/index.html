@@ -1,0 +1,820 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="清风">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="JAVAWeb-APIDriverManager(注册管理类)registerdriver方法：注册驱动（以Class.forname使用）connection方法：获取连接（语法：jdbc:mysql:&#x2F;&#x2F;ip:端口&#x2F;数据库名?参数键值对）Connection(数据库连接对象)Statement createStatement()：普通sql执行对象PrepareS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA-web-API">
+<meta property="og:url" content="http://example.com/2025/10/04/JAVA-web-API/index.html">
+<meta property="og:site_name" content="清风不识字">
+<meta property="og:description" content="JAVAWeb-APIDriverManager(注册管理类)registerdriver方法：注册驱动（以Class.forname使用）connection方法：获取连接（语法：jdbc:mysql:&#x2F;&#x2F;ip:端口&#x2F;数据库名?参数键值对）Connection(数据库连接对象)Statement createStatement()：普通sql执行对象PrepareS">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/168.png">
+<meta property="article:published_time" content="2025-10-04T06:28:57.000Z">
+<meta property="article:modified_time" content="2025-11-01T14:11:36.642Z">
+<meta property="article:author" content="清风">
+<meta property="article:tag" content="tools">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/168.png">
+  
+  
+  
+  <title>JAVA-web-API - 清风不识字</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/scrollAnimation.css">
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css">
+<link rel="stylesheet" href="/css/cloudedGlass.css">
+<link rel="stylesheet" href="/css/selection.css">
+<link rel="stylesheet" href="/css/macBorder.css">
+<link rel="stylesheet" href="https://jsd.cdn.zzko.cn/gh/EmoryHuang/BlogBeautify@1.1/scroll.css">
+<link rel="stylesheet" href="https://jsd.cdn.zzko.cn/gh/EmoryHuang/BlogBeautify@1.1/gradient.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"0JWcKtnJwUWPWRrrdTax0lya-gzGzoHsz","app_key":"Q6KrvNK2N7nNsewpWYVdjHuI","server_url":"https://0jwcktnj.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="清风不识字" type="application/atom+xml">
+</head>
+
+
+<body><!-- hexo injector body_begin start --><div id="web_bg"></div><!-- hexo injector body_begin end -->
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>清风不识字</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="JAVA-web-API"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-04 14:28" pubdate>
+          2025年10月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">JAVA-web-API</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2025年11月1日 晚上
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="JAVA"><a href="#JAVA" class="headerlink" title="JAVA"></a>JAVA</h1><h2 id="Web-API"><a href="#Web-API" class="headerlink" title="Web-API"></a>Web-API</h2><h4 id="DriverManager-注册管理类"><a href="#DriverManager-注册管理类" class="headerlink" title="DriverManager(注册管理类)"></a>DriverManager(注册管理类)</h4><h5 id="registerdriver方法：注册驱动（以Class-forname使用）"><a href="#registerdriver方法：注册驱动（以Class-forname使用）" class="headerlink" title="registerdriver方法：注册驱动（以Class.forname使用）"></a>registerdriver方法：注册驱动（以Class.forname使用）</h5><h5 id="connection方法：获取连接（语法：jdbc-mysql-ip-端口-数据库名-参数键值对）"><a href="#connection方法：获取连接（语法：jdbc-mysql-ip-端口-数据库名-参数键值对）" class="headerlink" title="connection方法：获取连接（语法：jdbc:mysql:&#x2F;&#x2F;ip:端口&#x2F;数据库名?参数键值对）"></a>connection方法：获取连接（语法：jdbc:mysql:&#x2F;&#x2F;ip:端口&#x2F;数据库名?参数键值对）</h5><h4 id="Connection-数据库连接对象"><a href="#Connection-数据库连接对象" class="headerlink" title="Connection(数据库连接对象)"></a>Connection(数据库连接对象)</h4><h5 id="Statement-createStatement-：普通sql执行对象"><a href="#Statement-createStatement-：普通sql执行对象" class="headerlink" title="Statement createStatement()：普通sql执行对象"></a>Statement createStatement()：普通sql执行对象</h5><h5 id="PrepareStatement-prepareStatement-：预编译执行sql对象"><a href="#PrepareStatement-prepareStatement-：预编译执行sql对象" class="headerlink" title="PrepareStatement prepareStatement()：预编译执行sql对象"></a>PrepareStatement prepareStatement()：预编译执行sql对象</h5><h5 id="CallableStatement-prepareCall-：执行存储过程的对象"><a href="#CallableStatement-prepareCall-：执行存储过程的对象" class="headerlink" title="CallableStatement prepareCall()：执行存储过程的对象"></a>CallableStatement prepareCall()：执行存储过程的对象</h5><p>setAutoCommit(aaa)：开启事务，参数为true or false 决定是否主动提交</p>
+<p>commit()：提交事务</p>
+<p>rollback()：回滚事务</p>
+<h4 id="Statement-sql语句执行对象"><a href="#Statement-sql语句执行对象" class="headerlink" title="Statement(sql语句执行对象)"></a>Statement(sql语句执行对象)</h4><p>int executeUpdate(sql)：DML(数据操纵，即数据的增删改）、DDL(数据库结构的更改)</p>
+<p>ResultSet ExecuteQuery(sql)：执行DQL（数据查询）</p>
+<h4 id="ResultSet-结果集对象"><a href="#ResultSet-结果集对象" class="headerlink" title="ResultSet(结果集对象)"></a>ResultSet(结果集对象)</h4><p>next()：光标向下移动，并判断有效行</p>
+<p>getxxx(参数)：xxx是数据类型，参数可以是int,string,int是列的编号，string是列的名称</p>
+<h2 id="Java基础"><a href="#Java基础" class="headerlink" title="Java基础"></a>Java基础</h2><h3 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h3><h4 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h4><p>定义:为了避免对对象中的参数被破坏，在实体类中通常对参数进行封装，不会向外暴露，对于参数的操作只会在本类中进行，向外只暴露方法</p>
+<p>static:表示静态，用了这个修饰符后表示这个变量或者方法属于这个类，可以用这个类直接调用，也可以用对象调用，但是不推荐，静态方法不能使用this关键字，不能直接访问实例成员</p>
+<h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4><h5 id="权限修饰符"><a href="#权限修饰符" class="headerlink" title="权限修饰符"></a>权限修饰符</h5><p>protect:本类，同一个包的中的类及其子孙类能调用</p>
+<p>private：只能本类调用</p>
+<p>public：任意位置</p>
+<h5 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h5><p>不支持多继承，但支持多层继承</p>
+<p>所有类都继承于一个object祖宗类</p>
+<p>继承类成员的访问遵循就近原则，先从子类找，找不到在去父类找，一定要调用父类的需使用super</p>
+<h5 id="方法重写"><a href="#方法重写" class="headerlink" title="方法重写"></a>方法重写</h5><p>1.需加注解@override</p>
+<p>2.是在子类中觉得父类中的方法不符合要求，对父类的方法进行重写，例如，print其实是tostring方法，会打印地址，可以重写tostring方法来打印内容</p>
+<h5 id="子类构造器-兄弟构造器"><a href="#子类构造器-兄弟构造器" class="headerlink" title="子类构造器&#x2F;兄弟构造器"></a>子类构造器&#x2F;兄弟构造器</h5><p>在调用子类构造器的时候，子类会先调用父类构造器来完成初始化</p>
+<p>为了调用不同参数的构造器时，用this()调用兄弟构造器用于减少代码量</p>
+<h4 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h4><h5 id="对象多态"><a href="#对象多态" class="headerlink" title="对象多态"></a>对象多态</h5><p>一个对象有多种形式，比如人有多种不同的身份，像这样，一个父类作为总对象，其不同身份的子类称为对象的多态，有继承才有多态</p>
+<h5 id="行为多态"><a href="#行为多态" class="headerlink" title="行为多态"></a>行为多态</h5><p>继承同一个父类的子类可以存在不同的方法，当父类的这个方法满足不了需求，根据不同子类的身份重写父类的方法，称为行为多态</p>
+<h5 id="特点-好处"><a href="#特点-好处" class="headerlink" title="特点&#x2F;好处"></a>特点&#x2F;好处</h5><p>对于多态的成员变量，编译时看父类，运行时也看父类，而对于成员方法，编译时看父类，运行时看的子类</p>
+<p>多态是解耦合的，父类对象可以包含子类对象，便于扩展和维护</p>
+<p>父类类型变量的参数可以接收所有的子类对象</p>
+<p>多态下不能使用子类的独有功能</p>
+<p>可以把子类变量强制转换为父类变量</p>
+<h3 id="面向对象高级"><a href="#面向对象高级" class="headerlink" title="面向对象高级"></a>面向对象高级</h3><h4 id="final-关键字"><a href="#final-关键字" class="headerlink" title="final 关键字"></a>final 关键字</h4><h5 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h5><p>可以修饰类、方法、变量，修饰后都为最终类、方法，无法被继承和重写，修饰变量后该变量只能被赋值一次</p>
+<p>使用static final 修饰的成员变量称为常量，通常是系统配置信息</p>
+<h4 id="单例类"><a href="#单例类" class="headerlink" title="单例类"></a>单例类</h4><h5 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h5><p>确保某个类只能创建一个对象</p>
+<h5 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h5><p>构造器私有、在类里面创建一个私有对象，定义一个类方法返回该对象</p>
+<p>分为饿汉式和懒汉式，第一个直接创建对象，第二个在调用时在创建对象</p>
+<h4 id="枚举类"><a href="#枚举类" class="headerlink" title="枚举类"></a>枚举类</h4><p>写法</p>
+<p><img src="/../../themes/fluid/source/img/photo/image-20251027203039371.png" srcset="/img/loading.gif" lazyload alt="image-20251027203039371"></p>
+<h5 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h5><p>枚举类第一行只能写枚举类的对象名称，多个时要用逗号隔开，这些名称本质上是常量</p>
+<p>枚举类都是最终类，不能被继承</p>
+<p>枚举类的构造器是私有的，写不写都只能是私有的，因此枚举类不能创建对象</p>
+<h5 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h5><p>作为信息分类和标志，比如一个游戏中的上下左右移动，就很适合用枚举类做</p>
+<h4 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h4><p>定义：用abstract 修饰的类，抽象类不需要实类体，他是抽象的，为了更好的适应多态</p>
+<h5 id="特点-3"><a href="#特点-3" class="headerlink" title="特点"></a>特点</h5><p>抽象类中不一定有抽象方法，但有抽象方法的类一定是抽象类</p>
+<p>类的成员与正常类，最主要的特点是，抽象类无法创建对象，仅作为一种特殊的父类，给子类继承并实现</p>
+<p>一个类继承抽象类，必须重写所有父类中的抽象方法或者自身称为抽象类</p>
+<h5 id="模板方法设计模式"><a href="#模板方法设计模式" class="headerlink" title="模板方法设计模式"></a>模板方法设计模式</h5><p>提供一个方法作为完成某类功能的模板，模板方法封装了每一个实现步骤，但是允许子类提供特定步骤的实现</p>
+<h4 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h4><p>概述：提供interface定义接口，接口类只能定义常量和抽象方法（jdk8 之前），后面又提够了三种方法，接口无法创建对象，只能被类继承实现，与类不同的是，接口可以被多继承，正常类不行</p>
+<h5 id="好处-注意"><a href="#好处-注意" class="headerlink" title="好处&#x2F;注意"></a>好处&#x2F;注意</h5><p>弥补类单继承的不足，可以多继承，功能更加强大，可以让程序面向接口变成，利于程序的解耦合，需要注意的是，在实现类继承父类的情况下，还实现了接口，并且方法重名，实现类会优先寻找父类的方法，想要调用接口的方法如下：接口名.super.方法名，继承多个接口发现方法重名时，是不支持多继承，也不支持多实现的</p>
+<h5 id="JDK8开始新增的三种方法"><a href="#JDK8开始新增的三种方法" class="headerlink" title="JDK8开始新增的三种方法"></a>JDK8开始新增的三种方法</h5><p>default默认方法，会加上public,只能继承接口的实现类使用</p>
+<p>private私有方法，，只能借助接口中的其他方法调用，比如default</p>
+<p>static 静态方法,属于接口类的静态方法，只能使用接口名来调用</p>
+<h5 id="抽象类与接口的区别"><a href="#抽象类与接口的区别" class="headerlink" title="抽象类与接口的区别"></a>抽象类与接口的区别</h5><p>相同点：</p>
+<ol>
+<li><p>多是抽象形式，都可以有抽象方法，都不能创建对象</p>
+</li>
+<li><p>都是派生子类形式，抽象类是被子类继承使用的，接口时被实现类实现</p>
+</li>
+<li><p>一个类继承抽象类，或者实现接口，都必须重写抽象方法，否则自身要成为抽象类</p>
+</li>
+<li><p>都支持多态，支持解耦合</p>
+</li>
+</ol>
+<p>不同点</p>
+<ol>
+<li>抽象类可以定义类的全部成员，接口只能定义常量，抽象方法，</li>
+<li>抽象类只能被单类继承，接口可以被类多实现，</li>
+<li>一个类继承抽象类就不能继承其他类，一个类实现了接口，还可以实现其他接口</li>
+<li>抽象类体现模板思维，更利于做父类，实现代码复用性的最佳实践</li>
+<li>接口更适合做功能的解耦合，解耦合更强，更灵活</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/web%E5%AE%89%E5%85%A8/" class="category-chain-item">web安全</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/tools/" class="print-no-link">#tools</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>JAVA-web-API</div>
+      <div>http://example.com/2025/10/04/JAVA-web-API/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>清风</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年10月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/10/10/tryhackme/" title="tryhackme">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">tryhackme</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/09/14/%E5%9F%9F%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/" title="域渗透基础">
+                        <span class="hidden-mobile">域渗透基础</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"0JWcKtnJwUWPWRrrdTax0lya-gzGzoHsz","appKey":"Q6KrvNK2N7nNsewpWYVdjHuI","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/scrollAnimation.js"></script>
+<script src="/js/codeType.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/backgroundize.js"></script><!-- hexo injector body_end end --></body>
+</html>
