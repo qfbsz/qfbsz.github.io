@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/173.jpg">
 <meta property="article:published_time" content="2026-02-03T08:53:46.000Z">
-<meta property="article:modified_time" content="2026-02-07T12:28:17.939Z">
+<meta property="article:modified_time" content="2026-03-27T09:54:39.723Z">
 <meta property="article:author" content="清风">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/img/173.jpg">
@@ -248,7 +248,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          432 字
+          512 字
         
       </span>
     
@@ -259,7 +259,7 @@
         
         
         
-          4 分钟
+          5 分钟
         
       </span>
     
@@ -310,7 +310,7 @@
               <p id="updated-time" class="note note-info" style="">
                 
                   
-                    本文最后更新于 2026年2月7日 晚上
+                    本文最后更新于 2026年3月27日 下午
                   
                 
               </p>
@@ -335,6 +335,20 @@
 <h5 id="ReflectionClass-string-反射类"><a href="#ReflectionClass-string-反射类" class="headerlink" title="ReflectionClass($string)反射类"></a>ReflectionClass($string)反射类</h5><p>功能：用于根据名字获取类的信息，进行动态灵活创建实体类</p>
 <figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs haxe"><span class="hljs-variable">$string</span>=xss<br><span class="hljs-variable">$a</span>=<span class="hljs-keyword">new</span><span class="hljs-type"></span> \ReflectionClass(<span class="hljs-variable">$string</span>)<br><span class="hljs-variable">$s</span>=<span class="hljs-keyword">new</span><span class="hljs-type"></span> <span class="hljs-variable">$a</span>[<span class="hljs-string">&#x27;abc&#x27;</span>] &lt;===&gt;<span class="hljs-keyword">new</span><span class="hljs-type"></span> xss(<span class="hljs-string">&#x27;abc&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
+<p>#php常见漏洞关键字</p>
+<p>sql注入</p>
+<p>select insert update mysql_query mysqli</p>
+<p>文件上传</p>
+<p>$_FILES，type&#x3D;”file”,move_upload_file()</p>
+<p>xss漏洞</p>
+<p>print print_r echo sprintf die var_dump var_export</p>
+<p>代码执行</p>
+<p>eval，assert，preg_replace call_user_func，call_user_func_array</p>
+<p>命令执行</p>
+<p>system，exec，shell_exec，&#96;&#96;,passthru pcntl_exec，popen，proc_open</p>
+<h2 id="二、文件安全"><a href="#二、文件安全" class="headerlink" title="二、文件安全"></a>二、文件安全</h2><p>1、脚本文件名：upload、up、upfile、down、download、read…..</p>
+<p>2、应用功能点</p>
+<p>3、操作关键字：$_FILES、move_uploaded_file、上传、安装、删除，unlink(删除)</p>
 
                 
               </div>
